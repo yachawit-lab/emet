@@ -1,0 +1,25 @@
+import { EnrichedTrade, ValueMode } from "./types";
+import { formatCurrency, formatPercent, formatR } from "./format";
+
+/** Resolve the right number for a trade given the active value mode + gross/net toggle. */
+export function pnlValue(t: EnrichedTrade, mode: ValueMode, useGross: boolean): number {
+  if (mode === "R") return t.d.rMultiple;
+  if (mode === "%") return t.d.returnPct;
+  return useGross ? t.d.grossPnl : t.d.netPnl;
+}
+
+export function formatPnlValue(
+  value: number,
+  mode: ValueMode,
+  opts?: { sign?: boolean }
+): string {
+  if (mode === "R") return formatR(value, opts);
+  if (mode === "%") return formatPercent(value, opts);
+  return formatCurrency(value, opts);
+}
+
+/** Mask a formatted value for privacy mode — keeps the glyph, hides the number. */
+export function maskValue(formatted: string, hidden: boolean): string {
+  if (!hidden) return formatted;
+  return "•••";
+}
