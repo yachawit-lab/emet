@@ -1,25 +1,38 @@
-import { EnrichedTrade, ValueMode } from "./types";
-import { formatCurrency, formatPercent, formatR } from "./format";
-
-/** Resolve the right number for a trade given the active value mode + gross/net toggle. */
-export function pnlValue(t: EnrichedTrade, mode: ValueMode, useGross: boolean): number {
-  if (mode === "R") return t.d.rMultiple;
-  if (mode === "%") return t.d.returnPct;
-  return useGross ? t.d.grossPnl : t.d.netPnl;
-}
-
-export function formatPnlValue(
-  value: number,
-  mode: ValueMode,
-  opts?: { sign?: boolean }
-): string {
-  if (mode === "R") return formatR(value, opts);
-  if (mode === "%") return formatPercent(value, opts);
-  return formatCurrency(value, opts);
-}
-
-/** Mask a formatted value for privacy mode — keeps the glyph, hides the number. */
-export function maskValue(formatted: string, hidden: boolean): string {
-  if (!hidden) return formatted;
-  return "•••";
+{
+  "name": "trading-journal",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "date-fns": "^4.4.0",
+    "framer-motion": "^12.42.2",
+    "lucide-react": "^1.25.0",
+    "next": "16.2.10",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "recharts": "^3.9.2",
+    "tailwind-merge": "^3.6.0",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^6.0.3",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.10",
+    "jsdom": "^29.1.1",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^4.1.10"
+  }
 }
