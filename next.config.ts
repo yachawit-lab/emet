@@ -48,7 +48,7 @@ describe("computeMetrics", () => {
   it("computes win rate and net P&L across mixed trades", () => {
     const trades = [
       mkTrade({ exitPrice: 102 }), // win: net 199
-      mkTrade({ exitPrice: 98 }), // loss: net -201
+      mkTrade({ exitPrice: 98 }),  // loss: net -201
       mkTrade({ exitPrice: 105 }), // win: net 499
     ].map(enrich);
     const m = computeMetrics(trades);
@@ -62,7 +62,7 @@ describe("computeMetrics", () => {
   it("computes profit factor as gross profit / gross loss", () => {
     const trades = [
       mkTrade({ exitPrice: 102, fees: 0 }), // +200
-      mkTrade({ exitPrice: 98, fees: 0 }), // -200
+      mkTrade({ exitPrice: 98, fees: 0 }),  // -200
       mkTrade({ exitPrice: 103, fees: 0 }), // +300
     ].map(enrich);
     const m = computeMetrics(trades);
@@ -73,7 +73,7 @@ describe("computeMetrics", () => {
   it("computes expectancy as mean R-multiple", () => {
     const trades = [
       mkTrade({ exitPrice: 102, fees: 0 }), // R = (200)/100 = 2
-      mkTrade({ exitPrice: 98, fees: 0 }), // R = -200/100 = -2
+      mkTrade({ exitPrice: 98, fees: 0 }),  // R = -200/100 = -2
     ].map(enrich);
     const m = computeMetrics(trades);
     expect(m.expectancy).toBeCloseTo(0);
@@ -82,8 +82,8 @@ describe("computeMetrics", () => {
   it("tracks max drawdown across a losing streak", () => {
     const trades = [
       mkTrade({ exitPrice: 110, fees: 0, entryTime: "2026-01-01T14:00:00.000Z", exitTime: "2026-01-01T15:00:00.000Z" }), // +1000, peak=1000
-      mkTrade({ exitPrice: 95, fees: 0, entryTime: "2026-01-02T14:00:00.000Z", exitTime: "2026-01-02T15:00:00.000Z" }), // -500 -> equity 500, dd=-500
-      mkTrade({ exitPrice: 90, fees: 0, entryTime: "2026-01-03T14:00:00.000Z", exitTime: "2026-01-03T15:00:00.000Z" }), // -1000 -> equity -500, dd=-1500
+      mkTrade({ exitPrice: 95, fees: 0, entryTime: "2026-01-02T14:00:00.000Z", exitTime: "2026-01-02T15:00:00.000Z" }),  // -500 -> equity 500, dd=-500
+      mkTrade({ exitPrice: 90, fees: 0, entryTime: "2026-01-03T14:00:00.000Z", exitTime: "2026-01-03T15:00:00.000Z" }),  // -1000 -> equity -500, dd=-1500
     ].map(enrich);
     const m = computeMetrics(trades);
     expect(m.maxDrawdown).toBeCloseTo(-1500);
@@ -113,7 +113,9 @@ describe("computeMetrics", () => {
   });
 
   it("keeps execution score within 0-100", () => {
-    const trades = Array.from({ length: 5 }, () => mkTrade({ followedPlan: false, grade: "C", emotion: "Anxious" })).map(enrich);
+    const trades = Array.from({ length: 5 }, () =>
+      mkTrade({ followedPlan: false, grade: "C", emotion: "Anxious" })
+    ).map(enrich);
     const m = computeMetrics(trades);
     expect(m.executionScore).toBeGreaterThanOrEqual(0);
     expect(m.executionScore).toBeLessThanOrEqual(100);
