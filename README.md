@@ -1,79 +1,73 @@
-import { describe, expect, it } from "vitest";
-import { generateSeedTrades, SEED_VALUE, TRADE_COUNT, summarizeForSanity } from "../seed";
-import { enrichAll } from "../derive";
-import { computeMetrics } from "../metrics";
+# Ledger — Trading Journal
 
-describe("generateSeedTrades", () => {
-  it("is deterministic for a given seed", () => {
-    const a = generateSeedTrades(SEED_VALUE, 50);
-    const b = generateSeedTrades(SEED_VALUE, 50);
-    expect(a).toEqual(b);
-  });
+A personal trading journal built with Next.js. Log trades, review performance on a dashboard, browse P&L by day/week/year on a calendar, and dig into deeper patterns (weekday/hour edge, plan adherence, R-multiple distribution, tag performance) on the Analytics page.
 
-  it("produces a different sequence for a different seed", () => {
-    const a = generateSeedTrades(1, 50);
-    const b = generateSeedTrades(2, 50);
-    expect(a).not.toEqual(b);
-  });
+## Tech stack
 
-  it("generates the requested number of trades", () => {
-    const trades = generateSeedTrades(SEED_VALUE, TRADE_COUNT);
-    expect(trades).toHaveLength(TRADE_COUNT);
-  });
+- [Next.js 16](https://nextjs.org/) (App Router, Turbopack) + React 19 + TypeScript
+- [Tailwind CSS v4](https://tailwindcss.com/) for styling
+- [Zustand](https://github.com/pmndrs/zustand) for state, persisted to the browser via `localStorage`
+- [Recharts](https://recharts.org/) for charts, [Framer Motion](https://www.framer.com/motion/) for animation
+- [Vitest](https://vitest.dev/) for unit tests
 
-  it("produces a net-profitable, believable win rate", () => {
-    const trades = generateSeedTrades(SEED_VALUE, TRADE_COUNT);
-    const { winRate, net } = summarizeForSanity(trades);
-    expect(winRate).toBeGreaterThan(0.4);
-    expect(winRate).toBeLessThan(0.65);
-    expect(net).toBeGreaterThan(0);
-  });
+## Getting started
 
-  it("has avg win greater than avg loss magnitude", () => {
-    const trades = generateSeedTrades(SEED_VALUE, TRADE_COUNT);
-    const m = computeMetrics(enrichAll(trades));
-    expect(m.avgWin).toBeGreaterThan(Math.abs(m.avgLoss));
-  });
+```bash
+npm install
+npm run dev
+```
 
-  it("never produces negative quantities or non-positive prices", () => {
-    const trades = generateSeedTrades(SEED_VALUE, TRADE_COUNT);
-    for (const t of trades) {
-      expect(t.qty).toBeGreaterThan(0);
-      expect(t.entryPrice).toBeGreaterThan(0);
-      expect(t.exitPrice).toBeGreaterThan(0);
-      expect(t.mfe).toBeGreaterThanOrEqual(0);
-      expect(t.mae).toBeGreaterThanOrEqual(0);
-    }
-  });
+Open [http://localhost:3000](http://localhost:3000).
 
-  it("keeps exitTime after entryTime", () => {
-    const trades = generateSeedTrades(SEED_VALUE, TRADE_COUNT);
-    for (const t of trades) {
-      expect(new Date(t.exitTime).getTime()).toBeGreaterThanOrEqual(new Date(t.entryTime).getTime());
-    }
-  });
+## Scripts
 
-  it("bakes in a real weak-hour pattern that is discoverable in the data", () => {
-    const trades = enrichAll(generateSeedTrades(SEED_VALUE, TRADE_COUNT));
-    const weakHourTrades = trades.filter((t) => [11, 12].includes(new Date(t.entryTime).getUTCHours()));
-    const otherTrades = trades.filter((t) => ![11, 12].includes(new Date(t.entryTime).getUTCHours()));
-    const weakWinRate = weakHourTrades.filter((t) => t.d.outcome === "win").length / weakHourTrades.length;
-    const otherWinRate = otherTrades.filter((t) => t.d.outcome === "win").length / otherTrades.length;
-    expect(weakWinRate).toBeLessThan(otherWinRate);
-  });
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the dev server (Turbopack) |
+| `npm run build` | Production build |
+| `npm start` | Run the production build |
+| `npm run lint` | Lint with ESLint |
+| `npm test` | Run the test suite once |
+| `npm run test:watch` | Run tests in watch mode |
 
-  it("shows worse outcomes when the plan was not followed", () => {
-    const trades = enrichAll(generateSeedTrades(SEED_VALUE, TRADE_COUNT));
-    const followed = trades.filter((t) => t.followedPlan);
-    const notFollowed = trades.filter((t) => !t.followedPlan);
-    const mFollowed = computeMetrics(followed);
-    const mNot = computeMetrics(notFollowed);
-    expect(mNot.expectancy).toBeLessThan(mFollowed.expectancy);
-  });
+## Project structure
 
-  it("assigns unique ids to every trade", () => {
-    const trades = generateSeedTrades(SEED_VALUE, TRADE_COUNT);
-    const ids = new Set(trades.map((t) => t.id));
-    expect(ids.size).toBe(trades.length);
-  });
-});
+```
+app/                    Routes (App Router)
+  page.tsx              Dashboard
+  trades/                Trade log, new trade, trade detail/edit
+  calendar/              Calendar view
+  analytics/             Analytics view
+components/
+  ui/                    Generic UI primitives (Card, Button, Input, Badge, ...)
+  layout/                App shell, sidebar, top bar, global filter bar
+  dashboard/, analytics/, calendar/, trades/, charts/
+                         Feature-specific components and chart wrappers
+lib/                     Pure logic: types, derived-metrics math, filters,
+                         aggregations, formatting, CSV export, mock data generator
+store/                   Zustand stores (trades, filters, view preferences)
+```
+
+## Data & storage
+
+**There is no backend or database.** All trade data lives in your browser's `localStorage`, managed by the Zustand store in `store/trade-store.ts`. This means:
+
+- Your trades persist across reloads and browser restarts, on **this browser, this device only**.
+- Clearing browser data, switching browsers, or using a private/incognito window will not show your trades.
+- There's no cloud sync between devices.
+
+**On first load the app seeds itself with 300 synthetic mock trades** (`lib/seed.ts`) so every screen has realistic data to render. These are flagged internally (`isSeed: true`) but are otherwise ordinary trades in the store.
+
+To back up or move data, use **Export CSV** on the Trade Log page.
+
+Two things worth doing before relying on this for real trades:
+1. **Clear the mock trades** and start from an empty log (not yet implemented — the current "Reset demo" button in the sidebar *regenerates* mock data rather than clearing it).
+2. Decide whether browser-local storage is enough, or whether you want a real local database (e.g. SQLite) or hosted/cloud storage (e.g. Supabase) so data isn't tied to one browser. Flagged for a follow-up change.
+
+## Testing
+
+```bash
+npm test
+```
+
+Covers the derived-metrics math (`lib/derive.ts`), portfolio metrics (`lib/metrics.ts`), filtering (`lib/filters.ts`), and the mock data generator (`lib/seed.ts`).

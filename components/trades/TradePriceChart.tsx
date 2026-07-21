@@ -43,7 +43,7 @@ export function TradePriceChart({ trade }: { trade: Trade }) {
             <YAxis domain={domain} tick={{ fontSize: 10, fill: "var(--color-fg-subtle)" }} axisLine={false} tickLine={false} width={56} tickFormatter={(v) => v.toFixed(2)} />
             <Tooltip
               formatter={(v) => [v === undefined ? "" : Number(v).toFixed(2), "Price"]}
-              labelFormatter={(v) => format(new Date(v), "h:mm:ss a")}
+              labelFormatter={(v) => format(new Date(v as string), "h:mm:ss a")}
               contentStyle={{ borderRadius: 10, borderColor: "var(--color-border)", fontSize: 12 }}
             />
             <ReferenceLine y={trade.entryPrice} stroke="var(--color-fg-subtle)" strokeDasharray="4 4" label={{ value: "Entry", position: "insideTopLeft", fontSize: 10, fill: "var(--color-fg-subtle)" }} />
