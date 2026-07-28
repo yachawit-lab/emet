@@ -26,6 +26,17 @@ Attention/budget flows top-down. Gold gets the deepest read, index the lightest.
 
 So a full sweep covers ~15 names + up to 3 movers of the day. **EDIT ME** to taste.
 
+### Sweep budget vs scan budget — they are different
+
+- **`/premarket` sweeps WIDE.** The whole universe above. Its job is a *map*: which names are
+  in play today. Cheap per name, shallow.
+- **`/scan` goes DEEP, and is capped at 3 instruments per session:**
+  **Gold · Nasdaq · one "stock of the day."** Deep and expensive per name.
+
+Scanning more than three is a symptom, not a strategy — it means the focus list was never
+narrowed. If a fourth name looks compelling, it replaces one of the three rather than adding
+to them.
+
 `/scan <INSTRUMENT>` overrides priority for whatever you name.
 
 Broker context: **CFDs** (lots + leverage). Sizing is in **lots**, not shares.
@@ -49,6 +60,45 @@ Data discipline (all agents):
 - **Never fabricate** a price, OI value, or headline. If unavailable, say so.
 - Flag freshness: `live` / `delayed ~15m` / `prev close` / `stale`.
 - Web quotes are delayed ~15 min — good for bias/levels/catalysts, **not** tick entries.
+
+### 2a. The freshness gate (hard rule)
+
+Every decision block carries an **anchor age** = now − the timestamp of the price it was
+built on. The anchor determines what the output is allowed to be:
+
+| Anchor age | What the scan may produce |
+|---|---|
+| **≤ 30 min** | A **sizeable trade** — decision block with entry/stop/size |
+| **30 min – 2 h** | A **map only** — levels and bias, no size. Re-anchor before acting. |
+| **> 2 h** | **Nothing actionable.** Must re-anchor, then re-run the filter. |
+
+*Why: on 2026-07-28 a gold scan anchored at 02:17 UTC was used hours later. Price had moved
+4,046 → 4,017 and broken the session low the whole plan was built on. T1 was already gone
+before the plan was read.*
+
+### 2b. The live anchor (mandatory)
+
+Every `/scan` starts from the user's **live broker price**, and that number is passed to every
+specialist as **primary truth**. Web feeds are corroboration, never the anchor.
+
+*Why: the NAS100 scan the same day was anchored to a live OANDA print, and the market-agent
+caught that web futures feeds were stale to the downside — showing 27,840–27,940 while the
+real price was 27,770. The unanchored gold scan drifted; the anchored one did not.*
+
+**Basis check — run once per instrument, then record it here:**
+
+| Instrument | Broker feed | vs reference | Basis |
+|---|---|---|---|
+| XAUUSD | OANDA / Exness | spot gold | ~+8 pts (broker higher) — *verify* |
+| NAS100 / USTEC | OANDA / Exness | NDX cash | drifts; ratio to QQQ ≈ **41.06** |
+| US stock CFDs | Exness | NASDAQ last | **must have extended hours ON** |
+
+**Contract specs — confirmed from real fills, do not re-assume:**
+
+| Instrument | Units per lot | Confirmed |
+|---|---|---|
+| NAS100 / USTEC | **$1 / point / lot** | ✅ 2026-07-28 fills (`0.47 × 255.71 pts = $120.18`) |
+| XAUUSD | 100 oz / lot | unverified — confirm on next fill |
 
 ---
 
@@ -79,13 +129,22 @@ Default is volatility-equivalent; defined-stop setups use %-to-stop. **2R minimu
 
 **Base risk unit = $250** ( ≈ 1% of ~$25k capital ). **EDIT ME.**
 
-- **Model A — Volatility-equivalent (default, intraday):** size each instrument to
-  the same **target daily swing = base risk unit**. Compute lots with
-  `equivalentLot(targetSwing, { unitsPerLot, price, atrPct })` from `lib/position-size.ts`.
-  Use for VWAP Bounce, Trend Pullback, Mean Reversion.
-- **Model B — %-risk-to-stop (defined-stop setups):** risk the base unit across the
-  distance to the stop → units → lots. Use for ORB, Gap-and-Go, Breakout Retest
-  (where the stop distance is structural, not volatility-derived).
+**Model selection is decided by the STOP, not by the setup name.** Ask one question:
+*where does the stop come from?*
+
+- **Model B — %-risk-to-stop → use whenever the stop is STRUCTURAL** (a swing high/low, a
+  broken level, an OI wall, the opposite side of the opening range). Risk the base unit across
+  the distance to the stop → units → lots. **This is the common case intraday.**
+- **Model A — Volatility-equivalent → use only when the stop is ATR-DERIVED** (no structural
+  level to lean on, so the stop is set at some multiple of ATR). Size to the same target daily
+  swing with `equivalentLot(targetSwing, { unitsPerLot, price, atrPct })` from
+  `lib/position-size.ts`.
+
+*Why this replaced the old per-setup mapping: on 2026-07-28 both the gold and NAS100 scans hit
+the same conflict. The old rule sent Trend Pullback → Model A, but Model A sizes to a **full
+daily ATR** (gold 93 pts, NAS100 535 pts) while the actual structural stops were 12 and 110 pts.
+It under-risked by 4–5× — gold would have risked $48 against a $250 unit. The stop is what you
+actually lose, so the stop must set the size.*
 
 **Conviction scaling** (from the Analyst's fused conviction):
 
@@ -95,6 +154,21 @@ Default is volatility-equivalent; defined-stop setups use %-to-stop. **2R minimu
 | 3/5 | 1.0× (base) |
 | 4/5 | 1.25× |
 | 5/5 | 1.5× (cap) |
+
+**Gamma haircut** — applied *after* the conviction multiplier:
+
+| Gamma regime | Multiplier | Why |
+|---|---|---|
+| Positive / unknown | 1.0× | dealers dampen moves |
+| **Negative** | **0.75×** | dealers amplify moves — being right and still stopped out is the failure mode |
+
+Compose them: `lots = baseLots × conviction × gamma`. A 4/5 conviction in a negative-gamma
+tape is `1.25 × 0.75 ≈ 0.94` → effectively base size. Higher confidence in the **direction**
+does not mean higher confidence in the **size**.
+
+*Why: on 2026-07-28 NAS100 fused to 4/5 SHORT in a confirmed negative-gamma tape. §3 said
+"size down" without a number. The trade worked (+2.13R) — and then price squeezed 430 points
+off the low in ~2.5 h, exactly the amplified counter-move the haircut exists to survive.*
 
 **Minimum R:R = 2.0.** Anything under 2R → **stand aside**, no exceptions.
 
@@ -107,13 +181,63 @@ Default is volatility-equivalent; defined-stop setups use %-to-stop. **2R minimu
 
 ## 5. The Strategy Filter (Analyst runs this after fusing specialists)
 
-1. Fuse the 7 specialist verdicts → regime + best instrument (in priority order) + levels.
+0. **Freshness gate (§2a) first.** How old is the anchor? >2 h → re-anchor before anything else.
+   30 min–2 h → map only, no size. Never skip this step.
+1. Fuse the specialist verdicts → regime + best instrument (in priority order) + levels.
 2. Does it match a setup in §3? **No → stand aside.**
 3. Is planned R:R ≥ 2.0? **No → stand aside.**
-4. Size it: pick Model A/B (§4), apply conviction multiplier → **lots**, margin, notional.
-5. Emit one actionable line:
-   `<INSTRUMENT> · <setup> · bias · entry zone · stop · target (Rx) · N lots · invalidates if <…>`
+4. Size it: pick Model A/B by the **stop** (§4), apply conviction × gamma multipliers → **lots**,
+   margin, notional.
+5. Emit the decision block — see the entry contract below.
 6. If guardrails hit (§4), say so and refuse the trade.
+
+### 5a. The entry contract — an entry is a CONDITION, never a bare price
+
+A decision block is invalid unless the entry states **all three**:
+
+1. **Zone** — the price band, not a single number.
+2. **Confirmation trigger** — what price/indicator must *do* in that zone. A rejection candle,
+   a reclaim, a Stoch reset, a failed retest. **Arrival in the zone is not a signal.**
+3. **The no-trade case** — explicitly: "if price never reaches the zone, there is no trade,
+   and that is a correct outcome."
+
+```
+✅ entry: bounce into 27,790–27,950, Stoch resets above ~50, THEN a rejection candle
+          (needs an actual lower high — arrival at the zone is not a signal)
+          no bounce = no trade
+❌ entry: 27,870–27,950
+```
+
+*Why: on 2026-07-28 two static-price entry zones were both missed. Gold's 4,068–4,080 never
+traded — price went the other way and the correct call paid nothing. The first NAS100 zone was
+only reached after 330 pts had already run. The conditional version above is the one that
+actually got filled, for +2.13R.*
+
+---
+
+## 5b. The Macro Core — derive session macro ONCE
+
+`news-agent`, `sentiment-agent`, and `fundamental-agent` answer questions that are
+**instrument-independent**: the event calendar, the rate/real-yield backdrop, the risk regime.
+Re-running them per instrument is duplicated work *and* a correctness bug.
+
+**The rule:**
+
+- `/premarket` runs the three macro specialists **once** and writes **`scans/macro_YYYYMMDD.md`**.
+- `/scan <X>` **reads that file** instead of respawning them, and fans out only the four
+  instrument-specific specialists: `market-agent`, `indicator-agent`, `options-agent`,
+  `social-agent`.
+- If `scans/macro_<today>.md` is missing or **older than 4 hours**, `/scan` runs the macro three
+  itself, writes the file, and every later scan that day reuses it.
+- Anything in the Macro Core that is genuinely instrument-specific (gold ↔ real yields,
+  Nasdaq ↔ mega-cap earnings) is recorded per-instrument **inside** the macro file.
+
+**Cost:** 3 instruments went from 3 × 7 = **21** agent runs to 3 + (3 × 4) = **15**, and the
+scan latency drops because the slow macro searches happen once.
+
+*Why this matters more than the token saving: on 2026-07-28 the gold scan reported Fed hike odds
+at 34% and the NAS100 scan at 31% — same day, same question, two answers, because they were
+derived independently. One session, one macro truth.*
 
 ---
 

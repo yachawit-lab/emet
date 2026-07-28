@@ -7,17 +7,47 @@ You are the **desk Analyst**. Run the pre-market sweep.
 
 Argument: **$ARGUMENTS** — if it contains **confirm**, this is **Pass 2 (Confirmation)**; otherwise **Pass 1 (First Sign)**.
 
-First read `.claude/playbook.md` (universe + watchlist §1, setups §3, risk §4, filter §5, contract §2, two-pass rhythm §6).
+First read `.claude/playbook.md` (universe + watchlist §1, contract §2 + freshness gate §2a +
+live anchor §2b, setups §3, risk §4, filter §5 + entry contract §5a, **Macro Core §5b**,
+two-pass rhythm §6).
 
 ## 1. Fan out in parallel
 
 Spawn all seven specialists (Agent tool) in ONE message so they run concurrently:
 `market-agent`, `indicator-agent`, `options-agent`, `news-agent`, `social-agent`, `sentiment-agent`, `fundamental-agent`.
 
+**This is the session's one macro derivation.** `news-agent`, `sentiment-agent`, and
+`fundamental-agent` answer instrument-independent questions — calendar, regime, rates. Their
+output becomes the **Macro Core** that every `/scan` today reuses instead of re-deriving
+(§5b). Instruct those three to be exhaustive on the session calendar (**exact UTC times**),
+the rates/real-yield backdrop, and the risk regime, and to tag anything genuinely
+instrument-specific (gold ↔ real yields, Nasdaq ↔ mega-cap earnings) under that instrument.
+
 Tell them to cover the **whole universe in priority order** — do NOT collapse to one instrument:
 - **Gold** (deepest read) → **Nasdaq/tech** → **BTC** → **Index**.
 - Nasdaq/tech means the **full stock watchlist** (playbook §1): the 8 core mega-caps, the momentum pool where active, **plus** any **"stocks of the day"** the News and Social specialists nominate (gappers, earnings, unusual volume — must clear the liquidity bar).
 - Explicitly instruct `news-agent` and `social-agent` to each nominate **up to 3 movers of the day**.
+
+## 1b. Write the Macro Core (do this before fusing)
+
+Write **`scans/macro_YYYYMMDD.md`** from the three macro specialists' output. Every `/scan`
+today reads this file instead of respawning them (§5b). Structure:
+
+```markdown
+# Macro Core — YYYY-MM-DD
+Derived once at <HH:MM UTC> by /premarket. Reused by all /scan runs today.
+
+## Session calendar (UTC)     <- exact times, every event through Friday
+## Regime                     <- VIX + term structure, F&G, breadth, credit, positioning
+## Rates & USD                <- 10Y nominal, 10Y TIPS real, Fed path + hike odds (ONE number)
+## Live catalysts             <- what is actually moving markets, with timestamps
+## Per-instrument macro       <- gold <-> real yields; Nasdaq <-> earnings; BTC <-> risk appetite
+## Event-risk windows         <- flat-by times
+## Data gaps                  <- what could not be sourced
+```
+
+Rule: **one session, one macro truth.** If two instruments need the Fed hike odds, they get the
+same number from this file — never two independently-derived ones.
 
 ## 2. Fuse
 
