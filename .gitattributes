@@ -1,0 +1,4 @@
+# Shell scripts must stay LF. On a Windows checkout, CRLF line endings make bash
+# fail with `$'\r': command not found` — which would silently break the desk
+# auto-push Stop hook and the Discord relay script.
+*.sh text eol=lf
