@@ -24,7 +24,7 @@ the rates/real-yield backdrop, and the risk regime, and to tag anything genuinel
 instrument-specific (gold ↔ real yields, Nasdaq ↔ mega-cap earnings) under that instrument.
 
 Tell them to cover the **whole universe in priority order** — do NOT collapse to one instrument:
-- **Gold** (deepest read) → **Nasdaq/tech** → **BTC** → **Index**.
+- **Nasdaq/tech** (deepest read) → **Gold** → **BTC** → **Index**.
 - Nasdaq/tech means the **full stock watchlist** (playbook §1): the 8 core mega-caps, the momentum pool where active, **plus** any **"stocks of the day"** the News and Social specialists nominate (gappers, earnings, unusual volume — must clear the liquidity bar).
 - Explicitly instruct `news-agent` and `social-agent` to each nominate **up to 3 movers of the day**.
 
@@ -37,7 +37,13 @@ today reads this file instead of respawning them (§5b). Structure:
 # Macro Core — YYYY-MM-DD
 Derived once at <HH:MM UTC> by /premarket. Reused by all /scan runs today.
 
-## Session calendar (UTC)     <- exact times, every event through Friday
+## Session calendar (UTC)     <- exact times, every event through Friday, columns:
+                                 Time | Event | Consensus | Actual | Prior | Tier
+                                 Actual = "pending" for events that haven't printed yet,
+                                 "Data unavailable" if a print happened but couldn't be
+                                 sourced. Once Actual is in, state actual vs. consensus
+                                 explicitly (§2d) — that beat/miss is the tradeable fact,
+                                 not the print alone.
 ## Regime                     <- VIX + term structure, F&G, breadth, credit, positioning
 ## Rates & USD                <- 10Y nominal, 10Y TIPS real, Fed path + hike odds (ONE number)
 ## Live catalysts             <- what is actually moving markets, with timestamps
@@ -73,5 +79,10 @@ For each instrument (priority order): does a playbook setup line up? For those t
   - **CONFIRMED** — thesis/levels/regime intact → trade the plan (restate the focus list).
   - **CAUTION / CHANGED** — what moved since Pass 1 (news broke, gap shifted, regime flipped), and whether each focus idea still stands or is now stand-aside.
 - Then the same per-instrument + focus list, updated to now.
+
+**Before showing the final output to the user, convert every clock time in it to Bangkok time
+(UTC+7), shown as BKK only** (§2c) — session calendar, event-risk windows, movers' timestamps,
+the First Sign summary block. The Macro Core file you wrote in step 1b stays in UTC; only the
+chat-facing output gets converted.
 
 Discipline: cite freshness (delayed ~15m / prev close). Never invent prices or OI. This is a *map*, not a fire signal — entries are confirmed live on the user's own chart.

@@ -8,10 +8,10 @@ Lines marked **EDIT ME** are yours to tune.
 
 ## 1. Universe & priority
 
-Attention/budget flows top-down. Gold gets the deepest read, index the lightest.
+Attention/budget flows top-down. Nasdaq gets the deepest read; crypto and index are lightest.
 
-1. **Gold** — XAUUSD (proxies: GLD, GC, gold miners)
-2. **Nasdaq & tech** — NAS100 / QQQ / NDX, plus the stock watchlist below
+1. **Nasdaq & tech** — NAS100 / QQQ / NDX, plus the stock watchlist below
+2. **Gold** — XAUUSD (proxies: GLD, GC, gold miners)
 3. **Crypto** — BTC (Deribit + CME options); ETH secondary
 4. **Index** — SPX500, US30, and NAS100 as an index read
 
@@ -31,7 +31,7 @@ So a full sweep covers ~15 names + up to 3 movers of the day. **EDIT ME** to tas
 - **`/premarket` sweeps WIDE.** The whole universe above. Its job is a *map*: which names are
   in play today. Cheap per name, shallow.
 - **`/scan` goes DEEP, and is capped at 3 instruments per session:**
-  **Gold · Nasdaq · one "stock of the day."** Deep and expensive per name.
+  **Nasdaq · Gold · one "stock of the day."** Deep and expensive per name.
 
 Scanning more than three is a symptom, not a strategy — it means the focus list was never
 narrowed. If a fourth name looks compelling, it replaces one of the three rather than adding
@@ -60,6 +60,18 @@ Data discipline (all agents):
 - **Never fabricate** a price, OI value, or headline. If unavailable, say so.
 - Flag freshness: `live` / `delayed ~15m` / `prev close` / `stale`.
 - Web quotes are delayed ~15 min — good for bias/levels/catalysts, **not** tick entries.
+
+### 2c. Timezone — UTC internally, Bangkok (UTC+7) on final display
+
+Specialists, the Macro Core file (`scans/macro_YYYYMMDD.md`), and all citations/timestamps
+stay in **UTC** — that's what news sources, economic calendars, and freshness checks are
+published in, and it's what keeps cross-agent times comparable.
+
+The **Analyst's final output** — the block the user actually reads at the end of `/scan` and
+`/premarket` — converts every clock time shown (event calendar, catalyst times, flat-by /
+event-risk windows, `as-of`) to **Bangkok time (UTC+7), shown as BKK only** (e.g. `18:00 UTC`
+FOMC → display as `01:00 BKK`). Do the conversion as the last step, after fusion, so the
+underlying UTC-based freshness gate (§2a) and macro file are unaffected.
 
 ### 2a. The freshness gate (hard rule)
 
@@ -99,6 +111,26 @@ real price was 27,770. The unanchored gold scan drifted; the anchored one did no
 |---|---|---|
 | NAS100 / USTEC | **$1 / point / lot** | ✅ 2026-07-28 fills (`0.47 × 255.71 pts = $120.18`) |
 | XAUUSD | 100 oz / lot | unverified — confirm on next fill |
+
+### 2d. Source citation & recency (mandatory)
+
+- **Internal logging.** For every data point, news story, or economic metric pulled, hold the
+  exact source URL, publication timestamp, and exact quote/number — not a paraphrase — so it
+  can be checked or challenged later.
+- **Output citation.** The final user-facing block cites the primary source for every core
+  reason behind a trade recommendation, inline: `[Source: BLS CPI Release, Jul 2026]`,
+  `[Source: NVDA 10-Q filing]`. A reason with no source doesn't go in the block.
+- **Timestamp check.** Never base a trade signal on news older than **24 hours**, unless it's
+  an explicitly multi-quarter macro trend (real yields, Fed path, AI-capex cycle). Before using
+  a news-driven reason, state its age and confirm it's still current — don't assume a headline
+  from yesterday's search still holds.
+- **Actual vs. consensus.** For any earnings or economic print (CPI, NFP, GDP, EPS/revenue,
+  etc.), report the **actual figure directly against Wall Street/consensus expectations** —
+  `actual X vs. expected Y` — not the actual alone. This is what sets the market reaction, not
+  the print in isolation.
+- **No guessing on gaps.** If consensus or actual data cannot be sourced, write **"Data
+  unavailable"** for that field. Never estimate, infer, or carry forward a stale number to fill
+  the gap — a missing number is a data gap (§2 above), not a modeling problem.
 
 ---
 
@@ -238,6 +270,33 @@ scan latency drops because the slow macro searches happen once.
 *Why this matters more than the token saving: on 2026-07-28 the gold scan reported Fed hike odds
 at 34% and the NAS100 scan at 31% — same day, same question, two answers, because they were
 derived independently. One session, one macro truth.*
+
+---
+
+## 5c. The smart-money pass — contrarian check, runs last
+
+After every other specialist has reported and the Strategy Filter (§5) has produced its decision
+block (a sized trade or a STAND ASIDE), run `smart-money-agent` **once, last**, on the finished
+block — never before, never in the parallel fan-out with the others. It needs the other
+specialists' levels and the plan itself to do its job; running it earlier gives it nothing to
+check.
+
+**What it does:** reads the decision block and flags whether the entry/trigger levels sit on
+obvious, crowded liquidity (the level everyone's stop is resting behind) rather than a clean
+technical trigger. It does **not** re-run the filter, resize the trade, or produce its own
+decision block.
+
+**What the Analyst does with it:** append its finding as a short **contrarian note** at the end
+of the output — a few lines, not a rewrite. It is a flag to weigh, not a veto: the Strategy
+Filter's decision block stands as the plan of record. If smart-money-agent finds nothing (the
+plan is already sweep-aware, e.g. because §5a's confirmation trigger already requires travel
+through the obvious level rather than anticipating it), say so plainly — don't manufacture a
+manipulation story to justify running it.
+
+```
+contrarian note (smart-money-agent): <one-line read — trap flagged on which side, or "plan is
+  already sweep-aware, no trap flagged"> — <one-line suggested adjustment if any, else "none">
+```
 
 ---
 

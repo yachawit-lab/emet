@@ -82,13 +82,34 @@ target: T1 … (Rx) · T2 … (Rx) · T3 … [MULTI-DAY if beyond ATR budget]
 size:   N lots (model, conviction × gamma) · notional · margin · 1R = $
 levels: OI walls / max-pain / gamma flip / key S-R
 catalyst: <events @ UTC> · flat-by time
-invalidates if: …
+
+risk factors & invalidation conditions:
+  - [event risk: e.g. FOMC presser 18:00 UTC — flat before, no size into it]
+  - [level break: e.g. close below/above <critical support/resistance>, not just a wick through it]
+  - [macro shift: e.g. real yields/DXY reversing the thesis this trade leans on]
+  - [correlation: e.g. this is the same bet as another open position — see playbook correlation warning]
 ```
+
+At least one condition of each relevant kind — **event**, **technical level**, and (if the
+setup leans on a macro read) **macro shift** — not just a generic "if wrong." A setup with no
+scheduled event and no macro dependency can drop that bullet, but never drop the level break.
 
 Then one plain-English line. Then, always:
 
 - **Judgement calls** — any deviation from the playbook, stated not buried, with the reasoning.
 - **Data gaps** — everything that could not be verified.
+
+## 5b. Smart-money pass (§5c) — runs last, after the decision block exists
+
+Once the decision block above is finalized (sized trade or STAND ASIDE), spawn
+`smart-money-agent` **once**, giving it the finished block plus the levels the other specialists
+cited. It does not re-run the filter or resize anything — it only checks whether the entry/
+trigger levels sit on obvious, crowded liquidity. Append its finding as a short **contrarian
+note** at the end of the output (§5c) — a flag to weigh, not a veto on the plan of record.
+
+**Before showing this to the user, convert every clock time in it to Bangkok time (UTC+7),
+shown as BKK only** (§2c) — `catalyst`, `flat-by`, any `as-of`. Internal work (freshness gate,
+Macro Core file) stays UTC; only this final block gets converted.
 
 ## 6. Pass 2 — `/scan <INSTRUMENT> open`
 
