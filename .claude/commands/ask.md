@@ -20,3 +20,7 @@ Read `.claude/playbook.md` only if the question needs setup/risk/sizing rules.
 2. If the question is "**is this a valid <setup>?**", check it against the playbook (§3) and the 2R rule (§4), and if valid, give a quick size (§4).
 
 3. **Answer in 2–4 lines**, directly. Cite freshness (delayed ~15m / prev close). Never invent a price or OI — if unknown, say what to check on the live chart.
+
+4. **Convert every clock time in the answer to Bangkok time (UTC+7), shown as BKK only** (§2c) —
+   event times, catalyst windows, `as-of`. Internal specialist work stays UTC; only what you show
+   the user gets converted.

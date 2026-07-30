@@ -31,13 +31,14 @@ Tell them to cover the **whole universe in priority order** — do NOT collapse 
 ## 1b. Write the Macro Core (do this before fusing)
 
 Write **`scans/macro_YYYYMMDD.md`** from the three macro specialists' output. Every `/scan`
-today reads this file instead of respawning them (§5b). Structure:
+today reads this file instead of respawning them (§5b). **Convert every clock time to BKK before
+writing (§2c)** — the specialists reasoned in UTC, the file is BKK. Structure:
 
 ```markdown
 # Macro Core — YYYY-MM-DD
-Derived once at <HH:MM UTC> by /premarket. Reused by all /scan runs today.
+Derived once at <HH:MM BKK> by /premarket. Reused by all /scan runs today.
 
-## Session calendar (UTC)     <- exact times, every event through Friday, columns:
+## Session calendar (BKK)     <- exact times, every event through Friday, columns:
                                  Time | Event | Consensus | Actual | Prior | Tier
                                  Actual = "pending" for events that haven't printed yet,
                                  "Data unavailable" if a print happened but couldn't be
@@ -48,7 +49,7 @@ Derived once at <HH:MM UTC> by /premarket. Reused by all /scan runs today.
 ## Rates & USD                <- 10Y nominal, 10Y TIPS real, Fed path + hike odds (ONE number)
 ## Live catalysts             <- what is actually moving markets, with timestamps
 ## Per-instrument macro       <- gold <-> real yields; Nasdaq <-> earnings; BTC <-> risk appetite
-## Event-risk windows         <- flat-by times
+## Event-risk windows         <- event times + tier (§4a), as warnings not restrictions
 ## Data gaps                  <- what could not be sourced
 ```
 
@@ -59,14 +60,25 @@ same number from this file — never two independently-derived ones.
 
 Sentiment regime first (the frame), then per-instrument bias in priority order. Merge the nominated movers into the tech list. Call out conflicts between specialists explicitly.
 
+**Screen every read against §2e before it reaches the Macro Core file.** A self-contradicting
+citation, a result for an event that hasn't happened, a category error, or a figure two other
+specialists independently contradict → reject that agent's whole pass, never average its number
+in, and record the rejection in the file's data gaps. A fabricated figure written into the Macro
+Core propagates to every `/scan` that reuses it all day — this screen is the last chance to catch it.
+
 ## 3. Apply the Strategy Filter (playbook §5)
 
 For each instrument (priority order): does a playbook setup line up? For those that do, note setup, trigger to watch, key levels (incl. OI walls / max-pain), provisional size + stop for a **2R** target.
 
+**Apply the event-risk warnings (§4a)** — these do **not** block a setup or downgrade it to
+map-only. Size normally, and attach the ⚠️ tier-1/tier-2 volatility warning to any idea sitting
+inside a window. Record the event times in the Macro Core's event-risk section: §4a supplies the
+warning language, the specialists supply the times.
+
 ## 4. Output
 
 **If Pass 1 (First Sign):**
-- **Regime & catalysts** — sentiment + today's news events with UTC times; flag event-risk windows.
+- **Regime & catalysts** — sentiment + today's news events with BKK times; flag event-risk windows.
 - **Per instrument (priority order)** — bias, key levels, OI structure, setup(s) to watch, invalidation.
 - **Movers of the day** — the nominated names and why.
 - **Focus list** — the 1–3 highest-conviction opportunities and their triggers.
@@ -82,7 +94,8 @@ For each instrument (priority order): does a playbook setup line up? For those t
 
 **Before showing the final output to the user, convert every clock time in it to Bangkok time
 (UTC+7), shown as BKK only** (§2c) — session calendar, event-risk windows, movers' timestamps,
-the First Sign summary block. The Macro Core file you wrote in step 1b stays in UTC; only the
-chat-facing output gets converted.
+the First Sign summary block. The Macro Core file you wrote in step 1b is already in BKK (§2c) —
+both the chat output and the saved file are BKK, only the specialists' own internal reasoning
+stays UTC.
 
 Discipline: cite freshness (delayed ~15m / prev close). Never invent prices or OI. This is a *map*, not a fire signal — entries are confirmed live on the user's own chart.

@@ -53,6 +53,8 @@ Give every one of them the live anchor from §0. Require of each:
 - `options-agent` must return the **gamma sign** and the **zero-gamma flip level**, and say
   whether the tape should **pin** or **accelerate**. This drives both setup choice (§3) and the
   size haircut (§4).
+- **If a tier-1/tier-2 event is in play (§4a)**, `options-agent` must also return the **implied
+  move / expected event range** — that number replaces daily ATR as the sizing denominator (§4b).
 
 ## 3. Fuse
 
@@ -62,14 +64,24 @@ Trend + levels (Market) · setup state + ATR (Indicator) · OI walls / max-pain 
 Call out **conflicts explicitly**. If a specialist's bias label contradicts its own reasoning,
 trust the reasoning and say so.
 
+**Screen every read against §2e before fusing it.** A self-contradicting citation, a result for an
+event that hasn't happened, a category error, or a figure two other specialists independently
+contradict → reject that agent's whole pass, never average its number in, and record the rejection
+in judgement calls. If the disputed fact is binary and visible on the user's screen, ask them.
+
 ## 4. Strategy Filter (§5)
 
 - Freshness gate verdict from §0 — if map-only, stop here and emit levels without a size.
+- **Event-risk warning (§4a).** Is now inside a tier-1 window (FOMC/CPI/NFP/PCE/GDP, through the
+  end of the last component) or a tier-2 print on this instrument? **This does not block the
+  trade** — size it normally. It requires a prominent ⚠️ warning on the catalyst line and in risk
+  factors, plus the explicit "first move is not the move" note for tier-1.
 - Match a setup (§3) or **stand aside**, and say why.
 - Confirm **R:R ≥ 2.0** against ATR and real levels.
 - **Sanity-check targets against the remaining ATR budget**: `daily ATR − points already moved
   today`. A target beyond that budget is a multi-day target — label it so, don't sell it as
-  today's.
+  today's. **Inside an event window this check is suspended (§4b)** — measure targets against the
+  event's expected range instead, and state that range in the decision block.
 - Size it (§4): model chosen by the **stop**, then `conviction × gamma` multipliers.
 
 ## 5. Output — one decision block
@@ -81,10 +93,10 @@ stop:   <level> = N pts   (structural or ATR-derived — say which)
 target: T1 … (Rx) · T2 … (Rx) · T3 … [MULTI-DAY if beyond ATR budget]
 size:   N lots (model, conviction × gamma) · notional · margin · 1R = $
 levels: OI walls / max-pain / gamma flip / key S-R
-catalyst: <events @ UTC> · flat-by time
+catalyst: <events @ BKK> · ⚠️ <tier-1/2 volatility warning if inside a window, §4a>
 
 risk factors & invalidation conditions:
-  - [event risk: e.g. FOMC presser 18:00 UTC — flat before, no size into it]
+  - [event risk: e.g. ⚠️ FOMC presser 01:00 BKK — HIGH VOLATILITY, first move often reverses]
   - [level break: e.g. close below/above <critical support/resistance>, not just a wick through it]
   - [macro shift: e.g. real yields/DXY reversing the thesis this trade leans on]
   - [correlation: e.g. this is the same bet as another open position — see playbook correlation warning]
@@ -107,9 +119,10 @@ cited. It does not re-run the filter or resize anything — it only checks wheth
 trigger levels sit on obvious, crowded liquidity. Append its finding as a short **contrarian
 note** at the end of the output (§5c) — a flag to weigh, not a veto on the plan of record.
 
-**Before showing this to the user, convert every clock time in it to Bangkok time (UTC+7),
-shown as BKK only** (§2c) — `catalyst`, `flat-by`, any `as-of`. Internal work (freshness gate,
-Macro Core file) stays UTC; only this final block gets converted.
+**Convert every clock time in it to Bangkok time (UTC+7), shown as BKK only** (§2c) — `catalyst`,
+`flat-by`, any `as-of`. This applies to both the chat output and the saved scan file (§5b
+"Scan writes to file" — `scans/<instrument>_scan_YYYYMMDD.md`). Only the specialists' own
+internal reasoning and freshness-gate math stay UTC; nothing the user reads should.
 
 ## 6. Pass 2 — `/scan <INSTRUMENT> open`
 

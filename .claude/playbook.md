@@ -61,17 +61,24 @@ Data discipline (all agents):
 - Flag freshness: `live` / `delayed ~15m` / `prev close` / `stale`.
 - Web quotes are delayed ~15 min — good for bias/levels/catalysts, **not** tick entries.
 
-### 2c. Timezone — UTC internally, Bangkok (UTC+7) on final display
+### 2c. Timezone — UTC internally, Bangkok (UTC+7) everywhere the user reads it
 
-Specialists, the Macro Core file (`scans/macro_YYYYMMDD.md`), and all citations/timestamps
-stay in **UTC** — that's what news sources, economic calendars, and freshness checks are
-published in, and it's what keeps cross-agent times comparable.
+Specialists reason and cite in **UTC** internally — that's what news sources, economic
+calendars, and freshness checks are published in, and it's what keeps cross-agent times
+comparable while an agent is doing its own sourcing/reconciliation work.
 
-The **Analyst's final output** — the block the user actually reads at the end of `/scan` and
-`/premarket` — converts every clock time shown (event calendar, catalyst times, flat-by /
-event-risk windows, `as-of`) to **Bangkok time (UTC+7), shown as BKK only** (e.g. `18:00 UTC`
-FOMC → display as `01:00 BKK`). Do the conversion as the last step, after fusion, so the
-underlying UTC-based freshness gate (§2a) and macro file are unaffected.
+**Everything the user actually reads converts to Bangkok time (UTC+7), shown as BKK only** —
+this includes the Analyst's final chat output for `/ask`, `/scan`, and `/premarket`, **and every
+saved file** (`scans/macro_YYYYMMDD.md`, `scans/<instrument>_scan_YYYYMMDD.md`). Event calendars,
+catalyst times, flat-by / event-risk windows, `as-of` stamps — all of it, e.g. `18:00 UTC` FOMC
+→ written as `01:00 BKK`. Do the conversion as the last step, after fusion/sourcing, so the
+underlying UTC-based freshness gate (§2a) and any cross-checking against UTC-timestamped sources
+happen before the display conversion, not after.
+
+*Why the file scope changed: this was originally UTC-only in saved files, to stay directly
+comparable against UTC-based sources. In practice the files get read directly (in an IDE, or
+pasted back into a later session) far more often than that comparison actually matters — so BKK
+now applies everywhere the user looks, not just the chat response.*
 
 ### 2a. The freshness gate (hard rule)
 
@@ -131,6 +138,46 @@ real price was 27,770. The unanchored gold scan drifted; the anchored one did no
 - **No guessing on gaps.** If consensus or actual data cannot be sourced, write **"Data
   unavailable"** for that field. Never estimate, infer, or carry forward a stale number to fill
   the gap — a missing number is a data gap (§2 above), not a modeling problem.
+
+### 2e. Fabricated data — detection and rejection (hard rule)
+
+Specialists sometimes invent data. §2d instructs them not to; that instruction does not always
+bind. This section is for the **Analyst**: how to catch it and what to do about it.
+
+**Tells — any one of these is enough to distrust the whole read:**
+
+- **Self-contradicting citation.** The cited source's own title or content argues against the
+  claim it is offered as proof of.
+- **Impossible timing.** A result reported for an event that has not happened yet, or a citation
+  dated later than the live anchor.
+- **Category error.** A claim structurally wrong regardless of the data — the wrong person in a
+  role, an event on a date its own schedule rules out.
+- **Independent conflict.** A figure that two or more other specialists, working separately,
+  contradict.
+
+**Response:**
+
+1. **Reject the whole pass, not just the bad figure.** An agent that fabricated one number has
+   shown its sourcing is unreliable *this run* — do not cherry-pick the parts that look plausible.
+2. **Never average a suspect number into a consensus.** Discard it, then triangulate across what
+   remains.
+3. **Say so in the output.** The rejection belongs in judgement calls or data gaps, with the
+   reason. It is a finding about the desk's own reliability, not housekeeping to bury.
+4. **Fall back explicitly** — last known-good value with its original timestamp, or "Data
+   unavailable" (§2d). A rejected figure is never silently replaced by a guess.
+
+**Escalate to the user when the disputed fact is binary, real-world, and on their screen** — has
+the print landed, what does the terminal say. One question settles what no amount of cross-agent
+adjudication can.
+
+**Rejection is per-pass, not permanent.** Re-run the agent; do not blacklist it.
+
+*Why: news-agent fabricated data twice on 2026-07-29. First it reported 97.4% hold odds while
+citing a source titled "hike odds tripled," alongside a quad-witching claim on a date that cannot
+be quad-witching. Hours later it reported a completed FOMC outcome — vote split, named dissenters,
+earnings reactions — for a decision that had not yet happened; the user settled it in one message.
+On the next pass the same agent sourced the real decision from federalreserve.gov and correctly
+wrote "Data unavailable" for earnings it could not confirm.*
 
 ---
 
@@ -209,6 +256,73 @@ off the low in ~2.5 h, exactly the amplified counter-move the haircut exists to 
 - Max concurrent open risk: **2R**.
 - After 2 consecutive losses: half size until a green trade.
 
+### 4a. Event-risk windows — high-volatility warning (advisory, NOT a block)
+
+**The desk does not refuse a trade because an event is near.** The user trades these windows
+deliberately and sizing is their call. What the desk owes them is an **unmissable warning** of
+what they are stepping into — every time, never silently.
+
+The macro specialists supply the **times**; this table supplies the **warning language**.
+
+| Tier | Events | What the Analyst must say |
+|---|---|---|
+| **1 — binary macro** | FOMC decision + presser, CPI, NFP, PCE, GDP advance | ⚠️ **HIGH VOLATILITY WINDOW.** Violent two-way movement expected; the first move frequently reverses in full. |
+| **2 — single-name / second-tier** | Mega-cap earnings prints, jobless claims, ECI, Michigan, Fed speakers with a live policy angle | ⚠️ **Elevated volatility** on that instrument and its correlated complex. State the implied move if sourceable. |
+| **3 — background** | Minor data, routine speakers | Note it on the catalyst line. No warning needed. |
+
+**A tier-1 window is a compound event.** FOMC means statement *and* presser, and the presser is
+usually the bigger trigger because that is where tone lands. Warn through the end of the **last**
+component, not just the headline print.
+
+**"The first move is not the move."** In a tier-1 window the initial spike reverses often enough
+that treating it as direction is a known way to get run over. Say this explicitly whenever the
+tier-1 warning applies — it is the single most useful thing the desk can tell an event trader.
+
+**This section gates nothing.** §2a (freshness) still governs whether a *sized* block may be
+emitted, but that is a data-quality rule, unrelated to event risk. Being inside an event window
+never downgrades a trade to map-only on its own.
+
+*Why the warning is worth reading: on 2026-07-29 the Fed held rates, gold spiked to ~4,120 on the
+headline, then Warsh's presser tone round-tripped it to ~4,053 inside the hour. Both directions
+were tradeable; neither was predictable from the print itself. That is the shape of a tier-1
+window — large range, low predictability, and a first move that lied.*
+
+### 4b. Event-window ATR — size off the event's range, not the day's
+
+Daily ATR is the wrong denominator inside a tier-1/tier-2 window. The event compresses a multiple
+of a normal session's range into an hour or two, so daily-ATR math sets stops **too tight** and
+makes perfectly reachable targets look like multi-day ones.
+
+**Source the expected range, in this order of preference:**
+
+1. **Options-implied move** for the event — the market's own priced range. Earnings prints publish
+   it directly (`implied ±X%`); for macro events derive it from front-expiry straddle pricing
+   where sourceable. `options-agent` supplies this.
+2. **Realized range of the same event type** — what this instrument actually did on the last 2–3
+   FOMC / CPI / NFP days.
+3. **Fallback multiplier** — assume a tier-1 window can realize **1.0–1.5× the full daily ATR
+   inside the window itself**. Tier-2 single-name prints: use the published implied move; there is
+   rarely a good fallback.
+
+**The daily ATR budget check is suspended inside the window.** §5's "daily ATR − points already
+moved today" does not apply — an event *resets* the range rather than drawing down a fixed daily
+allowance. Measure targets against the **event range** instead: a target at 60% of the expected
+event range is a within-window target, not a multi-day one.
+
+**Prefer Model B (structural stops) in event windows.** Structure survives a volatility-regime
+change; an ATR-derived stop (Model A) is only as good as its ATR input, and that input is exactly
+what the event invalidates. If Model A is unavoidable, feed it the **event** range — note this
+mechanically produces a smaller position, which is the math working correctly, not a haircut.
+
+**State the expected range explicitly in the decision block** whenever the §5 step-2 event
+exception is used. The user is taking that entry live, and this number is what tells them whether
+their stop sits inside the noise or outside it.
+
+*Why: on 2026-07-29 gold's daily ATR was 85.6 pts (2.12%). The FOMC window alone realized ~79 pts
+— essentially a full day's range — in about two hours, spiking to ~4,120 and round-tripping to
+~4,053. Daily-ATR sizing would have placed stops well inside that noise, and the remaining-budget
+check would have labelled a reachable target multi-day.*
+
 ---
 
 ## 5. The Strategy Filter (Analyst runs this after fusing specialists)
@@ -217,7 +331,13 @@ off the low in ~2.5 h, exactly the amplified counter-move the haircut exists to 
    30 min–2 h → map only, no size. Never skip this step.
 1. Fuse the specialist verdicts → regime + best instrument (in priority order) + levels.
 2. Does it match a setup in §3? **No → stand aside.**
-3. Is planned R:R ≥ 2.0? **No → stand aside.**
+   - **Exception — event windows (§4a).** Inside a tier-1/tier-2 window, a missing §3 match does
+     **not** force a stand-aside. The user takes event entries on live discretion, so the desk's
+     job is to hand over levels, expected range, the ⚠️ warning and a size — not to refuse because
+     no normal-tape pattern fits an event spike. State plainly that the entry trigger is the
+     user's real-time call, not a playbook setup.
+3. Is planned R:R ≥ 2.0? **No → stand aside.** (Under the event exception, compute R:R against the
+   levels supplied and flag it — the binding check happens at the user's actual entry.)
 4. Size it: pick Model A/B by the **stop** (§4), apply conviction × gamma multipliers → **lots**,
    margin, notional.
 5. Emit the decision block — see the entry contract below.
