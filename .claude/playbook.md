@@ -42,6 +42,21 @@ to them.
 Broker context: **CFDs** (lots + leverage). Sizing is in **lots**, not shares.
 Reference asset for volatility-equivalent sizing is **gold (XAUUSD)**.
 
+### BTC — weekend-default, weekday opt-in
+
+**Weekdays (Mon-Fri):** BTC is dropped from automatic/default sweeps — `/premarket`'s "whole
+universe" pass does **not** touch it, and `/ask` never routes to it unless the question names
+BTC/crypto. An explicit request still works any day (`/scan BTC`, or a BTC-specific `/ask`) —
+this only changes what happens *automatically*, it never blocks a direct request.
+
+**Weekends (Sat/Sun):** BTC returns to the default sweep automatically, same as every other
+instrument in §1 — this is when equities/gold desks are closed and crypto is naturally the
+active market.
+
+*Why: BTC trades 24/7 but the desk's other instruments don't — spending sweep budget on it
+during the trading week when Nasdaq/Gold dominate attention was diluting the deeper reads those
+get. Weekends flip the priority because there's nothing else open to compete for attention.*
+
 ---
 
 ## 2. The output contract (every specialist uses this)
@@ -95,6 +110,26 @@ built on. The anchor determines what the output is allowed to be:
 4,046 → 4,017 and broken the session low the whole plan was built on. T1 was already gone
 before the plan was read.*
 
+**Re-check at delivery, not just at spawn.** The anchor age above is measured from spawn time,
+but a full scan can take 5-11 minutes of wall-clock time to fuse (options-agent in particular
+runs long fighting vendor conflicts on OI data). A scan that was `≤30min` fresh at spawn can
+still be built on a stale reference point by the time the decision block is written — the gate's
+coarse bands don't catch this, because the elapsed time during fusion is usually well under
+30 minutes even when it's enough to move price meaningfully relative to a tight entry zone.
+
+**Before finalizing entry/stop/size — not before spawning, before *emitting* the block —**
+check how much wall-clock time the scan itself took. If it's more than a couple of minutes,
+say so explicitly and ask the user to confirm current price before treating the spawn-time
+anchor as still valid for judging "has the zone been reached," "how far is stop from here."
+Use the fresh check-in price for that judgment; the spawn anchor is what the specialists
+reasoned against, not necessarily what's true when the plan reaches the user.
+
+*Why: the 2026-07-30 gold scan spawned at 4,071.5, took several minutes to fuse across four
+specialists, and by the time the decision block's entry zone was checked against live price,
+price had already moved into it and printed a rejection — at a level and R:R the plan hadn't
+accounted for. The scan was well inside the `≤30min` band throughout; the gate never fired,
+because the gate wasn't built to catch fusion-latency drift, only long-gap staleness.*
+
 ### 2b. The live anchor (mandatory)
 
 Every `/scan` starts from the user's **live broker price**, and that number is passed to every
@@ -138,6 +173,21 @@ real price was 27,770. The unanchored gold scan drifted; the anchored one did no
 - **No guessing on gaps.** If consensus or actual data cannot be sourced, write **"Data
   unavailable"** for that field. Never estimate, infer, or carry forward a stale number to fill
   the gap — a missing number is a data gap (§2 above), not a modeling problem.
+- **Trustable sources for factual claims.** Prices, OI/gamma figures, economic prints, and
+  earnings numbers must come from a reputable, identifiable source — an exchange, a regulator/
+  official release (Fed, BEA, BLS, SEC), a recognized data vendor (Barchart, ChartExchange,
+  TradingEconomics, Bloomberg/Reuters/CNBC, etc.), or a broker's own feed. This does **not**
+  apply to `social-agent`'s chatter reads — reading unverified X/Reddit/StockTwits sentiment is
+  its explicit job, already required to be labeled "unverified chatter" (its own agent spec).
+  The line is: a *fact* needs a trustable source, a *chatter/sentiment read* needs to be labeled
+  as such — don't hold social-agent's crowd-tone reporting to the same bar as a price or an OI
+  number.
+- **Sources section, every final output.** The Analyst's final block — chat output and any saved
+  file (`scans/macro_YYYYMMDD.md`, `scans/<instrument>_scan_YYYYMMDD.md`) — ends with a
+  consolidated **Sources** list of the actual links used, aggregated from every specialist that
+  contributed, not just prose mentions like "per fxleaders" scattered through the text. Dedupe
+  repeated links across specialists. `/ask`'s fast 2-4 line format can compress this to inline
+  links rather than a separate section, but the links themselves are still mandatory, not optional.
 
 ### 2e. Fabricated data — detection and rejection (hard rule)
 
@@ -172,12 +222,26 @@ adjudication can.
 
 **Rejection is per-pass, not permanent.** Re-run the agent; do not blacklist it.
 
+**A demonstrated repeat pattern earns a standing, heightened bar — not a permanent ban.**
+`news-agent`'s specific failure mode (marking a scheduled/expected figure as "confirmed"/
+"actual") has recurred enough to be a known risk, not a one-off. Until that pattern stops
+showing up, its **"Actual" print claims** (an economic release, an earnings result) need one of
+the following before going into a Macro Core file or a decision block: **(a)** a direct citation
+to the primary/official source (Fed, BEA, BLS, company IR — not a calendar-aggregator page), or
+**(b)** independent corroboration from another specialist or the user's own screen. Its calendar/
+timing work and catalyst framing don't carry this extra bar — only the specific "did this actual
+number land" claim does, because that's the specific claim it's gotten wrong twice. Revisit this
+bar (loosen it) once a run of clean passes justifies it — this is a proportionate response to a
+track record, not a permanent downgrade of the seat.
+
 *Why: news-agent fabricated data twice on 2026-07-29. First it reported 97.4% hold odds while
 citing a source titled "hike odds tripled," alongside a quad-witching claim on a date that cannot
 be quad-witching. Hours later it reported a completed FOMC outcome — vote split, named dissenters,
 earnings reactions — for a decision that had not yet happened; the user settled it in one message.
-On the next pass the same agent sourced the real decision from federalreserve.gov and correctly
-wrote "Data unavailable" for earnings it could not confirm.*
+A third incident on 2026-07-30 reported a GDP figure as "confirmed" from a pre-embargo calendar
+page, contradicting its own "pending" labels on every other item in the same release table. Each
+incident is the same root confusion — scheduled/expected vs. confirmed/actual — which is why the
+fix is a standing corroboration bar on that specific claim type, not a one-time correction.*
 
 ---
 
@@ -391,6 +455,15 @@ scan latency drops because the slow macro searches happen once.
 at 34% and the NAS100 scan at 31% — same day, same question, two answers, because they were
 derived independently. One session, one macro truth.*
 
+**`sentiment-agent` and `social-agent` look similar and are not — don't merge them.**
+`sentiment-agent` is macro-tier, cached here, once per session: formal quantitative gauges (VIX,
+Fear/Greed, broad equity put/call, breadth, CFTC/COT positioning, ETF flows). `social-agent` is
+instrument-tier, reruns every `/scan`: informal chatter (X/Reddit/StockTwits) plus the
+per-instrument movers-of-the-day nomination, which genuinely needs to be fresh each time.
+Merging them would force one side to lose its correct cadence. The overlap that actually existed
+was scope creep — social-agent reporting CFTC/ETF-flow data that belongs to sentiment-agent — not
+a structural duplication; that's fixed in both agent specs. Keep them split.
+
 ---
 
 ## 5c. The smart-money pass — contrarian check, runs last
@@ -420,6 +493,56 @@ contrarian note (smart-money-agent): <one-line read — trap flagged on which si
 
 ---
 
+## 5d. The Structure Core — options-agent's structural read, cached per instrument
+
+`options-agent` has been the desk's strongest, most-relied-on read every session — both today's
+decision blocks were built directly on its levels. It's also the one specialist whose core data
+has a **natural daily cadence**: OI walls, max-pain, and gamma sign update once via OCC after the
+prior close, not intraday. Re-running it from scratch on every `/scan` re-fights the same vendor
+conflicts repeatedly (the ±$168M-vs-+$239M GEX fight got adjudicated twice in one session) for
+data that hadn't actually changed. This is the same duplicated-work-plus-correctness-risk pattern
+§5b fixed for macro — one layer down, at the instrument-structure level.
+
+**The rule:**
+
+- `/premarket`'s options-agent sweep (it already covers the whole universe in one pass) seeds
+  **`scans/structure_YYYYMMDD.md`** — one file, sections per instrument (Gold, Nasdaq/NDX, BTC,
+  Index), same pattern as the Macro Core's per-instrument section.
+- `/scan <X>` and `/gamma <X>` **read that instrument's section** instead of respawning
+  `options-agent`, if the section is fresh (see below).
+- If the file or that instrument's section is missing or stale, spawn `options-agent` for that
+  instrument, then **write/update just that section** — don't touch other instruments' sections.
+
+**Freshness is NOT a clock, it's OI-cadence plus a break check** — this is different from the
+Macro Core's 4-hour clock, because the underlying data genuinely doesn't move on a clock:
+
+1. **Same calendar day (BKK)?** If not, the section is stale — yesterday's OCC snapshot doesn't
+   describe today's book.
+2. **Has price closed beyond a level the section recorded as the operative wall/flip?** If yes,
+   the section is stale **for that instrument, immediately**, regardless of what day it is. A
+   broken level means dealer positioning has very likely shifted even though the OI print won't
+   confirm it until tomorrow's OCC — the cache must not keep asserting a wall that just failed.
+
+**Primacy in fusion (§3):** when `options-agent`'s structural read (gamma sign, walls, flip,
+max-pain) conflicts with another specialist's directional read, **the burden of proof sits with
+the other specialist** — this is now the rule, not a case-by-case judgement call (it's what
+resolved indicator-agent's flagged setup conflict in the 2026-07-30 gold scan, using options'
+fresher data over a stale one). **This primacy is about structure existing, not about it being
+unbreakable.** The instant a level actually closes-through, the break-check above fires and that
+specific level loses its primacy immediately — a stale cache asserting a wall is exactly the
+failure mode this section exists to prevent, not license.
+
+**The honest limit — do not treat flip levels as tick-precise.** Every wall/flip is a **prev-close
+OI figure run through a derived proxy conversion** (GLD→gold, QQQ→NAS100) — options-agent itself
+has flagged ±15pt slop on this repeatedly. It cannot see intraday dealer repositioning. Use it to
+know *which side of a level price is on*, not to place a stop at the exact number.
+
+*Why: the 27,100 NAS100 put wall held on 2026-07-30 — a real, valuable, cacheable fact. The day
+one gets blown through intraday, a naive cache would keep insisting it's there. The break-check
+is what keeps the cache honest instead of just cheap.*
+
+---
+
 ## 6. Two-pass session rhythm (Bangkok, UTC+7)
 
 US regular open = 20:30 BKK (summer) / 21:30 BKK (winter). The desk runs twice:
@@ -438,13 +561,3 @@ US regular open = 20:30 BKK (summer) / 21:30 BKK (winter). The desk runs twice:
 The value is the **diff**: Pass 1 sets expectations early; Pass 2 catches anything
 "unprecedented" that happened while the user was travelling, so they don't walk into a
 stale thesis at the open.
-
----
-
-## 7. Journaling back into Ledger (post-session)
-
-Draft entries mapping to `lib/types.ts` `Trade` fields: `setup`, `thesis`,
-`grade` (A+/A/B/C), `emotion`, `confidence` (1–5), `tags`
-(from MISTAKE/QUALITY/MARKET tag sets), `followedPlan`, and `review`
-(right / wrong / thesisCorrect / oneChange). Never invent fills — only journal
-trades the user actually took.

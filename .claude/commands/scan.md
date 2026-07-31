@@ -6,7 +6,7 @@ argument-hint: <INSTRUMENT> [open] (e.g. XAUUSD, NAS100 open, NVDA)
 You are the **desk Analyst**. Deep-scan: **$ARGUMENTS**
 
 Read `.claude/playbook.md` — §1 scan budget, §2a freshness gate, §2b live anchor, §3 setups,
-§4 risk, §5 filter + §5a entry contract, §5b Macro Core.
+§4 risk, §5 filter + §5a entry contract, §5b Macro Core, §5d Structure Core.
 
 **Mode:** if the arguments contain **`open`**, this is **Pass 2 (At-Open)** — see §6 below.
 Otherwise it is **Pass 1 (Map)**.
@@ -18,8 +18,12 @@ Otherwise it is **Pass 1 (Map)**.
 **Do not fan out until you have a live price.** (§2b)
 
 1. Ask the user for their **live broker price** for this instrument (bid/ask + the clock on
-   their terminal), or read it from a chart screenshot they have already posted.
-2. If they cannot supply one, pull the freshest web quote and **stamp its age**.
+   their terminal), or read it from a chart screenshot they have already posted. **In the same
+   ask, request a quick indicator readout if visible on their chart** — VWAP position, RSI,
+   MACD, 9/20/50 EMA stack. This is optional (not every chart has every indicator plotted) but
+   always solicited — it's the only real source for intraday indicator values (see indicator-agent's
+   own spec: web search cannot find these at usable freshness, every prior attempt confirms it).
+2. If they cannot supply a price, pull the freshest web quote and **stamp its age**.
 3. Apply the **freshness gate (§2a)** and state the verdict up front:
    - ≤ 30 min → sizeable trade allowed
    - 30 min – 2 h → **map only, no size**
@@ -29,7 +33,9 @@ Otherwise it is **Pass 1 (Map)**.
    off**. Flag any mismatch loudly — it invalidates every level derived from that chart.
 
 The anchor is **primary truth**. Pass it verbatim into every specialist prompt and tell them to
-treat web feeds as corroboration only, and to say so when a web feed disagrees with it.
+treat web feeds as corroboration only, and to say so when a web feed disagrees with it. **Pass
+any indicator readout to `indicator-agent` explicitly, labeled as live user-chart data** — it
+uses this as primary truth, not a web-sourced approximation.
 
 ## 1. Macro Core — reuse, don't re-derive (§5b)
 
@@ -40,21 +46,42 @@ Check for **`scans/macro_YYYYMMDD.md`** (today's date).
 - **Missing or stale** → spawn those three alongside the four below, then **write the file**
   so later scans this session reuse it.
 
-## 2. Fan out — the four instrument specialists
+## 1b. Structure Core — reuse, don't re-derive (§5d)
+
+Check for **`scans/structure_YYYYMMDD.md`**, this instrument's section.
+
+- **Exists, same BKK day, and no level break** (price hasn't closed beyond the section's
+  recorded operative wall/flip vs. the §0 anchor) → read it. Do **NOT** spawn `options-agent`.
+  Carry its gamma sign, walls, and flip straight into the fusion.
+- **Missing, stale (different day), or a level has broken** → spawn `options-agent` for this
+  instrument, then **write/update just this instrument's section** in the file (don't touch
+  other instruments' sections). Note explicitly if this run was triggered by a level break, not
+  just staleness — that's a finding worth keeping visible, not just a cache-refresh reason.
+  **Write the section in full sentences, not compressed tag-lines** — same template and reasoning
+  as `/premarket`'s §1c: this file is read directly, gamma call / key levels / break triggers /
+  conversion-and-limits / what's-missing, each as prose with a scannable levels table, not shorthand.
+
+## 2. Fan out — the instrument specialists
 
 In ONE message (Agent tool, parallel), focused solely on **$ARGUMENTS**:
 
-`market-agent` · `indicator-agent` · `options-agent` · `social-agent`
+`market-agent` · `indicator-agent` · `social-agent` · plus `options-agent` **only if §1b
+required a fresh run**.
 
 Give every one of them the live anchor from §0. Require of each:
 - **Actual numbers**, each with a source and timestamp.
 - An explicit list of **what they could NOT source** — no silent gaps.
-- `indicator-agent` must return **ATR in points and %** — sizing depends on it.
-- `options-agent` must return the **gamma sign** and the **zero-gamma flip level**, and say
-  whether the tape should **pin** or **accelerate**. This drives both setup choice (§3) and the
-  size haircut (§4).
-- **If a tier-1/tier-2 event is in play (§4a)**, `options-agent` must also return the **implied
-  move / expected event range** — that number replaces daily ATR as the sizing denominator (§4b).
+- `indicator-agent` must return **ATR in points and %** — sizing depends on it. If a user
+  indicator readout was captured in §0, hand it over explicitly; if not, tell indicator-agent to
+  say so and prompt for one rather than searching the web for a number that isn't there.
+- If spawned, `options-agent` must return the **gamma sign** and the **zero-gamma flip level**,
+  and say whether the tape should **pin** or **accelerate**. This drives both setup choice (§3)
+  and the size haircut (§4). If reused from the Structure Core, this is already in hand.
+- **If a tier-1/tier-2 event is in play (§4a)** and `options-agent` is running fresh, it must
+  also return the **implied move / expected event range** — that number replaces daily ATR as
+  the sizing denominator (§4b). If reusing a cached section that predates the event becoming
+  known, treat the event-range figure as missing and get it from `options-agent` directly rather
+  than leaving §4b unfilled.
 
 ## 3. Fuse
 
@@ -64,10 +91,28 @@ Trend + levels (Market) · setup state + ATR (Indicator) · OI walls / max-pain 
 Call out **conflicts explicitly**. If a specialist's bias label contradicts its own reasoning,
 trust the reasoning and say so.
 
+**Options-agent's structural primacy (§5d).** When its structural read (gamma sign, walls, flip,
+max-pain) conflicts with another specialist's directional read, the burden of proof sits with
+the other specialist — this is the rule now, not a per-scan judgement call. This is about
+structure existing, not about it being unbreakable: the moment §1b's level-break check fires for
+a level, that specific level loses primacy immediately, because the break itself is the evidence
+the structure moved.
+
 **Screen every read against §2e before fusing it.** A self-contradicting citation, a result for an
 event that hasn't happened, a category error, or a figure two other specialists independently
 contradict → reject that agent's whole pass, never average its number in, and record the rejection
 in judgement calls. If the disputed fact is binary and visible on the user's screen, ask them.
+
+## 3b. Re-check freshness at delivery, not just at spawn (§2a)
+
+Before writing the decision block, check how much wall-clock time the fan-out actually took. If
+it's more than a couple of minutes (common — options-agent alone often runs 4-11 min), the
+spawn-time anchor may no longer reflect where price actually is. **Ask the user for a quick
+current-price confirmation before finalizing entry/stop/size math against the zone** — the
+spawn anchor is what the specialists reasoned against, it is not automatically what's true now.
+This is a real gate, not a formality: use the confirmed current price to judge whether an entry
+zone has already been reached, already been passed, or needs different numbers than the fused
+read assumed.
 
 ## 4. Strategy Filter (§5)
 
@@ -110,6 +155,12 @@ Then one plain-English line. Then, always:
 
 - **Judgement calls** — any deviation from the playbook, stated not buried, with the reasoning.
 - **Data gaps** — everything that could not be verified.
+- **Sources** — a consolidated list of every link the specialists that actually ran cited (§2d),
+  deduped — including the Structure Core file's original citations if `options-agent` was reused
+  from cache rather than re-spawned. Pull these from each specialist's own "Sources:" list —
+  don't drop them just because the fused summary compressed the prose. This is mandatory in both
+  the chat output and the
+  saved file, not just internal to each specialist's report.
 
 ## 5b. Smart-money pass (§5c) — runs last, after the decision block exists
 

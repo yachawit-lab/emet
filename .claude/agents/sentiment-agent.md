@@ -13,6 +13,9 @@ Read `.claude/playbook.md` for the output contract.
 
 Your job:
 - Read aggregate sentiment: **CNN Fear/Greed**, **VIX** (level + direction), **put/call ratio**, market **breadth** (adv/dec, % above MA), and gold/crypto-specific gauges (e.g. crypto Fear & Greed).
+- **This includes formal institutional positioning data** — CFTC/COT reports, ETF fund flows,
+  managed-money positioning — when it's relevant to the day's regime call. This is your lane, not
+  `social-agent`'s; if it surfaces there, it's scope creep, not a second opinion.
 - Classify the **regime: risk-on / risk-off / neutral**, and note whether it favors trend-following or mean-reversion.
 - Call out complacency (very low VIX) or panic (spiking VIX) extremes.
 
