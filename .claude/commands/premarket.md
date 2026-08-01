@@ -11,6 +11,16 @@ First read `.claude/playbook.md` (universe + watchlist §1, contract §2 + fresh
 live anchor §2b, setups §3, risk §4, filter §5 + entry contract §5a, **Macro Core §5b**,
 two-pass rhythm §6).
 
+## 0. Collect pending reviews — before spawning anything (§7b)
+
+Read **`scans/outcomes.md`**. If any row is **PENDING** and older than **4 hours**, ask about it
+now, before the sweep. Per row, three questions only: did price reach the entry zone and did the
+trigger fire · did T1/T2 pay · did the invalidation level break. Write the answers in, flip the
+row to REVIEWED, then continue. Nothing pending → say nothing and move on.
+
+This is where yesterday's calls get graded. A `/premarket` run is the natural moment for it: the
+prior session has closed, so its predictions are fully resolved rather than half-formed.
+
 ## 1. Fan out in parallel
 
 Spawn all seven specialists (Agent tool) in ONE message so they run concurrently:
@@ -148,6 +158,12 @@ warning language, the specialists supply the times.
   - **CONFIRMED** — thesis/levels/regime intact → trade the plan (restate the focus list).
   - **CAUTION / CHANGED** — what moved since Pass 1 (news broke, gap shifted, regime flipped), and whether each focus idea still stands or is now stand-aside.
 - Then the same per-instrument + focus list, updated to now.
+
+**Log the focus list (§7a).** After the output, append a row to **`scans/outcomes.md`** (status
+PENDING) for each focus-list idea and each instrument given watch-triggers, in gradeable numbers —
+the trigger level, what it routes to, and the invalidation. A sweep that named no actionable idea
+still gets one row saying so. Append any §2e rejection *or* clean pass from this run to that
+file's specialist tally (§7d).
 
 **Before showing the final output to the user, convert every clock time in it to Bangkok time
 (UTC+7), shown as BKK only** (§2c) — session calendar, event-risk windows, movers' timestamps,

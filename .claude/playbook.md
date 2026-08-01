@@ -561,3 +561,70 @@ US regular open = 20:30 BKK (summer) / 21:30 BKK (winter). The desk runs twice:
 The value is the **diff**: Pass 1 sets expectations early; Pass 2 catches anything
 "unprecedented" that happened while the user was travelling, so they don't walk into a
 stale thesis at the open.
+
+---
+
+## 7. The outcome loop — the desk must find out whether it was right
+
+Every prediction this desk makes is falsifiable: an entry zone, a confirmation trigger, a target,
+an invalidation level. Until 2026-08-02 **none of them were ever checked.** Eight scans carrying
+precise, gradeable calls sat in `scans/` and nobody knew the hit rate.
+
+**The rule: no prediction leaves the desk without a row in `scans/outcomes.md`, and no row stays
+PENDING forever.**
+
+### 7a. Writing the row (every `/scan`, every `/premarket`)
+
+After emitting a decision block — sized trade, STAND ASIDE, or a map with watch-triggers — append
+one row to **`scans/outcomes.md`** with status **PENDING**. Record the prediction in the *terms it
+can be graded in*: the zone, the target, and the invalidation level, in numbers. "Bearish lean" is
+not a prediction; "fade 4,077-4,083, T1 4,057, invalid on a close above 4,110" is.
+
+A STAND ASIDE gets a row too. "The desk correctly refused a bad tape" is a real, checkable
+outcome, and a run of stand-asides that would each have paid is exactly the signal §5's filter is
+too tight — invisible unless it's written down.
+
+### 7b. Reviewing the row (the 4-hour check)
+
+**A PENDING row older than 4 hours is a debt the desk owes the user.**
+
+`/scan` and `/premarket` **begin** by reading `scans/outcomes.md` and checking for PENDING rows
+older than 4 h. If any exist, **ask about them before starting the new work** — the user is
+already at the desk with the chart open, which is the cheapest possible moment to ask. Three
+questions per row, no more:
+
+1. **Did price reach the entry zone**, and did the confirmation trigger actually fire?
+2. **Did the target pay** — T1, T2, or neither?
+3. **Did the invalidation level break?**
+
+Then write the answers into the row and flip it to REVIEWED. Keep it to a few lines of
+back-and-forth; this is a check-in, not an interrogation, and it must never become a reason the
+user avoids running a scan.
+
+`/ask` and `/gamma` are fast tools and do **not** run this check — they mention pending reviews in
+a single line and move on. Blocking a 4-line answer on a review queue would train the user out of
+using the fast tools, which is a worse outcome than a late review.
+
+### 7c. Grade the read, not the P&L
+
+The desk is graded on whether its *read* was right, which is not the same as whether money was
+made. A scan that said "wait for a bounce into 4,077-4,083" and never got the bounce was
+**correct** — §5a's no-trade case firing as designed, not a miss. Track separately whether the
+user actually took the trade, because "the desk was right" and "the user made money" diverge for
+real reasons (they were asleep, they sized down, they overrode the plan) and conflating them
+teaches the desk the wrong lesson.
+
+### 7d. Log specialist rejections *and* clean passes
+
+§2e rejections go in the tally at the bottom of `scans/outcomes.md` — but so do **clean passes on
+claim types currently under a heightened bar.**
+
+This is not bookkeeping. §2e says `news-agent`'s bar should be loosened "once a run of clean
+passes justifies it," but nothing recorded clean passes, so the bar could only ever ratchet
+tighter — a specialist under suspicion could never earn its way back out. Logging both directions
+is what makes that sentence enforceable instead of decorative.
+
+*Why this section exists: the playbook learns well, but every `*Why:*` block in it was written
+after a loss that hurt enough to notice. That is a feedback loop wired to one tail only. Wins,
+near-misses, and correct stand-asides taught the desk nothing at all, and three good data-rejection
+catches on 2026-08-01 evaporated into chat scrollback the same day they happened.*

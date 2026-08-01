@@ -48,6 +48,10 @@ treat these as tick-precise).
 **Convert every time to BKK (§2c).** If freshly derived, include the source link(s) (§2d) —
 compressed, this is a fast tool, not a full scan report.
 
+**Pending reviews — mention, never block (§7b).** If `scans/outcomes.md` has PENDING rows older
+than 4 h, add one line: "N scan(s) still pending review — run `/scan` or `/premarket` to grade
+them." Don't ask the review questions here; same fast-tool reasoning as `/ask`.
+
 **Discipline:** this is a structure check, not a trade call. No entry/stop/size, no Strategy
 Filter — that's `/scan`'s job. If the user wants a sized plan, tell them to run `/scan
 <INSTRUMENT>` instead.

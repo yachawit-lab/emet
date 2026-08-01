@@ -13,6 +13,18 @@ Otherwise it is **Pass 1 (Map)**.
 
 ---
 
+## 00. Collect pending reviews — before anything else (§7b)
+
+Read **`scans/outcomes.md`**. If any row is **PENDING** and older than **4 hours**, ask about it
+now, before starting this scan — the user is at the desk with the chart open, which is the
+cheapest moment to ask. Per row, three questions only: did price reach the entry zone and did the
+trigger fire · did T1/T2 pay · did the invalidation level break. Write the answers into the row,
+flip it to REVIEWED, then continue.
+
+Keep this to a few lines. It is a check-in, not an interrogation — if it ever becomes a reason to
+avoid running a scan, it has failed. Nothing pending, or nothing older than 4 h → say nothing and
+move on.
+
 ## 0. ANCHOR FIRST — before spawning anything
 
 **Do not fan out until you have a live price.** (§2b)
@@ -170,6 +182,18 @@ Then one plain-English line. Then, always:
   don't drop them just because the fused summary compressed the prose. This is mandatory in both
   the chat output and the
   saved file, not just internal to each specialist's report.
+
+## Log the prediction (§7a) — after the decision block, before the smart-money pass
+
+Append one row to **`scans/outcomes.md`**, status **PENDING**, recording this scan's call in
+gradeable numbers: entry zone, target(s), invalidation level. A **STAND ASIDE gets a row too** —
+"the desk correctly refused a bad tape" is a checkable outcome, and a run of stand-asides that
+would each have paid is exactly the signal §5's filter is too tight.
+
+If the scan produced Plan A and Plan B, log **both** — they are separate predictions with separate
+triggers, and one being right does not make the other wrong.
+
+Also append any §2e rejection *or* clean pass from this run to that file's specialist tally (§7d).
 
 ## 5b. Smart-money pass (§5c) — runs last, after the decision block exists
 

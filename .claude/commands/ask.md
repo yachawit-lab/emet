@@ -27,6 +27,12 @@ Read `.claude/playbook.md` only if the question needs setup/risk/sizing rules.
 
 3. **Answer in 2–4 lines**, directly. Cite freshness (delayed ~15m / prev close). Never invent a price or OI — if unknown, say what to check on the live chart. Include the actual source link(s) inline (§2d) — compressed to fit the fast format, but not dropped.
 
-4. **Convert every clock time in the answer to Bangkok time (UTC+7), shown as BKK only** (§2c) —
+4. **Pending reviews — mention, never block (§7b).** If `scans/outcomes.md` has PENDING rows older
+   than 4 h, add **one line** at the end: "N scan(s) still pending review — run `/scan` or
+   `/premarket` to grade them." Do not ask the review questions here and do not read the file if
+   the question doesn't otherwise need it. This is a fast tool; blocking a 4-line answer on a
+   review queue would train the user out of using it, which is worse than a late review.
+
+5. **Convert every clock time in the answer to Bangkok time (UTC+7), shown as BKK only** (§2c) —
    event times, catalyst windows, `as-of`. Internal specialist work stays UTC; only what you show
    the user gets converted.
