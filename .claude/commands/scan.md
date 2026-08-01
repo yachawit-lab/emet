@@ -151,6 +151,15 @@ At least one condition of each relevant kind — **event**, **technical level**,
 setup leans on a macro read) **macro shift** — not just a generic "if wrong." A setup with no
 scheduled event and no macro dependency can drop that bullet, but never drop the level break.
 
+**Always give Plan A and Plan B, not just one block.** Plan A is the primary read above — the
+zone the fused analysis actually favors. Plan B is what to do if the user reads the scan late and
+Plan A's zone has already been reached or passed before they can act on it — a distinct, playbook-
+matched setup (often the level-break/retest counterpart of Plan A, e.g. a Breakout Retest once the
+zone Plan A wanted has already broken), not a vaguer or looser version of the same entry. Give
+Plan B the same full contract (§5a) as Plan A: zone, confirmation trigger, no-trade case, stop,
+targets, size. State plainly which conditions route to A vs. B so the user can tell at a glance
+which one applies when they open the chart.
+
 Then one plain-English line. Then, always:
 
 - **Judgement calls** — any deviation from the playbook, stated not buried, with the reasoning.
