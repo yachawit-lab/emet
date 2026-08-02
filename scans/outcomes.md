@@ -18,7 +18,7 @@ separately, because "the desk was right" and "you made money" are different ques
 
 | Date (BKK) | Instrument | Setup | Predicted | Status | What happened |
 |---|---|---|---|---|---|
-| 2026-08-01 | BTC | map only, no setup | watch triggers: close <$60,000 → short retest · close >$65,000 → long retest (squeeze risk) | **PENDING** | — |
+| 2026-08-01 | BTC | map only, no setup | watch triggers: close <$60,000 → short retest · close >$65,000 → long retest (squeeze risk) | **SKIPPED** | Not graded — user opted out for day 1. Not traded, but note that's separate from whether the read was right (§7c); the $60k/$65k call remains checkable if ever wanted. |
 | 2026-07-31 | NAS100 | Plan B — Breakout Retest | close >28,610, retest holds · stop 28,590 · T1 28,700 (4.25R) | **PENDING** | — |
 | 2026-07-31 | NAS100 | Plan A — Mean Reversion | fade 28,505-28,530 · stop 28,608 · T1 28,330 (2.05R) · invalid on close >28,610 | **PENDING** | — |
 | 2026-07-31 | XAUUSD | Mean Reversion | fade 4,077-4,083 · stop 4,087 · T1 4,057 (3.3R) · T2 4,020 (8.6R) · invalid on close >4,110-4,118 | **PENDING** | — |
