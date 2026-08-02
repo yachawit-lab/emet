@@ -1,0 +1,3 @@
+# MT5 output is machine-local: it only exists when the Windows terminal is running,
+# and a cloud cron run must not inherit a tick from a PC that may be switched off.
+local/

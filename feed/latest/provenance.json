@@ -1,0 +1,97 @@
+{
+  "BTCUSD": {
+    "basis_vs_bars": {
+      "anchor": 63431.9,
+      "bar_close": 63495.42,
+      "bar_source": "binance:BTCUSDT:1d",
+      "basis": 63.52,
+      "basis_bps": 10.0
+    },
+    "market_hours": {
+      "detail": "crypto trades continuously",
+      "market": "crypto",
+      "open": true
+    },
+    "price": {
+      "age_s": -4,
+      "as_of": "2026-08-02T08:06:26Z",
+      "confidence": "VERIFIED",
+      "note": "3 sources agree within 11.1 bps",
+      "sources": [
+        "binance:BTCUSDT:ticker",
+        "deribit:btc_usd:index",
+        "mt5:BTCUSDm:tick"
+      ],
+      "tier": null,
+      "unit": "price"
+    },
+    "raw_hashes": {
+      "binance:BTCUSDT:1d": "e761ff0b6df3d69d27f951f1ffe6c5d3b4b065f3b626df1a4f2bae53733742a3",
+      "binance:BTCUSDT:5m": "a8f75abf8b67e83c83ea2a47b782eabf83805cdfaae4380d51fbfd65e3d1a442",
+      "binance:BTCUSDT:ticker": "0fae45ffc561e46ca07acfa02c7a98e5a301ea8bc07adbb21fcc3a066fdaf316",
+      "deribit:btc_usd:index": "deed8b2fff2f7654c28ff64abf4fc22ef7fb77796e3aa3ad4c68090a95d74e78",
+      "mt5:BTCUSDm:tick": "bee2fbed8dd0805c0137fa21bdb3b3dceb3ee060afd3a9ee1a74143398a1b4d6"
+    }
+  },
+  "NAS100": {
+    "market_hours": {
+      "detail": "US equities closed \u2014 weekend",
+      "market": "us_equity",
+      "open": false
+    },
+    "price": {
+      "age_s": 129981,
+      "as_of": "2026-07-31T20:00:00Z",
+      "confidence": "STALE",
+      "note": "age 129981s exceeds intraday TTL",
+      "sources": [
+        "yahoo:^NDX:5m"
+      ],
+      "tier": null,
+      "unit": "price"
+    },
+    "raw_hashes": {
+      "yahoo:^NDX:1d": "761968bb971b56d01e551804f908f9e1b3ddef550f15a0d2d9cc73d37dfe5781",
+      "yahoo:^NDX:5m": "f08ee25dafc8d252f2028b4947b3217036426e471b45f841e75accb1770dc1ec"
+    }
+  },
+  "XAUUSD": {
+    "basis_vs_bars": {
+      "anchor": 4043.7,
+      "bar_close": 4042.7769,
+      "bar_source": "twelvedata:XAU/USD:1day",
+      "basis": -0.9231,
+      "basis_bps": -2.3
+    },
+    "market_hours": {
+      "detail": "spot metals/FX closed \u2014 reopens Sunday 22:00 UTC",
+      "market": "metals_fx",
+      "open": false
+    },
+    "price": {
+      "age_s": 2,
+      "as_of": "2026-08-02T08:06:19Z",
+      "confidence": "SINGLE",
+      "note": "single source \u2014 not corroborated",
+      "sources": [
+        "gold-api:XAU:spot"
+      ],
+      "tier": null,
+      "unit": "price"
+    },
+    "proxy_check": {
+      "alarm_bps": 75.0,
+      "anchor": 4043.7,
+      "label": "XAUT (tokenized gold)",
+      "proxy_price": 4048.03,
+      "source": "binance:XAUTUSDT:ticker",
+      "spread_bps": 10.7,
+      "status": "ok"
+    },
+    "raw_hashes": {
+      "gold-api:XAU:spot": "335ce21114c4bec2cb8447c9d554dfbfe1932a8072e00631b6c11b83b1d81d70",
+      "twelvedata:XAU/USD:1day": "383d9429436e3ece42027fac0848e41767cf24950654cdf84c7efaadd983e511",
+      "yahoo:GC=F:5m": "1f9a169e6648e0eb962c9a083057d49fa2f24c62abe4cc518e8a807728480637"
+    }
+  }
+}

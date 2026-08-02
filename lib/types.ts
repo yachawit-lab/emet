@@ -85,8 +85,19 @@ export interface TradeReview {
   oneChange: string;
 }
 
+/** One real M1 (1-minute) OHLC bar, pulled from MT5 via scripts/backfill_mfe_mae.py. */
+export interface PriceBar {
+  t: string; // ISO UTC
+  o: number;
+  h: number;
+  l: number;
+  c: number;
+}
+
 export interface Trade {
   id: string;
+  /** Broker ticket/position ID, when imported from a CSV that has one — lets re-imports update this same trade instead of duplicating it. */
+  externalId?: string;
   symbol: string;
   side: Side;
   qty: number;
@@ -111,6 +122,8 @@ export interface Trade {
   isSeed: boolean;
   createdAt: string;
   updatedAt: string;
+  /** Real MT5 M1 bars covering the trade window, when backfilled — absent otherwise (no fake substitute). */
+  priceBars?: PriceBar[];
 }
 
 export interface DerivedTrade {

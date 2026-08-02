@@ -12,6 +12,7 @@ export interface Metrics {
   payoffRatio: number | null; // avgWin / |avgLoss|
   maxDrawdown: number; // $ (negative or 0)
   maxDrawdownPct: number; // % relative to STARTING_CAPITAL + peak
+  recoveryFactor: number | null; // netPnl / |maxDrawdown|, null when no drawdown occurred
   sharpe: number | null; // annualized, based on daily returns
   largestWin: number;
   largestLoss: number;
@@ -26,6 +27,7 @@ export interface Metrics {
   wins: number;
   losses: number;
   breakevens: number;
+  totalFees: number;
 }
 
 function dayKey(iso: string): string {
@@ -62,6 +64,7 @@ export function computeMetrics(trades: EnrichedTrade[]): Metrics {
       payoffRatio: null,
       maxDrawdown: 0,
       maxDrawdownPct: 0,
+      recoveryFactor: null,
       sharpe: null,
       largestWin: 0,
       largestLoss: 0,
@@ -76,6 +79,7 @@ export function computeMetrics(trades: EnrichedTrade[]): Metrics {
       wins: 0,
       losses: 0,
       breakevens: 0,
+      totalFees: 0,
     };
   }
 
@@ -159,6 +163,9 @@ export function computeMetrics(trades: EnrichedTrade[]): Metrics {
     longestLossStreak = Math.max(longestLossStreak, curLoss);
   }
 
+  const recoveryFactor = maxDrawdown < 0 ? netPnl / Math.abs(maxDrawdown) : null;
+  const totalFees = sorted.reduce((s, t) => s + t.fees, 0);
+
   const avgHoldMin = mean(sorted.map((t) => t.d.durationMin));
 
   const captures = sorted.map((t) => t.d.captureRate).filter((c): c is number => c !== null);
@@ -188,6 +195,7 @@ export function computeMetrics(trades: EnrichedTrade[]): Metrics {
     payoffRatio,
     maxDrawdown,
     maxDrawdownPct,
+    recoveryFactor,
     sharpe,
     largestWin,
     largestLoss,
@@ -202,5 +210,6 @@ export function computeMetrics(trades: EnrichedTrade[]): Metrics {
     wins: wins.length,
     losses: losses.length,
     breakevens: breakevens.length,
+    totalFees,
   };
 }

@@ -197,6 +197,11 @@ export function breakdownByWeekday(trades: EnrichedTrade[]): BreakdownRow[] {
   return rows.sort((a, b) => WEEKDAY_SHORT.indexOf(a.key) - WEEKDAY_SHORT.indexOf(b.key));
 }
 
+export function breakdownBySide(trades: EnrichedTrade[]): BreakdownRow[] {
+  const rows = breakdownBy(trades, (t) => (t.side === "long" ? "Long" : "Short"));
+  return rows.sort((a, b) => (a.key === "Long" ? -1 : 1));
+}
+
 export interface TagStat {
   tag: string;
   count: number;

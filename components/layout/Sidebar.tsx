@@ -7,9 +7,11 @@ import {
   Rows3,
   CalendarDays,
   ChartNoAxesCombined,
+  Scale,
   Plus,
   BookOpen,
   RotateCcw,
+  Trash2,
 } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useTradeStore } from "@/store/trade-store";
@@ -20,6 +22,7 @@ const NAV_ITEMS = [
   { href: "/trades", label: "Trade Log", icon: Rows3 },
   { href: "/calendar", label: "Calendar", icon: CalendarDays },
   { href: "/analytics", label: "Analytics", icon: ChartNoAxesCombined },
+  { href: "/position-size", label: "Position Size", icon: Scale },
 ];
 
 export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
@@ -48,6 +51,37 @@ export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
         );
       })}
     </nav>
+  );
+}
+
+export function ClearMockDataButton({ className }: { className?: string }) {
+  const clearSeedTrades = useTradeStore((s) => s.clearSeedTrades);
+  const trades = useTradeStore((s) => s.trades);
+  const seedCount = trades.filter((t) => t.isSeed).length;
+
+  function handleClear() {
+    if (seedCount === 0) return;
+    if (
+      confirm(
+        `Clear ${seedCount} seeded demo trades? Any trades you've added yourself are kept.`
+      )
+    ) {
+      clearSeedTrades();
+    }
+  }
+
+  return (
+    <button
+      onClick={handleClear}
+      disabled={seedCount === 0}
+      className={cn(
+        "flex items-center justify-center gap-2 rounded-full border border-border bg-card text-fg-muted text-sm font-medium px-4 py-2.5 hover:text-fg hover:bg-panel transition-colors disabled:opacity-40 disabled:pointer-events-none",
+        className
+      )}
+    >
+      <Trash2 size={15} />
+      Clear mock data
+    </button>
   );
 }
 
@@ -98,6 +132,7 @@ export function Sidebar() {
           <Plus size={16} />
           Log trade
         </Link>
+        <ClearMockDataButton className="w-full" />
         <ResetDemoButton className="w-full" />
       </div>
     </aside>

@@ -129,6 +129,37 @@ export function DashboardContent() {
         />
       </div>
 
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <KpiCard
+          label="Recovery Factor"
+          value={metrics.recoveryFactor ?? 0}
+          format={(v) => (metrics.recoveryFactor === null ? "—" : v.toFixed(2))}
+          tone="neutral"
+          hint="net P&L ÷ max drawdown"
+        />
+        <KpiCard
+          label="Best / Worst Trade"
+          value={metrics.largestWin}
+          format={(v) => formatCurrency(v, { sign: true })}
+          tone="gain"
+          hint={`Worst: ${formatCurrency(metrics.largestLoss, { sign: true })}`}
+        />
+        <KpiCard
+          label="Win / Loss Streak"
+          value={metrics.longestWinStreak}
+          format={(v) => `${v.toFixed(0)}W`}
+          tone="neutral"
+          hint={`Max loss streak: ${metrics.longestLossStreak}L`}
+        />
+        <KpiCard
+          label="Total Fees"
+          value={metrics.totalFees}
+          format={(v) => formatCurrency(v)}
+          tone="neutral"
+          hint="commissions + swap"
+        />
+      </div>
+
       <Card>
         <CardHeader
           title="Equity curve"

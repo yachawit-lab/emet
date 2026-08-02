@@ -1,0 +1,3 @@
+# Compiled bytecode. feed/latest/ is committed on purpose and lives elsewhere.
+__pycache__/
+*.py[cod]

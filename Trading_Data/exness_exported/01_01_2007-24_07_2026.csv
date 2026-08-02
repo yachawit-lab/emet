@@ -1,0 +1,5 @@
+ticket,opening_time_utc,closing_time_utc,type,lots,original_position_size,symbol,opening_price,closing_price,stop_loss,take_profit,commission,swap,profit,equity,margin_level,close_reason
+413941286,2026-07-23T15:03:43,2026-07-23T15:32:18,sell,0.03,0.03,XAUUSDm,4059,4044.183,4064,,,,44.45,,,user
+413929527,2026-07-23T14:43:34,2026-07-23T14:48:24,sell,0.02,0.02,XAUUSDm,4057.5,4062,4062,,,,-9,,,sl
+413919595,2026-07-23T14:30:47,2026-07-23T14:37:50,sell,0.02,0.02,XAUUSDm,4056.2,4060.74,4060,,,,-9.08,,,sl
+413913347,2026-07-23T14:23:33,2026-07-23T14:25:31,sell,0.02,0.02,XAUUSDm,4050,4054.102,4054.102,,,,-8.2,,,sl
