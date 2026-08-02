@@ -89,9 +89,32 @@ real price was 27,770. The unanchored gold scan drifted; the anchored one did no
 
 | Instrument | Broker feed | vs reference | Basis |
 |---|---|---|---|
-| XAUUSD | OANDA / Exness | spot gold | ~+8 pts (broker higher) — *verify* |
-| NAS100 / USTEC | OANDA / Exness | NDX cash | drifts; ratio to QQQ ≈ **41.06** |
+| XAUUSD | OANDA / Exness | spot gold | **≈ 0** — ✅ verified 2026-07-29 (was recorded ~+8, wrong) |
+| NAS100 / USTEC | OANDA / Exness | NDX cash | **≈ +1 pt** — ✅ verified 2026-07-29 |
 | US stock CFDs | Exness | NASDAQ last | **must have extended hours ON** |
+
+**The QQQ ×41.06 ratio is DEPRECATED for level conversion.** On 2026-07-29 at 13:45 UTC, QQQ
+673.76 × 41.06 implied NAS100 27,664 while NDX cash actually printed 27,754 — **90 points off**.
+Convert against NDX cash directly (basis ≈ +1), not via QQQ. The ratio is still fine for the
+*rough* order-of-magnitude work options data forces on us (GLD/QQQ options → underlying points),
+but every such level must be labelled **inferred, not sourced**.
+
+### 2c. Web feeds fail in specific, recognisable ways — check for these before anchoring
+
+*Why: on 2026-07-29 a gold scan opened on a provisional anchor of ~4,040 built from two web feeds.
+Both were wrong, in different ways, and the real price was ~4,020 — a 20-point error that would
+have put the entry, the stop, and every pivot reference in the wrong place.*
+
+| Failure mode | How it looked | How to catch it |
+|---|---|---|
+| **Stale cached crawl** | Aggregator showed gold **+0.37%**; a direct re-fetch of the *same page* minutes later showed **−0.28%** | **Re-fetch the page directly.** Never anchor on a search-result snippet — those are cached crawls, not live reads. |
+| **Contract-roll artifact** | Yahoo GC=F printed 4,075.90 with a H/L band matching *the prior session's* spot range | Check whether it's a **roll day**. Futures feeds on roll days echo old contracts. Prefer spot. |
+| **Index-open smoothing** | Cash index under-prints a genuine futures spike in the first minutes | Constituents open staggered — the cash index is mechanically smoothed at 13:30. Not a feed error. |
+| **Vendor indicator mislabelling** | Investing.com "Daily" ATR of 11.86 on an instrument whose real daily ATR is 84.5 | **Cross-check points against %.** If the arithmetic doesn't reconcile, discard — do not average it in. |
+
+**Rule: two independent live fetches, or the user's broker print, before any number becomes the
+anchor.** One source is not a read. And a chart screenshot is an anchor for *price*, not for
+wick extremes — reading a spike high off a screenshot produced an 85-point error the same session.
 
 **Contract specs — confirmed from real fills, do not re-assume:**
 

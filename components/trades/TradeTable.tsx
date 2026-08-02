@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { format } from "date-fns";
-import { ArrowUpDown, ArrowUp, ArrowDown, Search, Download } from "lucide-react";
+import { ArrowUpDown, ArrowUp, ArrowDown, Search, Download, Upload, Sparkles, Loader2 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Badge, PnlGlyph } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -11,9 +11,10 @@ import { Input } from "@/components/ui/Input";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { EnrichedTrade } from "@/lib/types";
 import { useViewStore } from "@/store/view-store";
+import { useTradeStore } from "@/store/trade-store";
 import { pnlValue, formatPnlValue, maskValue } from "@/lib/value-mode";
 import { formatDuration, formatR } from "@/lib/format";
-import { tradesToCsv, downloadCsv } from "@/lib/csv";
+import { tradesToCsv, downloadCsv, parseTradesCsv, tradesImportTemplate } from "@/lib/csv";
 import { cn } from "@/lib/cn";
 
 type SortKey =
@@ -74,9 +75,64 @@ function sortValue(t: EnrichedTrade, key: SortKey): number | string {
 
 export function TradeTable({ trades }: { trades: EnrichedTrade[] }) {
   const { valueMode, useGross, hidePnl } = useViewStore();
+  const addTrades = useTradeStore((s) => s.addTrades);
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("date");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+  const [importSummary, setImportSummary] = useState<string | null>(null);
+  const [isBackfilling, setIsBackfilling] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const backfillInputRef = useRef<HTMLInputElement>(null);
+
+  function importParsedCsv(text: string) {
+    const { trades: parsed, errors } = parseTradesCsv(text);
+    const parts = [];
+    if (parsed.length > 0) {
+      const { added, updated } = addTrades(parsed);
+      if (added > 0) parts.push(`Imported ${added} trade${added === 1 ? "" : "s"}.`);
+      if (updated > 0) parts.push(`Updated ${updated} existing trade${updated === 1 ? "" : "s"} (matched by ticket/time).`);
+    }
+    if (errors.length > 0) {
+      parts.push(
+        `Skipped ${errors.length} row${errors.length === 1 ? "" : "s"}: ` +
+          errors.slice(0, 5).map((e) => `row ${e.row} (${e.message})`).join("; ") +
+          (errors.length > 5 ? `; +${errors.length - 5} more` : "")
+      );
+    }
+    setImportSummary(parts.join(" ") || "No trades found in file.");
+  }
+
+  async function handleImportFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    importParsedCsv(await file.text());
+  }
+
+  async function handleAutoBackfillImport(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    setIsBackfilling(true);
+    setImportSummary(null);
+    try {
+      const res = await fetch("/api/backfill", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ csv: await file.text() }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setImportSummary(`Backfill failed: ${data.error ?? "unknown error"}`);
+        return;
+      }
+      importParsedCsv(data.csv as string);
+    } catch {
+      setImportSummary("Backfill failed: couldn't reach the local server. Is `npm run dev` running?");
+    } finally {
+      setIsBackfilling(false);
+    }
+  }
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -124,6 +180,43 @@ export function TradeTable({ trades }: { trades: EnrichedTrade[] }) {
             className="pl-9"
           />
         </div>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".csv,text/csv"
+          className="hidden"
+          onChange={handleImportFile}
+        />
+        <Button variant="secondary" size="sm" onClick={() => fileInputRef.current?.click()}>
+          <Upload size={14} />
+          Import CSV
+        </Button>
+        <input
+          ref={backfillInputRef}
+          type="file"
+          accept=".csv,text/csv"
+          className="hidden"
+          onChange={handleAutoBackfillImport}
+        />
+        <Button
+          variant="secondary"
+          size="sm"
+          disabled={isBackfilling}
+          onClick={() => backfillInputRef.current?.click()}
+          title="Attach a raw Exness export — this pulls real MT5 price data and computes MFE/MAE for you before importing"
+        >
+          {isBackfilling ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
+          {isBackfilling ? "Pulling MT5 data…" : "Import from Exness (auto-backfill)"}
+        </Button>
+        <button
+          type="button"
+          className="text-xs text-fg-muted hover:text-fg underline underline-offset-2"
+          onClick={() =>
+            downloadCsv("ledger-import-template.csv", tradesImportTemplate())
+          }
+        >
+          Download template
+        </button>
         <Button
           variant="secondary"
           size="sm"
@@ -134,8 +227,28 @@ export function TradeTable({ trades }: { trades: EnrichedTrade[] }) {
         </Button>
       </div>
 
+      {importSummary && (
+        <div className="flex items-start justify-between gap-3 px-5 py-3 border-b border-border bg-panel/60 text-xs text-fg-muted">
+          <span>{importSummary}</span>
+          <button
+            type="button"
+            className="shrink-0 hover:text-fg"
+            onClick={() => setImportSummary(null)}
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
+
       {sorted.length === 0 ? (
-        <EmptyState title="No trades found" message="Try a different search term or clear your filters." />
+        trades.length === 0 ? (
+          <EmptyState
+            title="No trades yet"
+            message="Import a CSV of your real trades or log one manually to get started."
+          />
+        ) : (
+          <EmptyState title="No trades found" message="Try a different search term or clear your filters." />
+        )
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">

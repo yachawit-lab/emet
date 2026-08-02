@@ -3,13 +3,19 @@
 import { useState } from "react";
 import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { SegmentedControl } from "@/components/ui/SegmentedControl";
-import { BreakdownRow, breakdownBySetup, breakdownBySymbol, breakdownByWeekday } from "@/lib/aggregations";
+import {
+  BreakdownRow,
+  breakdownBySetup,
+  breakdownBySide,
+  breakdownBySymbol,
+  breakdownByWeekday,
+} from "@/lib/aggregations";
 import { EnrichedTrade } from "@/lib/types";
 import { formatCurrency, formatCurrencyCompact, formatPercent, RechartsTooltipProps } from "@/lib/format";
 import { useViewStore } from "@/store/view-store";
 import { useFilterStore } from "@/store/filter-store";
 
-type Mode = "symbol" | "setup" | "weekday";
+type Mode = "symbol" | "setup" | "weekday" | "side";
 
 function Tip({ active, payload }: RechartsTooltipProps<BreakdownRow>) {
   const { hidePnl } = useViewStore();
@@ -29,18 +35,21 @@ function Tip({ active, payload }: RechartsTooltipProps<BreakdownRow>) {
 export function BreakdownBars({ trades }: { trades: EnrichedTrade[] }) {
   const [mode, setMode] = useState<Mode>("symbol");
   const { hidePnl } = useViewStore();
-  const { toggleSymbol, toggleSetup } = useFilterStore();
+  const { toggleSymbol, toggleSetup, setFilters } = useFilterStore();
 
   const data =
     mode === "symbol"
       ? breakdownBySymbol(trades)
       : mode === "setup"
         ? breakdownBySetup(trades)
-        : breakdownByWeekday(trades);
+        : mode === "side"
+          ? breakdownBySide(trades)
+          : breakdownByWeekday(trades);
 
   function onBarClick(row: BreakdownRow) {
     if (mode === "symbol") toggleSymbol(row.key);
     if (mode === "setup") toggleSetup(row.key);
+    if (mode === "side") setFilters({ side: row.key === "Long" ? "long" : "short" });
   }
 
   return (
@@ -51,6 +60,7 @@ export function BreakdownBars({ trades }: { trades: EnrichedTrade[] }) {
           { value: "symbol", label: "By symbol" },
           { value: "setup", label: "By setup" },
           { value: "weekday", label: "By weekday" },
+          { value: "side", label: "By side" },
         ]}
         value={mode}
         onChange={(v) => setMode(v as Mode)}

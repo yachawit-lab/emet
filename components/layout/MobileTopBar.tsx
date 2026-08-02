@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Menu, BookOpen, Plus } from "lucide-react";
 import { Drawer } from "@/components/ui/Drawer";
-import { NavLinks, ResetDemoButton } from "./Sidebar";
+import { NavLinks, ClearMockDataButton, ResetDemoButton } from "./Sidebar";
 
 export function MobileTopBar() {
   const [open, setOpen] = useState(false);
@@ -34,7 +34,8 @@ export function MobileTopBar() {
       </div>
       <Drawer open={open} onClose={() => setOpen(false)} title="Ledger">
         <NavLinks onNavigate={() => setOpen(false)} />
-        <ResetDemoButton className="w-full mt-4" />
+        <ClearMockDataButton className="w-full mt-4" />
+        <ResetDemoButton className="w-full mt-2" />
       </Drawer>
     </div>
   );

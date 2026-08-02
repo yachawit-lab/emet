@@ -60,9 +60,19 @@ store/                   Zustand stores (trades, filters, view preferences)
 
 To back up or move data, use **Export CSV** on the Trade Log page.
 
-Two things worth doing before relying on this for real trades:
-1. **Clear the mock trades** and start from an empty log (not yet implemented — the current "Reset demo" button in the sidebar *regenerates* mock data rather than clearing it).
-2. Decide whether browser-local storage is enough, or whether you want a real local database (e.g. SQLite) or hosted/cloud storage (e.g. Supabase) so data isn't tied to one browser. Flagged for a follow-up change.
+To switch to your real trades:
+1. Click **Clear mock data** in the sidebar — it removes only the seeded demo trades (`isSeed: true`) and leaves any real trades you've added alone. (**Reset demo** is separate and still *regenerates* the mock set, useful only if you want the demo back.)
+2. Add your real trades either one at a time via **Log trade**, or in bulk via **Import CSV** on the Trade Log page. Import accepts a CSV with columns `symbol, side, qty, entryPrice, exitPrice, entryTime, exitTime, fees, stop, target, setup, tags, account, thesis` (only `symbol/side/entryPrice/exitPrice/entryTime` are required, plus either `qty` or a profit/P&L column — see below). Use **Download template** next to the Import button for a starting CSV.
+
+**Importing directly from Exness:** the account-history CSV export (`ticket, opening_time_utc, closing_time_utc, type, lots, original_position_size, symbol, opening_price, closing_price, stop_loss, take_profit, commission, swap, profit, equity, margin_level, close_reason`) imports as-is — no column renaming needed. `parseTradesCsv` (`lib/csv.ts`) recognizes those headers directly, and treats bare `YYYY-MM-DDTHH:mm:ss` timestamps as UTC (matching the `_utc` columns) rather than the browser's local timezone. Raw MT4/5 "Account History → Save as Report" exports use slightly different names (`Type`, `Open/Close price`, `Open/Close time`, `S/L`, `T/P`, `Volume`) and are recognized too.
+
+Lot-based CFD/forex brokers report position size in lots, not the "shares" the app's P&L math (`price move × qty`) expects, and converting lots to units requires each instrument's contract size, which varies by broker and symbol. Rather than guessing that, when a profit/P&L column is present, `qty` is **back-solved** from `brokerPnl / priceMove` — this reproduces the broker's own P&L and R-multiple exactly, without needing a contract-size table. `Swap` and `Commission` columns (if present) are summed into `fees`.
+
+What import does **not** attempt to fill in, and why:
+- **MFE/MAE** (best/worst excursion during the trade) needs 1-minute OHLC price history for the trade's exact window, which isn't in a closed-positions export. Left at 0 for now — worth revisiting later using MT5's own History Center export (matches your broker's feed) or a market data API.
+- **Tags, thesis, and reflection notes** default to neutral placeholders (`grade: B`, `emotion: Neutral`, empty thesis/tags) because they're either subjective judgments or need price context beyond what the closed-positions row carries. These are worth filling in by hand, or through a future price-data-grounded assistant pass — not invented at import time.
+
+Decide whether browser-local storage is enough, or whether you want a real local database (e.g. SQLite) or hosted/cloud storage (e.g. Supabase) so data isn't tied to one browser. Flagged for a follow-up change.
 
 ## Testing
 

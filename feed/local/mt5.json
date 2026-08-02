@@ -1,0 +1,38 @@
+{
+  "missing": [],
+  "published_at": "2026-08-02T08:06:02Z",
+  "quotes": {
+    "BTCUSD": {
+      "ask": 63430.02,
+      "bid": 63420.02,
+      "broker_symbol": "BTCUSDm",
+      "mid": 63425.02,
+      "spread": 10.0,
+      "tick_age_s": 1,
+      "tick_time": "2026-08-02T08:06:01Z"
+    },
+    "NAS100": {
+      "ask": 28231.6,
+      "bid": 28228.0,
+      "broker_symbol": "USTECm",
+      "mid": 28229.8,
+      "spread": 3.6,
+      "tick_age_s": 126663,
+      "tick_time": "2026-07-31T20:54:59Z"
+    },
+    "XAUUSD": {
+      "ask": 4044.072,
+      "bid": 4043.812,
+      "broker_symbol": "XAUUSDm",
+      "mid": 4043.942,
+      "spread": 0.26,
+      "tick_age_s": 126483,
+      "tick_time": "2026-07-31T20:57:59Z"
+    }
+  },
+  "terminal": {
+    "build": 6061,
+    "name": "MetaTrader 5 EXNESS",
+    "server": "Exness-MT5Real28"
+  }
+}

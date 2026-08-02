@@ -50,6 +50,13 @@ export function formatDuration(minutes: number): string {
   return m > 0 ? `${h}h ${m}m` : `${h}h`;
 }
 
+export function formatLot(value: number): string {
+  if (!isFinite(value) || value <= 0) return "—";
+  const abs = Math.abs(value);
+  const digits = abs < 1 ? 3 : abs < 10 ? 2 : 1;
+  return value.toFixed(digits);
+}
+
 export function formatNumber(value: number, digits = 2): string {
   return value.toLocaleString("en-US", {
     minimumFractionDigits: digits,
