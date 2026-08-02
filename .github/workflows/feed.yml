@@ -1,0 +1,92 @@
+name: Build feed bundle
+
+# Runs the ingestion pipeline and commits feed/latest/ back to this repo.
+#
+# Same-repo by design: GITHUB_TOKEN is injected automatically and scoped to this
+# repository, so there is no cross-repo PAT to provision, rotate, or leak.
+#
+# feed/latest/ is overwritten in place — the working tree holds a fixed handful of
+# files forever. The archive is this repo's own history:
+#   git log -p feed/latest/market.json      # the time series
+#   git show <sha>:feed/latest/market.json  # any past bundle
+
+on:
+  schedule:
+    # Session-anchored, not polling. Times are UTC.
+    - cron: '0 6 * * 1-5'    # Asia/overnight + calendar refresh
+    - cron: '30 11 * * 1-5'  # pre-NY, feeds First Sign
+    - cron: '0 13 * * 1-5'   # 30 min before the cash open
+    - cron: '50 13 * * 1-5'  # opening range exists
+    - cron: '15 20 * * 1-5'  # EOD snapshot
+  workflow_dispatch:
+    inputs:
+      instrument:
+        description: 'Limit to one instrument (blank = all)'
+        required: false
+        type: string
+
+# A late cron and a manual re-anchor must not race each other into the same commit.
+concurrency:
+  group: build-feed
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # No requirements.txt on purpose — Phase 1 is stdlib-only, so there is nothing
+      # to install and nothing to pin. Revisit when a source genuinely needs a client.
+      - name: Build bundle
+        env:
+          INSTRUMENT: ${{ inputs.instrument }}
+        run: |
+          set -euo pipefail
+          if [ -n "${INSTRUMENT:-}" ]; then
+            python -m pipeline.build --instrument "$INSTRUMENT"
+          else
+            python -m pipeline.build
+          fi
+
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+
+          git config user.name  "emet-feed[bot]"
+          git config user.email "emet-feed@users.noreply.github.com"
+
+          # Pathspec-limited, exactly like scripts/autopush-desk.sh: the pipeline
+          # commits feed/ and nothing else, so it can never sweep up desk output or
+          # in-flight app changes.
+          git add -- feed/latest
+
+          if git diff --cached --quiet -- feed/latest; then
+            echo "No change in feed/latest - nothing to commit."
+            exit 0
+          fi
+
+          grade=$(python -c "import json;print(json.load(open('feed/latest/manifest.json'))['desk_grade']['bundle'])")
+          git commit -m "feed: bundle $(date -u +%Y-%m-%dT%H:%MZ) [$grade]"
+
+          # The desk's Stop hook pushes scans/ and firstsign/ from the user's machine
+          # and can land between our fetch and our push. Rebase and retry rather than
+          # failing a run over a benign concurrent commit.
+          for attempt in 1 2 3; do
+            if git push; then
+              echo "Pushed on attempt $attempt."
+              exit 0
+            fi
+            echo "Push rejected (attempt $attempt) - rebasing onto origin."
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          done
+
+          echo "::error::Could not push feed bundle after 3 attempts."
+          exit 1

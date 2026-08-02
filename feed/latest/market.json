@@ -1,0 +1,67 @@
+{
+  "BTCUSD": {
+    "as_of": "2026-08-02T06:32:05Z",
+    "gap": 0.01,
+    "instrument": "BTCUSD",
+    "price": 63470.91,
+    "price_confidence": "VERIFIED",
+    "price_sources": [
+      "binance:BTCUSDT:ticker",
+      "deribit:btc_usd:index"
+    ],
+    "prior_session": {
+      "close": 62823.64,
+      "high": 63150.0,
+      "low": 62275.0
+    },
+    "session": {
+      "high": 63634.0,
+      "low": 62806.58,
+      "open": 62823.65,
+      "source": "binance:BTCUSDT:1d"
+    }
+  },
+  "NAS100": {
+    "as_of": "2026-07-31T20:00:00Z",
+    "gap": 340.6406,
+    "instrument": "NAS100",
+    "price": 28274.1953,
+    "price_confidence": "STALE",
+    "price_sources": [
+      "yahoo:^NDX:5m"
+    ],
+    "prior_session": {
+      "close": 28106.3496,
+      "high": 28168.4199,
+      "low": 27686.3691
+    },
+    "session": {
+      "high": 28606.7793,
+      "low": 27954.2402,
+      "open": 28446.9902,
+      "source": "yahoo:^NDX:1d"
+    }
+  },
+  "XAUUSD": {
+    "as_of": "2026-07-31T04:00:00Z",
+    "caveat": "bars are GC=F futures; anchor is spot. ATR/RSI/MACD transfer across the basis, but bar-derived LEVELS are futures levels \u2014 do not read them as spot",
+    "gap": 63.7998,
+    "instrument": "XAUUSD",
+    "price": 4107.0,
+    "price_confidence": "SINGLE",
+    "price_sources": [
+      "yahoo:GC=F:1d"
+    ],
+    "prior_session": {
+      "close": 4100.1001,
+      "high": 4118.5,
+      "low": 4028.5
+    },
+    "session": {
+      "high": 4170.7002,
+      "low": 4076.3999,
+      "open": 4163.8999,
+      "source": "yahoo:GC=F:1d"
+    }
+  }
+}
