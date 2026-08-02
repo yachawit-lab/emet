@@ -162,6 +162,30 @@ def load_dotenv(path: str = ".env.local") -> None:
         os.environ.setdefault(key.strip(), val.strip().strip("'\""))
 
 
+def refresh_mt5() -> None:
+    """Refresh feed/local/mt5.json from a live terminal, if there is one.
+
+    Called at the top of every build so the whole pipeline is ONE command. Two
+    reasons this beats a Task Scheduler job:
+
+      - the tick is read at build time, so it is seconds old rather than up to five
+        minutes old, which matters against a 30-minute freshness gate;
+      - there is no scheduled job to forget to set up, or to keep running on a
+        machine where the terminal is logged out.
+
+    Silent on failure by design. On a Linux runner the import fails; with the
+    terminal closed, initialize() fails. Both are ordinary states, not errors — the
+    absence of a fresh mt5.json is already reported downstream as a coverage gap, so
+    announcing it here would just be noise on every cloud run.
+    """
+    try:
+        from .publishers import mt5_local
+
+        mt5_local.publish()
+    except Exception:
+        pass
+
+
 class Run:
     """Accumulates one bundle: fields, provenance, and everything that went wrong."""
 
@@ -520,9 +544,13 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Build a feed bundle into feed/latest/.")
     ap.add_argument("--out", default="feed/latest", help="output directory")
     ap.add_argument("--instrument", action="append", help="limit to these (repeatable)")
+    ap.add_argument("--no-mt5", action="store_true",
+                    help="skip the local MT5 refresh (it is attempted by default)")
     args = ap.parse_args(argv)
 
     load_dotenv()
+    if not args.no_mt5:
+        refresh_mt5()
     run = Run()
     wanted = args.instrument or list(INSTRUMENTS)
 

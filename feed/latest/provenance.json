@@ -1,11 +1,11 @@
 {
   "BTCUSD": {
     "basis_vs_bars": {
-      "anchor": 63424.19,
-      "bar_close": 63492.62,
+      "anchor": 63431.9,
+      "bar_close": 63495.42,
       "bar_source": "binance:BTCUSDT:1d",
-      "basis": 68.43,
-      "basis_bps": 10.8
+      "basis": 63.52,
+      "basis_bps": 10.0
     },
     "market_hours": {
       "detail": "crypto trades continuously",
@@ -14,9 +14,9 @@
     },
     "price": {
       "age_s": -4,
-      "as_of": "2026-08-02T08:01:55Z",
+      "as_of": "2026-08-02T08:06:26Z",
       "confidence": "VERIFIED",
-      "note": "3 sources agree within 11.2 bps",
+      "note": "3 sources agree within 11.1 bps",
       "sources": [
         "binance:BTCUSDT:ticker",
         "deribit:btc_usd:index",
@@ -26,11 +26,11 @@
       "unit": "price"
     },
     "raw_hashes": {
-      "binance:BTCUSDT:1d": "d32da19132efd89ae67552a31b14a02cca6ebdd79a10a6569378ca121e7e8ba2",
-      "binance:BTCUSDT:5m": "2bb208307bef26affc87c53bcbd9c3fefc8ed579916697e0cc4875a8628072bc",
-      "binance:BTCUSDT:ticker": "6c87c96a62b48f49f13a14faf339d4a46d363c947a72a9c5b168bf6e5b2ff83a",
-      "deribit:btc_usd:index": "d882313923585dd952d9250648ed0e6463de58028652310a955aee5a2ad82536",
-      "mt5:BTCUSDm:tick": "e6b06ffd0694f6013605d201df8863b8fb3357849f9b3bb7ff3b178967ef73ba"
+      "binance:BTCUSDT:1d": "e761ff0b6df3d69d27f951f1ffe6c5d3b4b065f3b626df1a4f2bae53733742a3",
+      "binance:BTCUSDT:5m": "a8f75abf8b67e83c83ea2a47b782eabf83805cdfaae4380d51fbfd65e3d1a442",
+      "binance:BTCUSDT:ticker": "0fae45ffc561e46ca07acfa02c7a98e5a301ea8bc07adbb21fcc3a066fdaf316",
+      "deribit:btc_usd:index": "deed8b2fff2f7654c28ff64abf4fc22ef7fb77796e3aa3ad4c68090a95d74e78",
+      "mt5:BTCUSDm:tick": "bee2fbed8dd0805c0137fa21bdb3b3dceb3ee060afd3a9ee1a74143398a1b4d6"
     }
   },
   "NAS100": {
@@ -40,10 +40,10 @@
       "open": false
     },
     "price": {
-      "age_s": 129710,
+      "age_s": 129981,
       "as_of": "2026-07-31T20:00:00Z",
       "confidence": "STALE",
-      "note": "age 129710s exceeds intraday TTL",
+      "note": "age 129981s exceeds intraday TTL",
       "sources": [
         "yahoo:^NDX:5m"
       ],
@@ -51,16 +51,16 @@
       "unit": "price"
     },
     "raw_hashes": {
-      "yahoo:^NDX:1d": "0fc08d3ba699eb8952b9b5d0e85634ea1fb52f9cb29634e91f3da40bab147e6b",
-      "yahoo:^NDX:5m": "a3ef5c80f3b3b0d58ba30a7c751666b2247731e55986759f6a9455e44559269f"
+      "yahoo:^NDX:1d": "761968bb971b56d01e551804f908f9e1b3ddef550f15a0d2d9cc73d37dfe5781",
+      "yahoo:^NDX:5m": "f08ee25dafc8d252f2028b4947b3217036426e471b45f841e75accb1770dc1ec"
     }
   },
   "XAUUSD": {
     "basis_vs_bars": {
       "anchor": 4043.7,
-      "bar_close": 4042.7631,
+      "bar_close": 4042.7769,
       "bar_source": "twelvedata:XAU/USD:1day",
-      "basis": -0.9369,
+      "basis": -0.9231,
       "basis_bps": -2.3
     },
     "market_hours": {
@@ -69,8 +69,8 @@
       "open": false
     },
     "price": {
-      "age_s": 1,
-      "as_of": "2026-08-02T08:01:49Z",
+      "age_s": 2,
+      "as_of": "2026-08-02T08:06:19Z",
       "confidence": "SINGLE",
       "note": "single source \u2014 not corroborated",
       "sources": [
@@ -89,9 +89,9 @@
       "status": "ok"
     },
     "raw_hashes": {
-      "gold-api:XAU:spot": "f767139a758ef8642ff587f5eaf3d645c8784e5a6912c0c447834aef4713d3ea",
-      "twelvedata:XAU/USD:1day": "961c0417e81492ea6ca54d42dd4e401ab8f08c854ea7f07271a353f35456c2e5",
-      "yahoo:GC=F:5m": "7c43eb3754771a0a881a11ed69e4da7a904ef3780884e1c9f49c001abb045099"
+      "gold-api:XAU:spot": "335ce21114c4bec2cb8447c9d554dfbfe1932a8072e00631b6c11b83b1d81d70",
+      "twelvedata:XAU/USD:1day": "383d9429436e3ece42027fac0848e41767cf24950654cdf84c7efaadd983e511",
+      "yahoo:GC=F:5m": "1f9a169e6648e0eb962c9a083057d49fa2f24c62abe4cc518e8a807728480637"
     }
   }
 }
