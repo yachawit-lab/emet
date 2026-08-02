@@ -46,10 +46,16 @@ from .model import (
     iso,
     utcnow,
 )
-from .sources import crypto, goldapi, yahoo
+from .sources import crypto, goldapi, mt5_file, twelvedata, yahoo
 from .sources.http import FetchError
 
 SCHEMA_VERSION = 1
+
+# A quote older than this cannot contribute to an anchor, however well it agrees.
+# Without this filter a stale MT5 tick and a fresh web quote showing the same price
+# would pass agree() as VERIFIED, and check_freshness would then see only the newer
+# of the two timestamps — manufacturing confidence out of a dead source.
+QUOTE_MAX_AGE_S = 45 * 60
 
 # Each instrument declares where its ANCHOR comes from and, separately, where its
 # BARS come from. Keeping those independent is what lets gold anchor on spot while
@@ -58,7 +64,13 @@ INSTRUMENTS: dict[str, dict[str, Any]] = {
     "XAUUSD": {
         "market": sessions.METALS_FX,
         "intraday_window": sessions.UTC_DAY,
-        "quotes": [lambda: goldapi.fetch_quote("XAU")],
+        # Three genuinely independent spot reads: a broker execution feed, and two
+        # unrelated vendors. Measured 2026-08-02 within ~3 bps of each other.
+        "quotes": [
+            lambda: mt5_file.fetch_quote("XAUUSD"),
+            lambda: goldapi.fetch_quote("XAU"),
+            lambda: twelvedata.fetch_quote("XAU/USD"),
+        ],
         "bars": lambda: yahoo.fetch("GC=F", "1d", "6mo"),
         # range=1d returns a payload with no timestamps for GC=F; range=5d returns
         # ~1000 bars with volume. The window slice below cuts it back to one day.
@@ -86,10 +98,11 @@ INSTRUMENTS: dict[str, dict[str, Any]] = {
     "NAS100": {
         "market": sessions.US_EQUITY,
         "intraday_window": sessions.US_RTH,
-        # No independent keyless second source since Stooq went behind a bot-check,
-        # so this anchors SINGLE and says so. Adding a Twelve Data key would make it
-        # VERIFIED — that is the one place a free API key would buy real integrity.
-        "quotes": [],
+        # Twelve Data's free tier does NOT carry indices (NDX 404s), and the QQQ
+        # ratio route is deprecated by §2b. MT5's USTECm is the only independent
+        # second source we have for this instrument — so NAS100 reaches VERIFIED
+        # only while the local publisher is running.
+        "quotes": [lambda: mt5_file.fetch_quote("NAS100")],
         "bars": lambda: yahoo.fetch("^NDX", "1d", "6mo"),
         "intraday": lambda: yahoo.fetch("^NDX", "5m", "1d"),
         "bars_caveat": None,
@@ -99,9 +112,14 @@ INSTRUMENTS: dict[str, dict[str, Any]] = {
     "BTCUSD": {
         "market": sessions.CRYPTO,
         "intraday_window": sessions.ROLLING_24H,
-        # Two independent Tier-A exchange sources, no keys. The agreement gate is
-        # genuinely exercised here rather than trivially satisfied.
-        "quotes": [crypto.fetch_ticker, crypto.fetch_deribit_index],
+        # Three independent Tier-A venues. Twelve Data is deliberately NOT added
+        # here: its BTC/USD payload reports exchange "Binance", so it would be a
+        # second copy of a source we already read, dressed up as corroboration.
+        "quotes": [
+            crypto.fetch_ticker,
+            crypto.fetch_deribit_index,
+            lambda: mt5_file.fetch_quote("BTCUSD"),
+        ],
         "bars": lambda: crypto.fetch_klines("BTCUSDT", "1d", 200),
         "intraday": lambda: crypto.fetch_klines("BTCUSDT", "5m", 288),
         "bars_caveat": None,
@@ -143,8 +161,14 @@ def build_instrument(run: Run, name: str, cfg: dict) -> tuple[dict, dict, dict]:
     quotes: list[Quote] = []
     for i, fetcher in enumerate(cfg["quotes"]):
         q = _try(run, name, f"quote[{i}]", fetcher)
-        if q:
-            quotes.append(q)
+        if not q:
+            continue
+        age = (run.now - q.as_of).total_seconds()
+        if age > QUOTE_MAX_AGE_S:
+            # Dropped before agreement, not demoted after it — see QUOTE_MAX_AGE_S.
+            run.gap(name, "quote", f"{q.source} is {age / 60:.0f} min old — excluded from anchor")
+            continue
+        quotes.append(q)
 
     daily: Series | None = _try(run, name, "daily bars", cfg["bars"])
     intraday: Series | None = _try(run, name, "intraday bars", cfg["intraday"])

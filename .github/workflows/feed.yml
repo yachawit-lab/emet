@@ -48,6 +48,9 @@ jobs:
       - name: Build bundle
         env:
           INSTRUMENT: ${{ inputs.instrument }}
+          # Optional. Absent key degrades to a coverage gap, never a failed run —
+          # so a fork or a fresh clone still produces a bundle.
+          TWELVEDATA_API_KEY: ${{ secrets.TWELVEDATA_API_KEY }}
         run: |
           set -euo pipefail
           if [ -n "${INSTRUMENT:-}" ]; then

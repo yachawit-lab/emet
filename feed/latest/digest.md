@@ -1,11 +1,11 @@
-# Feed digest — 2026-08-02T07:20:23Z
+# Feed digest — 2026-08-02T07:32:50Z
 
-**Desk grade: RE_ANCHOR** (schema v1, run `20260802T072023Z`)
+**Desk grade: RE_ANCHOR** (schema v1, run `20260802T073250Z`)
 
 > Feed is corroboration. The live broker print remains primary truth (playbook §2b).
 
 ## XAUUSD — RE_ANCHOR
-- price: **4043.7** (STALE) as-of 2026-08-02T07:20:19Z
+- price: **4043.7** (STALE) as-of 2026-08-02T07:32:49Z
 - session: O 4163.8999 H 4170.7002 L 4076.3999 · gap +63.7998
 - prior: H 4118.5 L 4028.5 C 4100.1001
 - basis: bars (`yahoo:GC=F:1d`) run +63.3 (+156.5 bps) vs anchor
@@ -29,18 +29,21 @@
 - ⚠ US equities closed — weekend
 
 ## BTCUSD — SIZEABLE
-- price: **63489.59** (VERIFIED) as-of 2026-08-02T07:20:27Z
+- price: **63427.22** (VERIFIED) as-of 2026-08-02T07:32:53Z
 - session: O 62823.65 H 63634.0 L 62806.58 · gap +0.01
 - prior: H 63150.0 L 62275.0 C 62823.64
-- basis: bars (`binance:BTCUSDT:1d`) run +0.0 (+0.0 bps) vs anchor
-- ATR14: 1637.0658 pts (2.578%) · RSI14: 47.3
+- basis: bars (`binance:BTCUSDT:1d`) run +67.79 (+10.7 bps) vs anchor
+- ATR14: 1637.0658 pts (2.578%) · RSI14: 47.33
 - EMA: bearish stack (9<20<50)
-- MACD: bearish (hist -218.7136)
-- VWAP (rolling 24h): 63028.9078 — price above
+- MACD: bearish (hist -218.3677)
+- VWAP (rolling 24h): 63037.1636 — price above
 
 ## Data gaps
 
+- `XAUUSD` **quote** — mt5:XAUUSDm:tick is 2075 min old — excluded from anchor
+- `XAUUSD` **quote** — twelvedata:XAU/USD:quote is 633 min old — excluded from anchor
 - `XAUUSD` **price_freshness** — spot metals/FX closed — reopens Sunday 22:00 UTC
 - `XAUUSD` **opening_range_15m** — no session open to anchor to (utc_day)
+- `NAS100` **quote** — mt5:USTECm:tick is 2078 min old — excluded from anchor
 - `NAS100` **price_freshness** — US equities closed — weekend
 - `BTCUSD` **opening_range_15m** — no session open to anchor to (rolling_24h)

@@ -1,13 +1,14 @@
 {
   "BTCUSD": {
-    "as_of": "2026-08-02T07:20:27Z",
+    "as_of": "2026-08-02T07:32:53Z",
     "gap": 0.01,
     "instrument": "BTCUSD",
-    "price": 63489.59,
+    "price": 63427.22,
     "price_confidence": "VERIFIED",
     "price_sources": [
       "binance:BTCUSDT:ticker",
-      "deribit:btc_usd:index"
+      "deribit:btc_usd:index",
+      "mt5:BTCUSDm:tick"
     ],
     "prior_session": {
       "close": 62823.64,
@@ -43,7 +44,7 @@
     }
   },
   "XAUUSD": {
-    "as_of": "2026-08-02T07:20:19Z",
+    "as_of": "2026-08-02T07:32:49Z",
     "caveat": "bars are GC=F futures; anchor is spot. ATR/RSI/MACD transfer across the basis, but bar-derived LEVELS are futures levels \u2014 do not read them as spot",
     "gap": 63.7998,
     "instrument": "XAUUSD",
