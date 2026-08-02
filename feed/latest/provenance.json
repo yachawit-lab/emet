@@ -1,17 +1,17 @@
 {
   "BTCUSD": {
     "basis_vs_bars": {
-      "anchor": 63470.91,
-      "bar_close": 63470.91,
+      "anchor": 63494.01,
+      "bar_close": 63494.0,
       "bar_source": "binance:BTCUSDT:1d",
-      "basis": 0.0,
-      "basis_bps": 0.0
+      "basis": -0.01,
+      "basis_bps": -0.0
     },
     "price": {
-      "age_s": -1,
-      "as_of": "2026-08-02T06:32:05Z",
+      "age_s": -2,
+      "as_of": "2026-08-02T06:50:57Z",
       "confidence": "VERIFIED",
-      "note": "2 sources agree within 10.0 bps",
+      "note": "2 sources agree within 10.1 bps",
       "sources": [
         "binance:BTCUSDT:ticker",
         "deribit:btc_usd:index"
@@ -20,18 +20,18 @@
       "unit": "price"
     },
     "raw_hashes": {
-      "binance:BTCUSDT:1d": "42901e0f3b795a49165cb708aeeea42b40dbfbc762527b70cf464b94a739cff2",
-      "binance:BTCUSDT:5m": "6f47500c02ce6d9f7f8c9f6adbdbdcff48715d1434f1971f0d3560a908c19a19",
-      "binance:BTCUSDT:ticker": "ea0678b0cd1f4568f6833f956a02f2177c33d35266b1cf41a381360f4c4594e9",
-      "deribit:btc_usd:index": "e1c729c58c96d3a459ed23f2cfdac0a0cd67c2d65a6bda0b5e3c274e78da5378"
+      "binance:BTCUSDT:1d": "37d55000a76005eccb0b3f942e4af02a0dcb48d144cdf59be35872667868dea3",
+      "binance:BTCUSDT:5m": "3822f0eb45776ea0e4a16bd03b33f31fdd383ffef016e25b157e29845727893f",
+      "binance:BTCUSDT:ticker": "6f601331f3a109f286d899c3a653e7d4c7d3199576c27cd5b4672e9edd590e1d",
+      "deribit:btc_usd:index": "487684fc18e2ff27f5bcd614da3a67563db272fbda9979fc5c2f707b20414185"
     }
   },
   "NAS100": {
     "price": {
-      "age_s": 124324,
+      "age_s": 125455,
       "as_of": "2026-07-31T20:00:00Z",
       "confidence": "STALE",
-      "note": "age 124324s exceeds intraday TTL",
+      "note": "age 125455s exceeds intraday TTL",
       "sources": [
         "yahoo:^NDX:5m"
       ],
@@ -39,24 +39,32 @@
       "unit": "price"
     },
     "raw_hashes": {
-      "yahoo:^NDX:1d": "93dee499fcc531c8fb629beda9a73bf544b0e8d309a1c3392eea4236b7419050",
-      "yahoo:^NDX:5m": "32db39332cc0c472f9adc67e13df0217fe0938aae039e14cb29a0ee48f064862"
+      "yahoo:^NDX:1d": "064c3dc2375d4530d92d91dc42a012eaa60cb1297759f83f76a850a4502e75d3",
+      "yahoo:^NDX:5m": "e6575eb94529b9e12edff6f707efa645287b5f3973846093305ed0c34ead5b71"
     }
   },
   "XAUUSD": {
+    "basis_vs_bars": {
+      "anchor": 4043.7,
+      "bar_close": 4107.0,
+      "bar_source": "yahoo:GC=F:1d",
+      "basis": 63.3,
+      "basis_bps": 156.5
+    },
     "price": {
-      "age_s": 181924,
-      "as_of": "2026-07-31T04:00:00Z",
+      "age_s": 7,
+      "as_of": "2026-08-02T06:50:48Z",
       "confidence": "SINGLE",
       "note": "single source \u2014 not corroborated",
       "sources": [
-        "yahoo:GC=F:1d"
+        "gold-api:XAU:spot"
       ],
       "tier": null,
       "unit": "price"
     },
     "raw_hashes": {
-      "yahoo:GC=F:1d": "3714e942346ad920a778d1867bc0d79c75b2ef7796ba068b5aa15a19590a76b5"
+      "gold-api:XAU:spot": "7a5561137a731432c466754b9a1d4534856c0607bd294e4da00f21f0211329e6",
+      "yahoo:GC=F:1d": "4bb0fdfdfd5658e186475b1c8197b2a533cf5a7f56579dcc16cd10a369efedac"
     }
   }
 }

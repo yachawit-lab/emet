@@ -62,6 +62,10 @@ INSTRUMENTS: dict[str, dict[str, Any]] = {
             "bars are GC=F futures; anchor is spot. ATR/RSI/MACD transfer across the "
             "basis, but bar-derived LEVELS are futures levels — do not read them as spot"
         ),
+        # GC=F is a DIFFERENT INSTRUMENT trading ~156 bps above spot. If the spot
+        # quote is unavailable, gold has no anchor — falling back to these bars would
+        # publish a 63-point error wearing a spot label.
+        "bars_are_proxy": True,
         "tol_bps": 10.0,
         "bounds": (500.0, 10_000.0),
     },
@@ -141,6 +145,17 @@ def build_instrument(run: Run, name: str, cfg: dict) -> tuple[dict, dict, dict]:
         candidates = {q.source: q.price for q in quotes}
         anchor_as_of = max(q.as_of for q in quotes)
         kind = "intraday"
+    elif cfg.get("bars_are_proxy"):
+        # No quote, and the bars belong to a different instrument. There is no anchor.
+        # Refusing to publish one is the whole point — a proxy price with the real
+        # instrument's name on it is worse than an admitted gap.
+        why = (
+            f"anchor source unavailable and bars ({(intraday or daily).source}) are a "
+            "PROXY instrument, not this one — refusing to anchor on them"
+        )
+        run.gap(name, "price", why)
+        run.warn(f"{name}: {why}")
+        candidates, anchor_as_of, kind = {}, (intraday or daily).as_of, "daily"
     else:
         src = intraday or daily
         candidates = {src.source: src.last.close}

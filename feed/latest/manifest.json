@@ -1,17 +1,12 @@
 {
   "bytes": {
-    "digest.md": 1776,
-    "indicators.json": 1999,
-    "market.json": 1613,
-    "provenance.json": 1848
+    "digest.md": 1715,
+    "indicators.json": 1997,
+    "market.json": 1617,
+    "provenance.json": 2116
   },
-  "bytes_total": 7236,
+  "bytes_total": 7445,
   "coverage": [
-    {
-      "field": "quote[0]",
-      "instrument": "XAUUSD",
-      "reason": "https://api.gold-api.com/price/XAU -> URLError: <urlopen error [Errno 11001] getaddrinfo failed>"
-    },
     {
       "field": "intraday bars",
       "instrument": "XAUUSD",
@@ -28,16 +23,16 @@
     "per_instrument": {
       "BTCUSD": "SIZEABLE",
       "NAS100": "RE_ANCHOR",
-      "XAUUSD": "RE_ANCHOR"
+      "XAUUSD": "MAP_ONLY"
     }
   },
-  "generated_at": "2026-08-02T06:32:04Z",
+  "generated_at": "2026-08-02T06:50:55Z",
   "instruments": [
     "BTCUSD",
     "NAS100",
     "XAUUSD"
   ],
-  "run_id": "20260802T063204Z",
+  "run_id": "20260802T065055Z",
   "schema_version": 1,
   "warnings": []
 }

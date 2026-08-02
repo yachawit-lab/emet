@@ -1,31 +1,31 @@
 {
   "BTCUSD": {
     "atr14": 1637.0658,
-    "atr14_pct": 2.579,
+    "atr14_pct": 2.578,
     "derived_from": "binance:BTCUSDT:1d",
     "ema": {
-      "ema20": 64009.0132,
-      "ema50": 64734.4269,
-      "ema9": 63813.8148,
+      "ema20": 64011.2122,
+      "ema50": 64735.3324,
+      "ema9": 63818.4328,
       "state": "bearish stack (9<20<50)"
     },
     "instrument": "BTCUSD",
     "intraday_from": "binance:BTCUSDT:5m",
     "macd": {
-      "hist": -219.9057,
-      "macd": -95.4711,
-      "signal": 124.4346,
+      "hist": -218.4321,
+      "macd": -93.6292,
+      "signal": 124.803,
       "state": "bearish"
     },
     "opening_range_15m": {
       "bars": 3,
-      "high": 63076.92,
-      "low": 63057.44,
+      "high": 63083.74,
+      "low": 63080.63,
       "minutes": 15
     },
-    "rsi14": 47.21,
+    "rsi14": 47.32,
     "timeframe": "1d",
-    "vwap_session": 63023.4102,
+    "vwap_session": 63024.762,
     "vwap_state": "above"
   },
   "NAS100": {
