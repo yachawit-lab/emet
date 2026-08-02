@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -139,6 +140,26 @@ INSTRUMENTS: dict[str, dict[str, Any]] = {
         "bounds": (1_000.0, 500_000.0),
     },
 }
+
+
+def load_dotenv(path: str = ".env.local") -> None:
+    """Load KEY=VALUE lines into the environment if they aren't already set.
+
+    Without this, running `python -m pipeline.build` with no shell setup silently
+    loses TWELVEDATA_API_KEY — gold drops a source and falls back from real spot
+    bars to GC=F futures. It degrades honestly and says so in the coverage list, but
+    quietly wrong-by-default is a bad way to greet someone running this the first
+    time. Real environment variables always win, so CI is unaffected.
+    """
+    p = Path(path)
+    if not p.exists():
+        return
+    for line in p.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, val = line.partition("=")
+        os.environ.setdefault(key.strip(), val.strip().strip("'\""))
 
 
 class Run:
@@ -501,6 +522,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--instrument", action="append", help="limit to these (repeatable)")
     args = ap.parse_args(argv)
 
+    load_dotenv()
     run = Run()
     wanted = args.instrument or list(INSTRUMENTS)
 

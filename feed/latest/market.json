@@ -1,19 +1,19 @@
 {
   "BTCUSD": {
-    "as_of": "2026-08-02T07:47:16Z",
+    "as_of": "2026-08-02T08:01:55Z",
     "gap": 0.01,
     "instrument": "BTCUSD",
     "levels": {
       "nearest": {
         "resistance": {
-          "distance": 191.1067,
-          "distance_pct": 0.301,
+          "distance": 200.3567,
+          "distance_pct": 0.316,
           "level": "pivot_R2",
           "price": 63624.5467
         },
         "support": {
-          "distance": 209.3467,
-          "distance_pct": 0.33,
+          "distance": 200.0967,
+          "distance_pct": 0.315,
           "level": "pivot_R1",
           "price": 63224.0933
         }
@@ -48,7 +48,7 @@
         62742.47
       ]
     },
-    "price": 63433.44,
+    "price": 63424.19,
     "price_confidence": "VERIFIED",
     "price_sources": [
       "binance:BTCUSDT:ticker",
@@ -134,7 +134,7 @@
     }
   },
   "XAUUSD": {
-    "as_of": "2026-08-02T07:46:49Z",
+    "as_of": "2026-08-02T08:01:49Z",
     "gap": -0.0616,
     "instrument": "XAUUSD",
     "levels": {
