@@ -4,28 +4,27 @@
     "atr14_pct": 2.578,
     "derived_from": "binance:BTCUSDT:1d",
     "ema": {
-      "ema20": 64011.2122,
-      "ema50": 64735.3324,
-      "ema9": 63818.4328,
+      "ema20": 64010.7922,
+      "ema50": 64735.1595,
+      "ema9": 63817.5508,
       "state": "bearish stack (9<20<50)"
     },
     "instrument": "BTCUSD",
     "intraday_from": "binance:BTCUSDT:5m",
+    "intraday_window": {
+      "bars": 288,
+      "kind": "rolling_24h"
+    },
     "macd": {
-      "hist": -218.4321,
-      "macd": -93.6292,
-      "signal": 124.803,
+      "hist": -218.7136,
+      "macd": -93.981,
+      "signal": 124.7326,
       "state": "bearish"
     },
-    "opening_range_15m": {
-      "bars": 3,
-      "high": 63083.74,
-      "low": 63080.63,
-      "minutes": 15
-    },
-    "rsi14": 47.32,
+    "opening_range_15m": null,
+    "rsi14": 47.3,
     "timeframe": "1d",
-    "vwap_session": 63024.762,
+    "vwap_24h": 63028.9078,
     "vwap_state": "above"
   },
   "NAS100": {
@@ -40,6 +39,10 @@
     },
     "instrument": "NAS100",
     "intraday_from": "yahoo:^NDX:5m",
+    "intraday_window": {
+      "bars": 78,
+      "kind": "us_rth"
+    },
     "macd": {
       "hist": -105.7199,
       "macd": -411.7088,
@@ -69,13 +72,21 @@
       "state": "bearish stack (9<20<50)"
     },
     "instrument": "XAUUSD",
+    "intraday_from": "yahoo:GC=F:5m",
+    "intraday_window": {
+      "bars": 253,
+      "kind": "utc_day"
+    },
     "macd": {
       "hist": 17.0023,
       "macd": -31.966,
       "signal": -48.9683,
       "state": "bullish"
     },
+    "opening_range_15m": null,
     "rsi14": 49.97,
-    "timeframe": "1d"
+    "timeframe": "1d",
+    "vwap_state": "below",
+    "vwap_utc_day": 4108.9985
   }
 }

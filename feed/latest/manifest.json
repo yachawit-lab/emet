@@ -1,21 +1,31 @@
 {
   "bytes": {
-    "digest.md": 1715,
-    "indicators.json": 1997,
-    "market.json": 1617,
-    "provenance.json": 2116
+    "digest.md": 2065,
+    "indicators.json": 2271,
+    "market.json": 1616,
+    "provenance.json": 2869
   },
-  "bytes_total": 7445,
+  "bytes_total": 8821,
   "coverage": [
     {
-      "field": "intraday bars",
+      "field": "price_freshness",
       "instrument": "XAUUSD",
-      "reason": "yahoo: unexpected payload for GC=F: 'timestamp'"
+      "reason": "spot metals/FX closed \u2014 reopens Sunday 22:00 UTC"
     },
     {
-      "field": "vwap_session",
+      "field": "opening_range_15m",
       "instrument": "XAUUSD",
-      "reason": "no intraday source \u2014 VWAP and OR unavailable"
+      "reason": "no session open to anchor to (utc_day)"
+    },
+    {
+      "field": "price_freshness",
+      "instrument": "NAS100",
+      "reason": "US equities closed \u2014 weekend"
+    },
+    {
+      "field": "opening_range_15m",
+      "instrument": "BTCUSD",
+      "reason": "no session open to anchor to (rolling_24h)"
     }
   ],
   "desk_grade": {
@@ -23,16 +33,16 @@
     "per_instrument": {
       "BTCUSD": "SIZEABLE",
       "NAS100": "RE_ANCHOR",
-      "XAUUSD": "MAP_ONLY"
+      "XAUUSD": "RE_ANCHOR"
     }
   },
-  "generated_at": "2026-08-02T06:50:55Z",
+  "generated_at": "2026-08-02T07:20:23Z",
   "instruments": [
     "BTCUSD",
     "NAS100",
     "XAUUSD"
   ],
-  "run_id": "20260802T065055Z",
+  "run_id": "20260802T072023Z",
   "schema_version": 1,
   "warnings": []
 }

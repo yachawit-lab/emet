@@ -34,6 +34,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from . import indicators as ind
+from . import sessions
 from .gates import agree, check_freshness, reconcile_atr, sanity_bounds
 from .model import (
     DISPUTED,
@@ -55,9 +56,22 @@ SCHEMA_VERSION = 1
 # deriving its indicators from the only keyless gold bars that exist.
 INSTRUMENTS: dict[str, dict[str, Any]] = {
     "XAUUSD": {
+        "market": sessions.METALS_FX,
+        "intraday_window": sessions.UTC_DAY,
         "quotes": [lambda: goldapi.fetch_quote("XAU")],
         "bars": lambda: yahoo.fetch("GC=F", "1d", "6mo"),
-        "intraday": lambda: yahoo.fetch("GC=F", "5m", "1d"),
+        # range=1d returns a payload with no timestamps for GC=F; range=5d returns
+        # ~1000 bars with volume. The window slice below cuts it back to one day.
+        "intraday": lambda: yahoo.fetch("GC=F", "5m", "5d"),
+        # Tokenized gold on Binance — 24/7, Tier A, keyless. Used ONLY to detect a
+        # restamped spot quote, never as an anchor candidate: it carries its own
+        # premium, so treating it as a second read of spot would repeat the GC=F
+        # category error at smaller scale.
+        "proxy_check": {
+            "fetch": lambda: crypto.fetch_ticker("XAUTUSDT"),
+            "label": "XAUT (tokenized gold)",
+            "alarm_bps": 75.0,
+        },
         "bars_caveat": (
             "bars are GC=F futures; anchor is spot. ATR/RSI/MACD transfer across the "
             "basis, but bar-derived LEVELS are futures levels — do not read them as spot"
@@ -70,6 +84,8 @@ INSTRUMENTS: dict[str, dict[str, Any]] = {
         "bounds": (500.0, 10_000.0),
     },
     "NAS100": {
+        "market": sessions.US_EQUITY,
+        "intraday_window": sessions.US_RTH,
         # No independent keyless second source since Stooq went behind a bot-check,
         # so this anchors SINGLE and says so. Adding a Twelve Data key would make it
         # VERIFIED — that is the one place a free API key would buy real integrity.
@@ -81,6 +97,8 @@ INSTRUMENTS: dict[str, dict[str, Any]] = {
         "bounds": (5_000.0, 60_000.0),
     },
     "BTCUSD": {
+        "market": sessions.CRYPTO,
+        "intraday_window": sessions.ROLLING_24H,
         # Two independent Tier-A exchange sources, no keys. The agreement gate is
         # genuinely exercised here rather than trivially satisfied.
         "quotes": [crypto.fetch_ticker, crypto.fetch_deribit_index],
@@ -173,6 +191,46 @@ def build_instrument(run: Run, name: str, cfg: dict) -> tuple[dict, dict, dict]:
             price.confidence = MISSING
             price.note = msg
 
+    # --- market-hours gate ------------------------------------------------------
+    # A source can hand back a fresh timestamp on a market that is shut. The TTL
+    # check believes the timestamp; this does not.
+    market = cfg.get("market", sessions.CRYPTO)
+    open_now, why_closed = sessions.is_open(market, run.now)
+    prov["market_hours"] = {"market": market, "open": open_now, "detail": why_closed}
+    if not open_now and price.confidence not in (MISSING,):
+        price.confidence = STALE
+        price.note = f"{why_closed} — last price cannot be current regardless of its timestamp"
+        run.gap(name, "price_freshness", why_closed)
+
+    # --- proxy divergence check -------------------------------------------------
+    # Catches a restamped quote even while the market is open, which the calendar
+    # above cannot: if our anchor is frozen and the 24/7 proxy has moved, the spread
+    # blows out. A divergence means one of the two is wrong — so we flag, not correct.
+    if (pc := cfg.get("proxy_check")) and isinstance(price.value, (int, float)):
+        proxy = _try(run, name, "proxy check", pc["fetch"])
+        if proxy:
+            spread_bps = (proxy.price - price.value) / price.value * 10_000
+            status = "ok" if abs(spread_bps) <= pc["alarm_bps"] else "DIVERGENT"
+            prov["proxy_check"] = {
+                "label": pc["label"],
+                "source": proxy.source,
+                "proxy_price": round(proxy.price, 4),
+                "anchor": round(price.value, 4),
+                "spread_bps": round(spread_bps, 1),
+                "alarm_bps": pc["alarm_bps"],
+                "status": status,
+            }
+            if status == "DIVERGENT":
+                msg = (
+                    f"anchor {price.value:.2f} diverges {spread_bps:+.0f} bps from "
+                    f"{pc['label']} {proxy.price:.2f} (alarm {pc['alarm_bps']:.0f}) — "
+                    "one of the two is wrong; anchor is suspect"
+                )
+                run.warn(f"{name}: {msg}")
+                run.gap(name, "price", msg)
+                price.confidence = DISPUTED
+                price.note = msg
+
     # --- basis diagnostic -------------------------------------------------------
     # Recorded, never corrected for and never averaged away. A basis that suddenly
     # moves is a signal that one of the two feeds has broken.
@@ -248,17 +306,30 @@ def build_instrument(run: Run, name: str, cfg: dict) -> tuple[dict, dict, dict]:
             indicators["caveat"] = cfg["bars_caveat"]
 
     if intraday:
-        v = ind.vwap(intraday.bars)
-        indicators["vwap_session"] = v
+        window = cfg.get("intraday_window", sessions.ROLLING_24H)
+        bars_w, vwap_field, or_meaningful = sessions.latest_window(intraday.bars, window)
+
+        v = ind.vwap(bars_w)
+        indicators[vwap_field] = v
         indicators["vwap_state"] = (
-            None if v is None else ("above" if intraday.last.close > v else "below")
+            None if v is None else ("above" if bars_w[-1].close > v else "below")
         )
-        indicators["opening_range_15m"] = ind.opening_range(intraday.bars, 15)
         indicators["intraday_from"] = intraday.source
+        indicators["intraday_window"] = {"kind": window, "bars": len(bars_w)}
+
+        # An opening range is only meaningful against a real session open. Crypto has
+        # none, and futures run nearly around the clock — publishing a number anchored
+        # to wherever the fetch happened to start would be worse than publishing none.
+        if or_meaningful:
+            indicators["opening_range_15m"] = ind.opening_range(bars_w, 15)
+        else:
+            indicators["opening_range_15m"] = None
+            run.gap(name, "opening_range_15m", f"no session open to anchor to ({window})")
+
         if v is None:
-            run.gap(name, "vwap_session", "intraday bars carry no volume")
+            run.gap(name, vwap_field, "intraday bars carry no volume")
     else:
-        run.gap(name, "vwap_session", "no intraday source — VWAP and OR unavailable")
+        run.gap(name, "vwap", "no intraday source — VWAP and OR unavailable")
 
     prov["raw_hashes"] = {
         s.source: s.raw_sha256 for s in ([*quotes, daily, intraday]) if s
@@ -339,10 +410,25 @@ def render_digest(manifest: dict, markets: dict, indicators: dict, prov: dict) -
             L.append(f"- EMA: {i['ema']['state']}")
         if i.get("macd"):
             L.append(f"- MACD: {i['macd']['state']} (hist {i['macd']['hist']})")
-        if i.get("vwap_session"):
-            L.append(f"- VWAP: {i['vwap_session']} — price {i['vwap_state']}")
+        # The VWAP key names its own window, so read whichever one is present rather
+        # than assuming a session VWAP exists.
+        for vk in ("vwap_session", "vwap_utc_day", "vwap_24h"):
+            if i.get(vk):
+                label = {"vwap_session": "VWAP (session)",
+                         "vwap_utc_day": "VWAP (UTC day)",
+                         "vwap_24h": "VWAP (rolling 24h)"}[vk]
+                L.append(f"- {label}: {i[vk]} — price {i['vwap_state']}")
+                break
         if o := i.get("opening_range_15m"):
             L.append(f"- OR15: {o['low']}–{o['high']}")
+        if pc := prov.get(name, {}).get("proxy_check"):
+            L.append(
+                f"- proxy check: {pc['label']} {pc['proxy_price']} "
+                f"({pc['spread_bps']:+} bps) — {pc['status']}"
+            )
+        if mh := prov.get(name, {}).get("market_hours"):
+            if not mh["open"]:
+                L.append(f"- ⚠ {mh['detail']}")
         if c := m.get("caveat"):
             L.append(f"- ⚠ {c}")
         L.append("")
