@@ -1,11 +1,11 @@
 {
   "BTCUSD": {
     "basis_vs_bars": {
-      "anchor": 63427.22,
-      "bar_close": 63495.01,
+      "anchor": 63433.44,
+      "bar_close": 63495.25,
       "bar_source": "binance:BTCUSDT:1d",
-      "basis": 67.79,
-      "basis_bps": 10.7
+      "basis": 61.81,
+      "basis_bps": 9.7
     },
     "market_hours": {
       "detail": "crypto trades continuously",
@@ -14,7 +14,7 @@
     },
     "price": {
       "age_s": -3,
-      "as_of": "2026-08-02T07:32:53Z",
+      "as_of": "2026-08-02T07:47:16Z",
       "confidence": "VERIFIED",
       "note": "3 sources agree within 11.6 bps",
       "sources": [
@@ -26,10 +26,10 @@
       "unit": "price"
     },
     "raw_hashes": {
-      "binance:BTCUSDT:1d": "daa9bbfa6496c9c8a9a1cc8868bf33037402f4ee0325759c4f099bdf7079c5c0",
-      "binance:BTCUSDT:5m": "f6280c59bce54b303714f9e3b33fc5609cfe9440a7de244435a78e13b15cd5f9",
-      "binance:BTCUSDT:ticker": "b8371f86d84e3af19e78a0dc6801a6d3c47969b1620242c921f90b1a6f2185c3",
-      "deribit:btc_usd:index": "e0a58996a52652fb70b1c14d983e88ca01be754ebd086feca3052d8493b77815",
+      "binance:BTCUSDT:1d": "83dee933facff690110637be0548ee29bfbdefe60f726446a62548cc47241599",
+      "binance:BTCUSDT:5m": "5330e746eeeeed3fcf8cf28991a7ce9dc87bfd4d48d9dba862ed9a677213f557",
+      "binance:BTCUSDT:ticker": "15fe0f618cea72862399b5799b1fcaa72a7a728add52ac3501bd943cccba53f6",
+      "deribit:btc_usd:index": "4e411163d5f1782cba1c659501f5a1062fd6f16cffee9c5dc10583615d2e639b",
       "mt5:BTCUSDm:tick": "e6b06ffd0694f6013605d201df8863b8fb3357849f9b3bb7ff3b178967ef73ba"
     }
   },
@@ -40,10 +40,10 @@
       "open": false
     },
     "price": {
-      "age_s": 127970,
+      "age_s": 128833,
       "as_of": "2026-07-31T20:00:00Z",
       "confidence": "STALE",
-      "note": "age 127970s exceeds intraday TTL",
+      "note": "age 128833s exceeds intraday TTL",
       "sources": [
         "yahoo:^NDX:5m"
       ],
@@ -51,17 +51,17 @@
       "unit": "price"
     },
     "raw_hashes": {
-      "yahoo:^NDX:1d": "819e4bafbd1fe2fbcb5c4f8d404c7fed3748e427213620c5bfacf6e4ee684048",
-      "yahoo:^NDX:5m": "213ba90c551bbdd7c092be749e0a48a124a02e1eba3a5de730dae3a05618ed13"
+      "yahoo:^NDX:1d": "16b79e1492c5bf33e5f584f0546c45ab5532db736efd08e22d9d4a4ab3b24614",
+      "yahoo:^NDX:5m": "ba86e099dae3119cc09509a727a6b1ea9ebc59c2df05bc12299e1512d5e19dd7"
     }
   },
   "XAUUSD": {
     "basis_vs_bars": {
       "anchor": 4043.7,
-      "bar_close": 4107.0,
-      "bar_source": "yahoo:GC=F:1d",
-      "basis": 63.3,
-      "basis_bps": 156.5
+      "bar_close": 4042.7736,
+      "bar_source": "twelvedata:XAU/USD:1day",
+      "basis": -0.9264,
+      "basis_bps": -2.3
     },
     "market_hours": {
       "detail": "spot metals/FX closed \u2014 reopens Sunday 22:00 UTC",
@@ -69,8 +69,8 @@
       "open": false
     },
     "price": {
-      "age_s": 1,
-      "as_of": "2026-08-02T07:32:49Z",
+      "age_s": 24,
+      "as_of": "2026-08-02T07:46:49Z",
       "confidence": "SINGLE",
       "note": "single source \u2014 not corroborated",
       "sources": [
@@ -83,15 +83,15 @@
       "alarm_bps": 75.0,
       "anchor": 4043.7,
       "label": "XAUT (tokenized gold)",
-      "proxy_price": 4048.29,
+      "proxy_price": 4048.07,
       "source": "binance:XAUTUSDT:ticker",
-      "spread_bps": 11.4,
+      "spread_bps": 10.8,
       "status": "ok"
     },
     "raw_hashes": {
-      "gold-api:XAU:spot": "0d7ae994e379c1a8e7cbecdd5880e72e22ae6cfdff17c88a8d7395d1164fb77c",
-      "yahoo:GC=F:1d": "16e50c848baa09a2bf81b4573c3410b6ee19b87512f3441d1607286cca220a1f",
-      "yahoo:GC=F:5m": "7bbfdf2ff27a1736975f8ff31cec3963d3ce48ff9fc3cbffed85f67eacc72054"
+      "gold-api:XAU:spot": "47d50b5288bd196d6b57e6db0cb2d628e2c8285a66b0f41201e5b8cc1d8fb233",
+      "twelvedata:XAU/USD:1day": "e737d404418731cd1e1eeb668aba99ab7b8917e8b83f757a3bc5d96655aad5a4",
+      "yahoo:GC=F:5m": "56f1fa3825a7fd54a70fd2c6b9505d1c9b788c65ff3b863f0b9e424df858ca80"
     }
   }
 }

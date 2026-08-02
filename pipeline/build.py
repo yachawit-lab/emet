@@ -34,6 +34,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from . import indicators as ind
+from . import levels
 from . import sessions
 from .gates import agree, check_freshness, reconcile_atr, sanity_bounds
 from .model import (
@@ -46,7 +47,7 @@ from .model import (
     iso,
     utcnow,
 )
-from .sources import crypto, goldapi, mt5_file, twelvedata, yahoo
+from .sources import cnbc, crypto, goldapi, mt5_file, twelvedata, yahoo
 from .sources.http import FetchError
 
 SCHEMA_VERSION = 1
@@ -71,9 +72,23 @@ INSTRUMENTS: dict[str, dict[str, Any]] = {
             lambda: goldapi.fetch_quote("XAU"),
             lambda: twelvedata.fetch_quote("XAU/USD"),
         ],
-        "bars": lambda: yahoo.fetch("GC=F", "1d", "6mo"),
+        # Tried in order. Real spot bars win; the futures series is a labelled
+        # fallback so a Twelve Data outage degrades gold rather than deleting it.
+        # Stooq disappeared overnight behind a bot-check — one vendor holding every
+        # bar for an instrument is a failure waiting to happen.
+        "bars": [
+            {"fetch": lambda: twelvedata.fetch_series("XAU/USD", "1day", 200),
+             "proxy": False, "caveat": None},
+            {"fetch": lambda: yahoo.fetch("GC=F", "1d", "6mo"),
+             "proxy": True,
+             "caveat": ("FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/"
+                        "MACD transfer across the basis; bar-derived LEVELS do not — "
+                        "do not read them as spot levels")},
+        ],
         # range=1d returns a payload with no timestamps for GC=F; range=5d returns
         # ~1000 bars with volume. The window slice below cuts it back to one day.
+        # Still futures: Twelve Data carries no volume, so VWAP has nowhere else to
+        # come from.
         "intraday": lambda: yahoo.fetch("GC=F", "5m", "5d"),
         # Tokenized gold on Binance — 24/7, Tier A, keyless. Used ONLY to detect a
         # restamped spot quote, never as an anchor candidate: it carries its own
@@ -84,14 +99,8 @@ INSTRUMENTS: dict[str, dict[str, Any]] = {
             "label": "XAUT (tokenized gold)",
             "alarm_bps": 75.0,
         },
-        "bars_caveat": (
-            "bars are GC=F futures; anchor is spot. ATR/RSI/MACD transfer across the "
-            "basis, but bar-derived LEVELS are futures levels — do not read them as spot"
-        ),
-        # GC=F is a DIFFERENT INSTRUMENT trading ~156 bps above spot. If the spot
-        # quote is unavailable, gold has no anchor — falling back to these bars would
-        # publish a 63-point error wearing a spot label.
-        "bars_are_proxy": True,
+        # VWAP is futures-derived regardless of which daily bar source wins.
+        "intraday_caveat": "VWAP is derived from GC=F futures bars, not spot",
         "tol_bps": 10.0,
         "bounds": (500.0, 10_000.0),
     },
@@ -102,10 +111,13 @@ INSTRUMENTS: dict[str, dict[str, Any]] = {
         # ratio route is deprecated by §2b. MT5's USTECm is the only independent
         # second source we have for this instrument — so NAS100 reaches VERIFIED
         # only while the local publisher is running.
-        "quotes": [lambda: mt5_file.fetch_quote("NAS100")],
-        "bars": lambda: yahoo.fetch("^NDX", "1d", "6mo"),
+        "quotes": [
+            lambda: mt5_file.fetch_quote("NAS100"),
+            lambda: cnbc.fetch_quote("NDX"),
+        ],
+        "bars": [{"fetch": lambda: yahoo.fetch("^NDX", "1d", "6mo"),
+                  "proxy": False, "caveat": None}],
         "intraday": lambda: yahoo.fetch("^NDX", "5m", "1d"),
-        "bars_caveat": None,
         "tol_bps": 5.0,
         "bounds": (5_000.0, 60_000.0),
     },
@@ -120,9 +132,9 @@ INSTRUMENTS: dict[str, dict[str, Any]] = {
             crypto.fetch_deribit_index,
             lambda: mt5_file.fetch_quote("BTCUSD"),
         ],
-        "bars": lambda: crypto.fetch_klines("BTCUSDT", "1d", 200),
+        "bars": [{"fetch": lambda: crypto.fetch_klines("BTCUSDT", "1d", 200),
+                  "proxy": False, "caveat": None}],
         "intraday": lambda: crypto.fetch_klines("BTCUSDT", "5m", 288),
-        "bars_caveat": None,
         "tol_bps": 25.0,
         "bounds": (1_000.0, 500_000.0),
     },
@@ -170,7 +182,15 @@ def build_instrument(run: Run, name: str, cfg: dict) -> tuple[dict, dict, dict]:
             continue
         quotes.append(q)
 
-    daily: Series | None = _try(run, name, "daily bars", cfg["bars"])
+    daily: Series | None = None
+    bars_proxy, bars_caveat = False, None
+    for i, entry in enumerate(cfg["bars"]):
+        daily = _try(run, name, f"daily bars[{i}]", entry["fetch"])
+        if daily:
+            bars_proxy, bars_caveat = entry["proxy"], entry["caveat"]
+            if i > 0:
+                run.warn(f"{name}: primary bar source failed, using fallback {daily.source}")
+            break
     intraday: Series | None = _try(run, name, "intraday bars", cfg["intraday"])
 
     if not daily and not quotes:
@@ -187,7 +207,7 @@ def build_instrument(run: Run, name: str, cfg: dict) -> tuple[dict, dict, dict]:
         candidates = {q.source: q.price for q in quotes}
         anchor_as_of = max(q.as_of for q in quotes)
         kind = "intraday"
-    elif cfg.get("bars_are_proxy"):
+    elif bars_proxy:
         # No quote, and the bars belong to a different instrument. There is no anchor.
         # Refusing to publish one is the whole point — a proxy price with the real
         # instrument's name on it is worse than an admitted gap.
@@ -294,8 +314,12 @@ def build_instrument(run: Run, name: str, cfg: dict) -> tuple[dict, dict, dict]:
                 "close": round(prior.close, 4),
             }
             market["gap"] = round(bars[-1].open - prior.close, 4)
-        if cfg.get("bars_caveat"):
-            market["caveat"] = cfg["bars_caveat"]
+        # Levels from the full series — same bars, no extra requests. Without this
+        # market.json used 2 of 125 bars and market-agent would have had to go back
+        # to the web for the levels it exists to be given.
+        market["levels"] = levels.build(bars, price.value)
+        if bars_caveat:
+            market["caveat"] = bars_caveat
     else:
         run.gap(name, "session", "no daily bars — levels and indicators unavailable")
 
@@ -326,8 +350,8 @@ def build_instrument(run: Run, name: str, cfg: dict) -> tuple[dict, dict, dict]:
                 "derived_from": daily.source,
             }
         )
-        if cfg.get("bars_caveat"):
-            indicators["caveat"] = cfg["bars_caveat"]
+        if bars_caveat:
+            indicators["caveat"] = bars_caveat
 
     if intraday:
         window = cfg.get("intraday_window", sessions.ROLLING_24H)

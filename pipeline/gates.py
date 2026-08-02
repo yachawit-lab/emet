@@ -80,6 +80,38 @@ def agree(
             note=f"{len(live)} sources agree within {spread_bps:.1f} bps",
         )
 
+    # --- outlier rejection ------------------------------------------------------
+    # With three or more sources, a single deviant must not veto the rest. Judging
+    # the whole set by max-minus-min means one frozen feed drags everything to
+    # DISPUTED precisely when the market is moving and a read matters most — which
+    # is exactly when a restamping source (gold-api, measured) will deviate.
+    #
+    # So: cluster around the MEDIAN, which a lone outlier cannot move, and keep the
+    # agreeing group. Two independent sources still have to agree — one survivor is
+    # not a cluster, it is an opinion.
+    if len(live) >= 3:
+        inliers = {s: v for s, v in live.items() if abs(v - mid) / abs(mid) * 10_000 <= tol_bps}
+        outliers = {
+            s: (v - mid) / abs(mid) * 10_000 for s, v in live.items() if s not in inliers
+        }
+        if len(inliers) >= 2:
+            ivals = sorted(inliers.values())
+            imid = ivals[len(ivals) // 2]
+            ispread = (ivals[-1] - ivals[0]) / abs(imid) * 10_000
+            worst = max(outliers, key=lambda s: abs(outliers[s]))
+            return Field(
+                value=round(imid, 4),
+                confidence=VERIFIED,
+                unit=unit,
+                sources=sorted(inliers),
+                as_of=as_of,
+                excluded=outliers,
+                note=(
+                    f"{len(inliers)} of {len(live)} sources agree within {ispread:.1f} bps; "
+                    f"excluded {worst} at {outliers[worst]:+.0f} bps — check that feed"
+                ),
+            )
+
     return Field(
         value={s: round(v, 4) for s, v in sorted(live.items())},
         confidence=DISPUTED,

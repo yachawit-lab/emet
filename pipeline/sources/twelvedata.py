@@ -29,10 +29,17 @@ import json
 import os
 from datetime import datetime, timezone
 
-from ..model import TIER_B, Quote, sha256, utcnow
+from ..model import TIER_B, Bar, Quote, Series, sha256, utcnow
 from .http import FetchError, get
 
 QUOTE_URL = "https://api.twelvedata.com/quote?symbol={symbol}&apikey={key}"
+# timezone=UTC is not optional. Without it the datetime strings come back in an
+# exchange-local zone — XAU/USD bars were observed stamped ~10h ahead of UTC, which
+# would have made every bar look like it came from the future.
+SERIES_URL = (
+    "https://api.twelvedata.com/time_series?symbol={symbol}&interval={interval}"
+    "&outputsize={size}&timezone=UTC&apikey={key}"
+)
 
 
 def _key() -> str:
@@ -72,6 +79,62 @@ def fetch_quote(symbol: str = "XAU/USD") -> Quote:
         tier=TIER_B,
         price=price,
         as_of=as_of,
+        fetched_at=utcnow(),
+        raw_sha256=sha256(raw),
+    )
+
+
+def fetch_series(symbol: str = "XAU/USD", interval: str = "1day", size: int = 200) -> Series:
+    """OHLC bars. For gold this is REAL SPOT — the point of paying the key.
+
+    It replaces GC=F futures as the daily bar source, so gold's ATR/RSI/MACD/EMA and
+    its levels now describe the instrument actually being anchored rather than one
+    trading ~156 bps above it.
+
+    Carries no volume, so VWAP cannot come from here — that still needs GC=F.
+    """
+    raw = get(SERIES_URL.format(symbol=symbol, interval=interval, size=size, key=_key()))
+    try:
+        doc = json.loads(raw)
+    except json.JSONDecodeError as e:
+        raise FetchError(f"twelvedata: bad JSON for {symbol} {interval}: {e}") from e
+
+    if doc.get("status") == "error":
+        raise FetchError(f"twelvedata: {doc.get('message', 'unknown error')[:120]}")
+
+    values = doc.get("values")
+    if not values:
+        raise FetchError(f"twelvedata: no values for {symbol} {interval}")
+
+    bars: list[Bar] = []
+    for v in values:
+        try:
+            ts = v["datetime"]
+            dt = datetime.strptime(ts, "%Y-%m-%d %H:%M:%S" if " " in ts else "%Y-%m-%d")
+            bars.append(
+                Bar(
+                    ts=dt.replace(tzinfo=timezone.utc),
+                    open=float(v["open"]),
+                    high=float(v["high"]),
+                    low=float(v["low"]),
+                    close=float(v["close"]),
+                    volume=float(v["volume"]) if v.get("volume") else None,
+                )
+            )
+        except (KeyError, ValueError, TypeError):
+            continue
+
+    if not bars:
+        raise FetchError(f"twelvedata: no parseable bars for {symbol} {interval}")
+
+    # Twelve Data returns newest-first; every indicator here assumes chronological.
+    bars.sort(key=lambda b: b.ts)
+    return Series(
+        symbol=symbol,
+        source=f"twelvedata:{symbol}:{interval}",
+        tier=TIER_B,
+        interval=interval,
+        bars=bars,
         fetched_at=utcnow(),
         raw_sha256=sha256(raw),
     )

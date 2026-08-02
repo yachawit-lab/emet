@@ -1,21 +1,21 @@
 {
   "bytes": {
-    "digest.md": 2327,
-    "indicators.json": 2272,
-    "market.json": 1643,
-    "provenance.json": 2996
+    "digest.md": 2264,
+    "indicators.json": 2111,
+    "market.json": 4588,
+    "provenance.json": 3021
   },
-  "bytes_total": 9238,
+  "bytes_total": 11984,
   "coverage": [
     {
       "field": "quote",
       "instrument": "XAUUSD",
-      "reason": "mt5:XAUUSDm:tick is 2075 min old \u2014 excluded from anchor"
+      "reason": "mt5:XAUUSDm:tick is 2089 min old \u2014 excluded from anchor"
     },
     {
       "field": "quote",
       "instrument": "XAUUSD",
-      "reason": "twelvedata:XAU/USD:quote is 633 min old \u2014 excluded from anchor"
+      "reason": "twelvedata:XAU/USD:quote is 647 min old \u2014 excluded from anchor"
     },
     {
       "field": "price_freshness",
@@ -30,7 +30,12 @@
     {
       "field": "quote",
       "instrument": "NAS100",
-      "reason": "mt5:USTECm:tick is 2078 min old \u2014 excluded from anchor"
+      "reason": "mt5:USTECm:tick is 2092 min old \u2014 excluded from anchor"
+    },
+    {
+      "field": "quote",
+      "instrument": "NAS100",
+      "reason": "cnbc:NDX:quote is 2147 min old \u2014 excluded from anchor"
     },
     {
       "field": "price_freshness",
@@ -51,13 +56,13 @@
       "XAUUSD": "RE_ANCHOR"
     }
   },
-  "generated_at": "2026-08-02T07:32:50Z",
+  "generated_at": "2026-08-02T07:47:13Z",
   "instruments": [
     "BTCUSD",
     "NAS100",
     "XAUUSD"
   ],
-  "run_id": "20260802T073250Z",
+  "run_id": "20260802T074713Z",
   "schema_version": 1,
   "warnings": []
 }

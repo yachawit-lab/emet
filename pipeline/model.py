@@ -97,6 +97,10 @@ class Field:
     as_of: datetime | None = None
     tier: str | None = None
     note: str | None = None
+    # Sources rejected as outliers, with how far off they were. Never silently
+    # dropped: a source that starts deviating is a story, and it is usually the
+    # first sign that a feed has broken rather than that the market has moved.
+    excluded: dict[str, float] = dc_field(default_factory=dict)
 
     def to_value(self) -> Any:
         """The compact form the desk agents read."""
@@ -116,6 +120,8 @@ class Field:
             p["age_s"] = int((now - self.as_of).total_seconds())
         if self.note:
             p["note"] = self.note
+        if self.excluded:
+            p["excluded"] = {s: round(d, 1) for s, d in self.excluded.items()}
         return p
 
 
