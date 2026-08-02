@@ -74,8 +74,9 @@ genuinely quote different books and agreement means something.
   every symbol, with HTTP 200. It was the intended Tier-B second opinion.
 - **Yahoo has no spot-gold symbol.** `XAUUSD=X` and `XAU=X` both 404. Only `GC=F`
   (futures) and `GLD` (ETF) resolve, and the playbook rules out both as anchors.
-  Gold therefore anchors on gold-api.com spot and derives indicators from `GC=F` bars,
-  with the split recorded in `market.caveat`.
+  Gold's daily bars now come from Twelve Data `XAU/USD` (real spot); `GC=F` is a
+  labelled fallback, and remains the only intraday source with volume, so VWAP stays
+  futures-derived and says so.
 - **The gold basis is real and large.** Measured 2026-08-02: spot 4043.70 vs GC=F
   4107.00, **+156 bps**. It is published as `provenance.basis_vs_bars`, never corrected
   for and never averaged away — a basis that moves suddenly means a feed has broken.
