@@ -3,13 +3,13 @@
     "instrument": "BTCUSD"
   },
   "NAS100": {
-    "atr14": 614.364,
+    "atr14": 614.3637,
     "atr14_pct": 2.067,
     "derived_from": "yahoo:^NDX:1d",
     "ema": {
-      "ema20": 28953.9297,
-      "ema50": 28877.8082,
-      "ema9": 29065.4104,
+      "ema20": 28953.9295,
+      "ema50": 28877.8081,
+      "ema9": 29065.41,
       "state": "bullish stack (9>20>50)"
     },
     "instrument": "NAS100",
@@ -19,49 +19,49 @@
       "kind": "us_rth"
     },
     "macd": {
-      "hist": 181.9181,
-      "macd": 3.6179,
+      "hist": 181.918,
+      "macd": 3.6177,
       "signal": -178.3003,
       "state": "bullish"
     },
     "opening_range_15m": {
       "bars": 3,
       "high": 29701.5059,
-      "low": 29597.9062,
+      "low": 29595.2148,
       "minutes": 15
     },
     "rsi14": 57.25,
     "timeframe": "1d",
-    "vwap_session": 29636.3453,
+    "vwap_session": 29635.5048,
     "vwap_state": "above"
   },
   "XAUUSD": {
-    "atr14": 83.1241,
-    "atr14_pct": 1.889,
+    "atr14": 78.9267,
+    "atr14_pct": 1.793,
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "derived_from": "yahoo:GC=F:1d",
     "ema": {
-      "ema20": 4134.8222,
-      "ema50": 4209.9387,
-      "ema9": 4182.9441,
+      "ema20": 4155.0935,
+      "ema50": 4215.1918,
+      "ema9": 4217.1594,
       "state": "mixed / no clean stack"
     },
     "instrument": "XAUUSD",
     "intraday_from": "yahoo:GC=F:5m",
     "intraday_window": {
-      "bars": 253,
+      "bars": 128,
       "kind": "utc_day"
     },
     "macd": {
-      "hist": 42.0242,
-      "macd": 22.0862,
-      "signal": -19.938,
+      "hist": 45.6349,
+      "macd": 36.1321,
+      "signal": -9.5028,
       "state": "bullish"
     },
     "opening_range_15m": null,
-    "rsi14": 67.56,
+    "rsi14": 67.8,
     "timeframe": "1d",
     "vwap_state": "above",
-    "vwap_utc_day": 4383.7607
+    "vwap_utc_day": 4398.4536
   }
 }
