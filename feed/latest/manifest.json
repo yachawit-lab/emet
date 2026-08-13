@@ -1,16 +1,16 @@
 {
   "bytes": {
-    "digest.md": 2618,
-    "indicators.json": 1576,
-    "market.json": 3250,
-    "provenance.json": 2057
+    "digest.md": 2615,
+    "indicators.json": 1577,
+    "market.json": 3246,
+    "provenance.json": 2056
   },
-  "bytes_total": 9501,
+  "bytes_total": 9494,
   "coverage": [
     {
       "field": "quote",
       "instrument": "XAUUSD",
-      "reason": "mt5:XAUUSDm:tick is 17367 min old \u2014 excluded from anchor"
+      "reason": "mt5:XAUUSDm:tick is 18049 min old \u2014 excluded from anchor"
     },
     {
       "field": "quote[2]",
@@ -35,17 +35,17 @@
     {
       "field": "quote",
       "instrument": "NAS100",
-      "reason": "mt5:USTECm:tick is 17370 min old \u2014 excluded from anchor"
+      "reason": "mt5:USTECm:tick is 18052 min old \u2014 excluded from anchor"
     },
     {
       "field": "quote",
       "instrument": "NAS100",
-      "reason": "cnbc:NDX:quote is 69 min old \u2014 excluded from anchor"
+      "reason": "cnbc:NDX:quote is 827 min old \u2014 excluded from anchor"
     },
     {
       "field": "price_freshness",
       "instrument": "NAS100",
-      "reason": "US equities closed \u2014 outside 13:30\u201320:00 UTC (now 22:24)"
+      "reason": "US equities closed \u2014 outside 13:30\u201320:00 UTC (now 09:46)"
     },
     {
       "field": "quote[0]",
@@ -55,7 +55,7 @@
     {
       "field": "quote",
       "instrument": "BTCUSD",
-      "reason": "mt5:BTCUSDm:tick is 15259 min old \u2014 excluded from anchor"
+      "reason": "mt5:BTCUSDm:tick is 15941 min old \u2014 excluded from anchor"
     },
     {
       "field": "daily bars[0]",
@@ -86,13 +86,13 @@
       "XAUUSD": "MAP_ONLY"
     }
   },
-  "generated_at": "2026-08-12T22:24:37Z",
+  "generated_at": "2026-08-13T09:46:36Z",
   "instruments": [
     "BTCUSD",
     "NAS100",
     "XAUUSD"
   ],
-  "run_id": "20260812T222437Z",
+  "run_id": "20260813T094636Z",
   "schema_version": 1,
   "warnings": [
     "XAUUSD: primary bar source failed, using fallback yahoo:GC=F:1d"
