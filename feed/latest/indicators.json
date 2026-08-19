@@ -3,13 +3,13 @@
     "instrument": "BTCUSD"
   },
   "NAS100": {
-    "atr14": 500.371,
-    "atr14_pct": 1.668,
+    "atr14": 501.4841,
+    "atr14_pct": 1.7,
     "derived_from": "yahoo:^NDX:1d",
     "ema": {
-      "ema20": 29387.6661,
-      "ema50": 29079.1541,
-      "ema9": 29681.4806,
+      "ema20": 29377.9374,
+      "ema50": 29087.7179,
+      "ema9": 29644.0013,
       "state": "bullish stack (9>20>50)"
     },
     "instrument": "NAS100",
@@ -19,9 +19,9 @@
       "kind": "us_rth"
     },
     "macd": {
-      "hist": 162.2032,
-      "macd": 227.0251,
-      "signal": 64.822,
+      "hist": 111.9551,
+      "macd": 226.3903,
+      "signal": 114.4352,
       "state": "bullish"
     },
     "opening_range_15m": {
@@ -30,38 +30,38 @@
       "low": 29540.2891,
       "minutes": 15
     },
-    "rsi14": 58.42,
+    "rsi14": 52.2,
     "timeframe": "1d",
     "vwap_session": 29519.5543,
     "vwap_state": "below"
   },
   "XAUUSD": {
-    "atr14": 73.6178,
-    "atr14_pct": 1.674,
+    "atr14": 74.5678,
+    "atr14_pct": 1.688,
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "derived_from": "yahoo:GC=F:1d",
     "ema": {
-      "ema20": 4270.7955,
-      "ema50": 4256.8251,
-      "ema9": 4351.2498,
+      "ema20": 4272.6908,
+      "ema50": 4257.6055,
+      "ema9": 4355.2299,
       "state": "bullish stack (9>20>50)"
     },
     "instrument": "XAUUSD",
     "intraday_from": "yahoo:GC=F:5m",
     "intraday_window": {
-      "bars": 65,
+      "bars": 142,
       "kind": "utc_day"
     },
     "macd": {
-      "hist": 22.7313,
-      "macd": 75.5911,
-      "signal": 52.8598,
+      "hist": 24.0013,
+      "macd": 77.1786,
+      "signal": 53.1773,
       "state": "bullish"
     },
     "opening_range_15m": null,
-    "rsi14": 63.29,
+    "rsi14": 64.43,
     "timeframe": "1d",
     "vwap_state": "above",
-    "vwap_utc_day": 4398.4082
+    "vwap_utc_day": 4404.3818
   }
 }
