@@ -3,25 +3,25 @@
     "instrument": "BTCUSD"
   },
   "NAS100": {
-    "atr14": 474.3759,
-    "atr14_pct": 1.62,
+    "atr14": 481.8596,
+    "atr14_pct": 1.649,
     "derived_from": "yahoo:^NDX:1d",
     "ema": {
-      "ema20": 29389.0309,
-      "ema50": 29112.7801,
-      "ema9": 29536.4703,
+      "ema20": 29382.4067,
+      "ema50": 29107.5725,
+      "ema9": 29522.557,
       "state": "bullish stack (9>20>50)"
     },
     "instrument": "NAS100",
     "intraday_from": "yahoo:^NDX:5m",
     "intraday_window": {
-      "bars": 12,
+      "bars": 78,
       "kind": "us_rth"
     },
     "macd": {
-      "hist": 29.2954,
-      "macd": 146.7945,
-      "signal": 117.4991,
+      "hist": 24.8682,
+      "macd": 141.2188,
+      "signal": 116.3506,
       "state": "bullish"
     },
     "opening_range_15m": {
@@ -30,38 +30,38 @@
       "low": 29257.5371,
       "minutes": 15
     },
-    "rsi14": 49.26,
+    "rsi14": 48.44,
     "timeframe": "1d",
-    "vwap_session": 29294.6189,
+    "vwap_session": 29247.3422,
     "vwap_state": "below"
   },
   "XAUUSD": {
-    "atr14": 84.8326,
-    "atr14_pct": 1.867,
+    "atr14": 85.7827,
+    "atr14_pct": 1.875,
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "derived_from": "yahoo:GC=F:1d",
     "ema": {
-      "ema20": 4304.5273,
-      "ema50": 4271.5245,
-      "ema9": 4404.0959,
+      "ema20": 4307.4987,
+      "ema50": 4272.748,
+      "ema9": 4410.3359,
       "state": "bullish stack (9>20>50)"
     },
     "instrument": "XAUUSD",
     "intraday_from": "yahoo:GC=F:5m",
     "intraday_window": {
-      "bars": 172,
+      "bars": 249,
       "kind": "utc_day"
     },
     "macd": {
-      "hist": 30.9481,
-      "macd": 92.9784,
-      "signal": 62.0303,
+      "hist": 32.9393,
+      "macd": 95.4673,
+      "signal": 62.5281,
       "state": "bullish"
     },
     "opening_range_15m": null,
-    "rsi14": 70.41,
+    "rsi14": 71.65,
     "timeframe": "1d",
     "vwap_state": "above",
-    "vwap_utc_day": 4539.9968
+    "vwap_utc_day": 4554.2376
   }
 }
