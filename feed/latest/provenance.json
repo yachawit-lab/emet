@@ -1,32 +1,43 @@
 {
   "BTCUSD": {
+    "basis_vs_bars": {
+      "anchor": 76568.99,
+      "bar_close": 76569.0,
+      "bar_source": "binance:BTCUSDT:1d",
+      "basis": 0.01,
+      "basis_bps": 0.0
+    },
     "market_hours": {
       "detail": "crypto trades continuously",
       "market": "crypto",
       "open": true
     },
     "price": {
-      "age_s": -1,
-      "as_of": "2026-08-21T13:49:33Z",
-      "confidence": "SINGLE",
-      "note": "single source \u2014 not corroborated",
+      "age_s": -3,
+      "as_of": "2026-08-21T14:20:25Z",
+      "confidence": "VERIFIED",
+      "note": "2 sources agree within 3.7 bps",
       "sources": [
+        "binance:BTCUSDT:ticker",
         "deribit:btc_usd:index"
       ],
       "tier": null,
       "unit": "price"
     },
     "raw_hashes": {
-      "deribit:btc_usd:index": "b23ad94bad7ea847cdd6f5c8bb27dd82ffefdb54b9281790dc46fcfcf5978505"
+      "binance:BTCUSDT:1d": "d254faece96e0b863568059c47554255a350dc1c916a2b9dc309abe4857d2e4d",
+      "binance:BTCUSDT:5m": "873698c2bd76bc213524b7abd85302eef8e2a8abfcf78b2837dd676627da9bc9",
+      "binance:BTCUSDT:ticker": "8761f81eb13656feeee7e63b25ffa64c240aa8b29f14764b1f9f586040d74abb",
+      "deribit:btc_usd:index": "8e6b15ef689d169691549aa7cc14f7c68fc0173e50e9759a802890e02500d4d7"
     }
   },
   "NAS100": {
     "basis_vs_bars": {
-      "anchor": 29243.899,
-      "bar_close": 29243.8984,
+      "anchor": 29143.847,
+      "bar_close": 29144.8398,
       "bar_source": "yahoo:^NDX:1d",
-      "basis": -0.0006,
-      "basis_bps": -0.0
+      "basis": 0.9928,
+      "basis_bps": 0.3
     },
     "market_hours": {
       "detail": "US cash session open",
@@ -34,8 +45,8 @@
       "open": true
     },
     "price": {
-      "age_s": 0,
-      "as_of": "2026-08-21T13:49:32Z",
+      "age_s": -1,
+      "as_of": "2026-08-21T14:20:24Z",
       "confidence": "SINGLE",
       "note": "single source \u2014 not corroborated",
       "sources": [
@@ -45,18 +56,18 @@
       "unit": "price"
     },
     "raw_hashes": {
-      "cnbc:NDX:quote": "19a77ce3773c7f3438ba4aff3032c428ff5133cb6548c009bbc941a48004de6f",
-      "yahoo:^NDX:1d": "5a87afbe5288587847c5e3519b24340d07743eda5eb13926d4a1bdf7875506e9",
-      "yahoo:^NDX:5m": "e218a04208f28ad3c0e70fbe2b6fec124182aae8596f94433199bb054efd10a8"
+      "cnbc:NDX:quote": "067541060eba321f333a15b9db50454a0f9e57b8119ee43f5e40f01a803e9937",
+      "yahoo:^NDX:1d": "1a979d652681b97fe4901fc9c3f99ad990e1b3c2a93337d0dd506fe5715d25d2",
+      "yahoo:^NDX:5m": "9d8e0598fce3080b10260aebe9d9fae5d78e96093185d43b87a63b7603c6c9df"
     }
   },
   "XAUUSD": {
     "basis_vs_bars": {
-      "anchor": 4590.3999,
-      "bar_close": 4643.6001,
+      "anchor": 4591.2002,
+      "bar_close": 4642.2002,
       "bar_source": "yahoo:GC=F:1d",
-      "basis": 53.2002,
-      "basis_bps": 115.9
+      "basis": 51.0,
+      "basis_bps": 111.1
     },
     "market_hours": {
       "detail": "spot metals/FX session open",
@@ -64,8 +75,8 @@
       "open": true
     },
     "price": {
-      "age_s": 23,
-      "as_of": "2026-08-21T13:49:09Z",
+      "age_s": 13,
+      "as_of": "2026-08-21T14:20:09Z",
       "confidence": "SINGLE",
       "note": "single source \u2014 not corroborated",
       "sources": [
@@ -74,10 +85,19 @@
       "tier": null,
       "unit": "price"
     },
+    "proxy_check": {
+      "alarm_bps": 75.0,
+      "anchor": 4591.2002,
+      "label": "XAUT (tokenized gold)",
+      "proxy_price": 4569.15,
+      "source": "binance:XAUTUSDT:ticker",
+      "spread_bps": -48.0,
+      "status": "ok"
+    },
     "raw_hashes": {
-      "gold-api:XAU:spot": "dc053d8811fd22a1ed254a89587088a4b28867d4ab78096b3a153dafee505c39",
-      "yahoo:GC=F:1d": "c24f904234cf7b5d587aa025961b4cb6750da77f4e340e92acd0c7c31bb8684d",
-      "yahoo:GC=F:5m": "f10d3ee9d2ae56c97053e3894e180a09b85196457a392c6a029c089cda963c37"
+      "gold-api:XAU:spot": "97792fcc1473962fa2c0fa16dc02db2b5f9f9abb50085fb674d201da1086ce6c",
+      "yahoo:GC=F:1d": "be40fbab5e624405e65e7bad7be12ba251e3bed080eb10c575c08607b94dde52",
+      "yahoo:GC=F:5m": "34a169511237667b37ea86acb4687cfb6e81afd6b7eb6c0738b8abcbb95ae2f0"
     }
   }
 }
