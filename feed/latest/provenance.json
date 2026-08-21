@@ -1,52 +1,41 @@
 {
   "BTCUSD": {
-    "basis_vs_bars": {
-      "anchor": 76568.99,
-      "bar_close": 76569.0,
-      "bar_source": "binance:BTCUSDT:1d",
-      "basis": 0.01,
-      "basis_bps": 0.0
-    },
     "market_hours": {
       "detail": "crypto trades continuously",
       "market": "crypto",
       "open": true
     },
     "price": {
-      "age_s": -3,
-      "as_of": "2026-08-21T14:20:25Z",
-      "confidence": "VERIFIED",
-      "note": "2 sources agree within 3.7 bps",
+      "age_s": -1,
+      "as_of": "2026-08-21T20:41:45Z",
+      "confidence": "SINGLE",
+      "note": "single source \u2014 not corroborated",
       "sources": [
-        "binance:BTCUSDT:ticker",
         "deribit:btc_usd:index"
       ],
       "tier": null,
       "unit": "price"
     },
     "raw_hashes": {
-      "binance:BTCUSDT:1d": "d254faece96e0b863568059c47554255a350dc1c916a2b9dc309abe4857d2e4d",
-      "binance:BTCUSDT:5m": "873698c2bd76bc213524b7abd85302eef8e2a8abfcf78b2837dd676627da9bc9",
-      "binance:BTCUSDT:ticker": "8761f81eb13656feeee7e63b25ffa64c240aa8b29f14764b1f9f586040d74abb",
-      "deribit:btc_usd:index": "8e6b15ef689d169691549aa7cc14f7c68fc0173e50e9759a802890e02500d4d7"
+      "deribit:btc_usd:index": "1b4eed5bf0d706390ffee97a09ab67d85b6012c2dc309c9b6c1e114c3377fca4"
     }
   },
   "NAS100": {
     "basis_vs_bars": {
-      "anchor": 29143.847,
-      "bar_close": 29144.8398,
+      "anchor": 29308.859,
+      "bar_close": 29308.8594,
       "bar_source": "yahoo:^NDX:1d",
-      "basis": 0.9928,
-      "basis_bps": 0.3
+      "basis": 0.0004,
+      "basis_bps": 0.0
     },
     "market_hours": {
-      "detail": "US cash session open",
+      "detail": "US equities closed \u2014 outside 13:30\u201320:00 UTC (now 20:41)",
       "market": "us_equity",
-      "open": true
+      "open": false
     },
     "price": {
-      "age_s": -1,
-      "as_of": "2026-08-21T14:20:24Z",
+      "age_s": 0,
+      "as_of": "2026-08-21T20:41:45Z",
       "confidence": "SINGLE",
       "note": "single source \u2014 not corroborated",
       "sources": [
@@ -56,18 +45,18 @@
       "unit": "price"
     },
     "raw_hashes": {
-      "cnbc:NDX:quote": "067541060eba321f333a15b9db50454a0f9e57b8119ee43f5e40f01a803e9937",
-      "yahoo:^NDX:1d": "1a979d652681b97fe4901fc9c3f99ad990e1b3c2a93337d0dd506fe5715d25d2",
-      "yahoo:^NDX:5m": "9d8e0598fce3080b10260aebe9d9fae5d78e96093185d43b87a63b7603c6c9df"
+      "cnbc:NDX:quote": "dbf56fa3dafc5c45211e6f4ced5c124a4af00342f9c772d6e9751c92a71367f1",
+      "yahoo:^NDX:1d": "e6ce6dbfdea68a45157bcc65c320a09ee5f0b0eb0a77f24a92d0d2f1f65c712a",
+      "yahoo:^NDX:5m": "40be29b760d8f1bea51e02f500b9e58dfd1f04a46f8d6440c30070492c949436"
     }
   },
   "XAUUSD": {
     "basis_vs_bars": {
-      "anchor": 4591.2002,
-      "bar_close": 4642.2002,
+      "anchor": 4610.2998,
+      "bar_close": 4668.5,
       "bar_source": "yahoo:GC=F:1d",
-      "basis": 51.0,
-      "basis_bps": 111.1
+      "basis": 58.2002,
+      "basis_bps": 126.2
     },
     "market_hours": {
       "detail": "spot metals/FX session open",
@@ -75,8 +64,8 @@
       "open": true
     },
     "price": {
-      "age_s": 13,
-      "as_of": "2026-08-21T14:20:09Z",
+      "age_s": 4,
+      "as_of": "2026-08-21T20:41:40Z",
       "confidence": "SINGLE",
       "note": "single source \u2014 not corroborated",
       "sources": [
@@ -85,19 +74,10 @@
       "tier": null,
       "unit": "price"
     },
-    "proxy_check": {
-      "alarm_bps": 75.0,
-      "anchor": 4591.2002,
-      "label": "XAUT (tokenized gold)",
-      "proxy_price": 4569.15,
-      "source": "binance:XAUTUSDT:ticker",
-      "spread_bps": -48.0,
-      "status": "ok"
-    },
     "raw_hashes": {
-      "gold-api:XAU:spot": "97792fcc1473962fa2c0fa16dc02db2b5f9f9abb50085fb674d201da1086ce6c",
-      "yahoo:GC=F:1d": "be40fbab5e624405e65e7bad7be12ba251e3bed080eb10c575c08607b94dde52",
-      "yahoo:GC=F:5m": "34a169511237667b37ea86acb4687cfb6e81afd6b7eb6c0738b8abcbb95ae2f0"
+      "gold-api:XAU:spot": "4629441c890e0d5f74b1ac391ae56d3c01298d28705c4b278c1ae31ccc64eb80",
+      "yahoo:GC=F:1d": "dec13cbba0942ced42f65229c80b49ae7f9e91ef9cd490ca94a0aae61eae1324",
+      "yahoo:GC=F:5m": "c7afdf9f2315d0cde2b7115d20d4af4daa140f4cc1826efc02b30a0d2f28a8d6"
     }
   }
 }
