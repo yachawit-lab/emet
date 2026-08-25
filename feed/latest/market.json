@@ -1,30 +1,30 @@
 {
   "BTCUSD": {
-    "as_of": "2026-08-25T13:53:50Z",
+    "as_of": "2026-08-25T14:29:18Z",
     "instrument": "BTCUSD",
-    "price": 78281.25,
+    "price": 79249.74,
     "price_confidence": "SINGLE",
     "price_sources": [
       "deribit:btc_usd:index"
     ]
   },
   "NAS100": {
-    "as_of": "2026-08-25T13:53:49Z",
+    "as_of": "2026-08-25T14:29:17Z",
     "gap": 208.0,
     "instrument": "NAS100",
     "levels": {
       "nearest": {
         "resistance": {
-          "distance": 2.7499,
+          "distance": 2.5633,
           "distance_pct": 0.009,
-          "level": "pivot_R2",
-          "price": 29293.0469
+          "level": "pivot_R1",
+          "price": 29158.1133
         },
         "support": {
-          "distance": 98.0079,
-          "distance_pct": 0.335,
-          "level": "swing_high_1",
-          "price": 29192.2891
+          "distance": 138.5129,
+          "distance_pct": 0.475,
+          "level": "pivot_P",
+          "price": 29017.0371
         }
       },
       "pivots": {
@@ -57,7 +57,7 @@
         29427.6094
       ]
     },
-    "price": 29290.297,
+    "price": 29155.55,
     "price_confidence": "SINGLE",
     "price_sources": [
       "cnbc:NDX:quote"
@@ -69,29 +69,29 @@
     },
     "session": {
       "high": 29338.7734,
-      "low": 29231.1797,
+      "low": 29140.627,
       "open": 29231.1797,
       "source": "yahoo:^NDX:1d"
     }
   },
   "XAUUSD": {
-    "as_of": "2026-08-25T13:53:29Z",
+    "as_of": "2026-08-25T14:28:58Z",
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "gap": 69.3003,
     "instrument": "XAUUSD",
     "levels": {
       "nearest": {
         "resistance": {
-          "distance": 2.6335,
-          "distance_pct": 0.057,
-          "level": "pivot_S2",
-          "price": 4613.1335
+          "distance": 0.0667,
+          "distance_pct": 0.001,
+          "level": "pivot_S1",
+          "price": 4626.9666
         },
         "support": {
-          "distance": 19.3332,
-          "distance_pct": 0.419,
-          "level": "pivot_S3",
-          "price": 4591.1668
+          "distance": 13.7664,
+          "distance_pct": 0.298,
+          "level": "pivot_S2",
+          "price": 4613.1335
         }
       },
       "pivots": {
@@ -124,7 +124,7 @@
         4327.6001
       ]
     },
-    "price": 4610.5,
+    "price": 4626.8999,
     "price_confidence": "SINGLE",
     "price_sources": [
       "gold-api:XAU:spot"
@@ -136,7 +136,7 @@
     },
     "session": {
       "high": 4755.0,
-      "low": 4663.6001,
+      "low": 4660.5,
       "open": 4710.1001,
       "source": "yahoo:GC=F:1d"
     }
