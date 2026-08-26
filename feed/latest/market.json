@@ -1,8 +1,8 @@
 {
   "BTCUSD": {
-    "as_of": "2026-08-26T06:40:16Z",
+    "as_of": "2026-08-26T11:57:20Z",
     "instrument": "BTCUSD",
-    "price": 78867.49,
+    "price": 78544.06,
     "price_confidence": "SINGLE",
     "price_sources": [
       "deribit:btc_usd:index"
@@ -75,23 +75,23 @@
     }
   },
   "XAUUSD": {
-    "as_of": "2026-08-26T06:40:12Z",
+    "as_of": "2026-08-26T11:57:13Z",
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "gap": 77.6001,
     "instrument": "XAUUSD",
     "levels": {
       "nearest": {
         "resistance": {
-          "distance": 2.2336,
-          "distance_pct": 0.048,
-          "level": "pivot_P",
-          "price": 4634.1335
-        },
-        "support": {
-          "distance": 1.7331,
-          "distance_pct": 0.037,
+          "distance": 7.4666,
+          "distance_pct": 0.162,
           "level": "pivot_S1",
           "price": 4630.1668
+        },
+        "support": {
+          "distance": 0.4666,
+          "distance_pct": 0.01,
+          "level": "pivot_S2",
+          "price": 4622.2336
         }
       },
       "pivots": {
@@ -124,7 +124,7 @@
         4327.6001
       ]
     },
-    "price": 4631.8999,
+    "price": 4622.7002,
     "price_confidence": "SINGLE",
     "price_sources": [
       "gold-api:XAU:spot"
@@ -136,7 +136,7 @@
     },
     "session": {
       "high": 4730.8999,
-      "low": 4681.7998,
+      "low": 4668.7998,
       "open": 4715.7002,
       "source": "yahoo:GC=F:1d"
     }
