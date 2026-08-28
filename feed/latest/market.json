@@ -1,27 +1,27 @@
 {
   "BTCUSD": {
-    "as_of": "2026-08-28T21:28:26Z",
+    "as_of": "2026-08-28T22:57:27Z",
     "instrument": "BTCUSD",
-    "price": 77423.9,
+    "price": 77697.57,
     "price_confidence": "SINGLE",
     "price_sources": [
       "deribit:btc_usd:index"
     ]
   },
   "NAS100": {
-    "as_of": "2026-08-28T21:15:59Z",
+    "as_of": "2026-08-28T20:00:00Z",
     "gap": -95.6602,
     "instrument": "NAS100",
     "levels": {
       "nearest": {
         "resistance": {
-          "distance": 24.0492,
+          "distance": 24.0495,
           "distance_pct": 0.082,
           "level": "pivot_S1",
           "price": 29457.4772
         },
         "support": {
-          "distance": 5.8186,
+          "distance": 5.8183,
           "distance_pct": 0.02,
           "level": "swing_low_2",
           "price": 29427.6094
@@ -57,10 +57,10 @@
         28875.9609
       ]
     },
-    "price": 29433.428,
+    "price": 29433.4277,
     "price_confidence": "STALE",
     "price_sources": [
-      "cnbc:NDX:quote"
+      "yahoo:^NDX:5m"
     ],
     "prior_session": {
       "close": 29641.5605,
@@ -75,17 +75,17 @@
     }
   },
   "XAUUSD": {
-    "as_of": "2026-08-28T21:27:58Z",
+    "as_of": "2026-08-28T22:56:59Z",
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "gap": 46.2998,
     "instrument": "XAUUSD",
     "levels": {
       "nearest": {
         "resistance": {
-          "distance": 38.6001,
-          "distance_pct": 0.866,
+          "distance": 39.1001,
+          "distance_pct": 0.877,
           "level": "low_5d",
-          "price": 4495.0
+          "price": 4495.5
         },
         "support": {
           "distance": 11.3999,
@@ -108,7 +108,7 @@
         "high_5d": 4688.0,
         "high_60d": 4688.0,
         "low_20d": 4026.5,
-        "low_5d": 4495.0,
+        "low_5d": 4495.5,
         "low_60d": 3962.5
       },
       "swing_highs": [
@@ -136,7 +136,7 @@
     },
     "session": {
       "high": 4688.0,
-      "low": 4495.0,
+      "low": 4495.5,
       "open": 4656.0,
       "source": "yahoo:GC=F:1d"
     }

@@ -36,7 +36,7 @@
     "vwap_state": "below"
   },
   "XAUUSD": {
-    "atr14": 77.7163,
+    "atr14": 77.6806,
     "atr14_pct": 1.725,
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "derived_from": "yahoo:GC=F:1d",
@@ -49,7 +49,7 @@
     "instrument": "XAUUSD",
     "intraday_from": "yahoo:GC=F:5m",
     "intraday_window": {
-      "bars": 253,
+      "bars": 252,
       "kind": "utc_day"
     },
     "macd": {
@@ -62,6 +62,6 @@
     "rsi14": 59.14,
     "timeframe": "1d",
     "vwap_state": "below",
-    "vwap_utc_day": 4592.5164
+    "vwap_utc_day": 4596.0045
   }
 }
