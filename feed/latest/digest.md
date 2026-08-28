@@ -1,11 +1,11 @@
-# Feed digest — 2026-08-28T22:57:26Z
+# Feed digest — 2026-08-28T23:13:15Z
 
-**Desk grade: RE_ANCHOR** (schema v1, run `20260828T225726Z`)
+**Desk grade: RE_ANCHOR** (schema v1, run `20260828T231315Z`)
 
 > Feed is corroboration. The live broker print remains primary truth (playbook §2b).
 
 ## XAUUSD — RE_ANCHOR
-- price: **4456.3999** (STALE) as-of 2026-08-28T22:56:59Z
+- price: **4456.3999** (STALE) as-of 2026-08-28T23:12:59Z
 - session: O 4656.0 H 4688.0 L 4495.5 · gap +46.2998
 - prior: H 4609.7002 L 4609.7002 C 4609.7002
 - basis: bars (`yahoo:GC=F:1d`) run +47.7002 (+107.0 bps) vs anchor
@@ -25,24 +25,24 @@
 - MACD: bearish (hist -20.1484)
 - VWAP (session): 29528.324 — price below
 - OR15: 29518.7812–29645.0449
-- ⚠ US equities closed — outside 13:30–20:00 UTC (now 22:57)
+- ⚠ US equities closed — outside 13:30–20:00 UTC (now 23:13)
 
 ## BTCUSD — MAP_ONLY
-- price: **77697.57** (SINGLE) as-of 2026-08-28T22:57:27Z
+- price: **77725.51** (SINGLE) as-of 2026-08-28T23:13:16Z
 
 ## Data gaps
 
-- `XAUUSD` **quote** — mt5:XAUUSDm:tick is 40439 min old — excluded from anchor
+- `XAUUSD` **quote** — mt5:XAUUSDm:tick is 40455 min old — excluded from anchor
 - `XAUUSD` **quote[2]** — twelvedata: TWELVEDATA_API_KEY not set
 - `XAUUSD` **daily bars[0]** — twelvedata: TWELVEDATA_API_KEY not set
 - `XAUUSD` **price_freshness** — spot metals/FX closed — closed Friday 21:00 UTC
 - `XAUUSD` **proxy check** — https://api.binance.com/api/v3/ticker/price?symbol=XAUTUSDT -> HTTP 451
 - `XAUUSD` **opening_range_15m** — no session open to anchor to (utc_day)
-- `NAS100` **quote** — mt5:USTECm:tick is 40442 min old — excluded from anchor
-- `NAS100` **quote** — cnbc:NDX:quote is 101 min old — excluded from anchor
-- `NAS100` **price_freshness** — US equities closed — outside 13:30–20:00 UTC (now 22:57)
+- `NAS100` **quote** — mt5:USTECm:tick is 40458 min old — excluded from anchor
+- `NAS100` **quote** — cnbc:NDX:quote is 117 min old — excluded from anchor
+- `NAS100` **price_freshness** — US equities closed — outside 13:30–20:00 UTC (now 23:13)
 - `BTCUSD` **quote[0]** — https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT -> HTTP 451
-- `BTCUSD` **quote** — mt5:BTCUSDm:tick is 38331 min old — excluded from anchor
+- `BTCUSD` **quote** — mt5:BTCUSDm:tick is 38347 min old — excluded from anchor
 - `BTCUSD` **daily bars[0]** — https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=200 -> HTTP 451
 - `BTCUSD` **intraday bars** — https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=5m&limit=288 -> HTTP 451
 - `BTCUSD` **session** — no daily bars — levels and indicators unavailable
