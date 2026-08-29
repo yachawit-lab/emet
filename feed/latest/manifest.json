@@ -1,16 +1,16 @@
 {
   "bytes": {
-    "digest.md": 2754,
+    "digest.md": 2662,
     "indicators.json": 1576,
     "market.json": 3231,
-    "provenance.json": 2085
+    "provenance.json": 2036
   },
-  "bytes_total": 9646,
+  "bytes_total": 9505,
   "coverage": [
     {
       "field": "quote",
       "instrument": "XAUUSD",
-      "reason": "mt5:XAUUSDm:tick is 40455 min old \u2014 excluded from anchor"
+      "reason": "mt5:XAUUSDm:tick is 40671 min old \u2014 excluded from anchor"
     },
     {
       "field": "quote[2]",
@@ -25,7 +25,7 @@
     {
       "field": "price_freshness",
       "instrument": "XAUUSD",
-      "reason": "spot metals/FX closed \u2014 closed Friday 21:00 UTC"
+      "reason": "spot metals/FX closed \u2014 weekend"
     },
     {
       "field": "proxy check",
@@ -40,17 +40,17 @@
     {
       "field": "quote",
       "instrument": "NAS100",
-      "reason": "mt5:USTECm:tick is 40458 min old \u2014 excluded from anchor"
+      "reason": "mt5:USTECm:tick is 40674 min old \u2014 excluded from anchor"
     },
     {
       "field": "quote",
       "instrument": "NAS100",
-      "reason": "cnbc:NDX:quote is 117 min old \u2014 excluded from anchor"
+      "reason": "cnbc:NDX:quote is 333 min old \u2014 excluded from anchor"
     },
     {
       "field": "price_freshness",
       "instrument": "NAS100",
-      "reason": "US equities closed \u2014 outside 13:30\u201320:00 UTC (now 23:13)"
+      "reason": "US equities closed \u2014 weekend"
     },
     {
       "field": "quote[0]",
@@ -60,7 +60,7 @@
     {
       "field": "quote",
       "instrument": "BTCUSD",
-      "reason": "mt5:BTCUSDm:tick is 38347 min old \u2014 excluded from anchor"
+      "reason": "mt5:BTCUSDm:tick is 38563 min old \u2014 excluded from anchor"
     },
     {
       "field": "daily bars[0]",
@@ -91,13 +91,13 @@
       "XAUUSD": "RE_ANCHOR"
     }
   },
-  "generated_at": "2026-08-28T23:13:15Z",
+  "generated_at": "2026-08-29T02:48:55Z",
   "instruments": [
     "BTCUSD",
     "NAS100",
     "XAUUSD"
   ],
-  "run_id": "20260828T231315Z",
+  "run_id": "20260829T024855Z",
   "schema_version": 1,
   "warnings": [
     "XAUUSD: primary bar source failed, using fallback yahoo:GC=F:1d"
