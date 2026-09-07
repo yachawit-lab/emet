@@ -36,8 +36,8 @@
     "vwap_state": "above"
   },
   "XAUUSD": {
-    "atr14": 79.9071,
-    "atr14_pct": 1.785,
+    "atr14": 80.1642,
+    "atr14_pct": 1.791,
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "derived_from": "yahoo:GC=F:1d",
     "ema": {
