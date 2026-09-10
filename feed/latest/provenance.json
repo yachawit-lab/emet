@@ -6,8 +6,8 @@
       "open": true
     },
     "price": {
-      "age_s": -1,
-      "as_of": "2026-09-10T16:56:02Z",
+      "age_s": -2,
+      "as_of": "2026-09-10T17:16:42Z",
       "confidence": "SINGLE",
       "note": "single source \u2014 not corroborated",
       "sources": [
@@ -17,16 +17,16 @@
       "unit": "price"
     },
     "raw_hashes": {
-      "deribit:btc_usd:index": "d386f6113c25df5fb1f567e9e89938639edf0f3436723f7e2ea3504e8342d18a"
+      "deribit:btc_usd:index": "6a1e9d913b90a47bf598a6c19dac88d63bb3cbc867d110434442b68858d33fae"
     }
   },
   "NAS100": {
     "basis_vs_bars": {
-      "anchor": 29213.733,
-      "bar_close": 29213.2051,
+      "anchor": 29204.866,
+      "bar_close": 29205.4746,
       "bar_source": "yahoo:^NDX:1d",
-      "basis": -0.5279,
-      "basis_bps": -0.2
+      "basis": 0.6086,
+      "basis_bps": 0.2
     },
     "market_hours": {
       "detail": "US cash session open",
@@ -35,7 +35,7 @@
     },
     "price": {
       "age_s": 0,
-      "as_of": "2026-09-10T16:56:01Z",
+      "as_of": "2026-09-10T17:16:41Z",
       "confidence": "SINGLE",
       "note": "single source \u2014 not corroborated",
       "sources": [
@@ -45,18 +45,18 @@
       "unit": "price"
     },
     "raw_hashes": {
-      "cnbc:NDX:quote": "f7c81d715ee9f5da9861a251eba9cd86aa8727df43793d012f3afa554f90f010",
-      "yahoo:^NDX:1d": "420310550101231ec0699e48bf7c775ca3ae14db73db7b473831eec0647c6083",
-      "yahoo:^NDX:5m": "fc9a14f8215136c729d4fd00a9a6de6109ca51512f6e74181331a4c1a97c0f8f"
+      "cnbc:NDX:quote": "b655108c4fa6c70bb4e64ab996fbf0bf07e55b32652495691d9d293b232c5229",
+      "yahoo:^NDX:1d": "92585f99cd7ca7437d30b9530fd1ad775937e39f526ee14feec3079aa697a55b",
+      "yahoo:^NDX:5m": "fcc40490fe51fc56a3de9cce61d7a68192ef5f2c557a8017b8041c6b94f41d6b"
     }
   },
   "XAUUSD": {
     "basis_vs_bars": {
-      "anchor": 4362.7002,
-      "bar_close": 4402.7002,
+      "anchor": 4362.8999,
+      "bar_close": 4404.0,
       "bar_source": "yahoo:GC=F:1d",
-      "basis": 40.0,
-      "basis_bps": 91.7
+      "basis": 41.1001,
+      "basis_bps": 94.2
     },
     "market_hours": {
       "detail": "spot metals/FX session open",
@@ -64,8 +64,8 @@
       "open": true
     },
     "price": {
-      "age_s": 5,
-      "as_of": "2026-09-10T16:55:55Z",
+      "age_s": 15,
+      "as_of": "2026-09-10T17:16:25Z",
       "confidence": "SINGLE",
       "note": "single source \u2014 not corroborated",
       "sources": [
@@ -75,9 +75,9 @@
       "unit": "price"
     },
     "raw_hashes": {
-      "gold-api:XAU:spot": "20528c72c5cef2e060996bc516471853ead71a5b294e7cde6e27cc3d6e172b9d",
-      "yahoo:GC=F:1d": "32daa14322c19face6e53c67cff7e56792d835a9150f4c9acde07341c411716c",
-      "yahoo:GC=F:5m": "056db2e4018c80a289e978a59430dc423c886c265303eb8f4ea32a5178a682ff"
+      "gold-api:XAU:spot": "b3e1e7fa8640d35104caf1d0781bf59d0c6925459e00d30748cd92eed6a38606",
+      "yahoo:GC=F:1d": "40d30f88742cf2e2f37955d1dfb88279bbac0d05e96a97b7fc1db07b023c7086",
+      "yahoo:GC=F:5m": "2c06a389de3fe94cc85299aaa49f658f53e4f65b99bd3d0094857a95bf299a33"
     }
   }
 }
