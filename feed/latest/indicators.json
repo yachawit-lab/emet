@@ -1,92 +1,67 @@
 {
   "BTCUSD": {
-    "atr14": 2484.0249,
-    "atr14_pct": 2.972,
-    "derived_from": "binance:BTCUSDT:1d",
-    "ema": {
-      "ema20": 80310.4819,
-      "ema50": 76105.0476,
-      "ema9": 82487.8664,
-      "state": "bullish stack (9>20>50)"
-    },
-    "instrument": "BTCUSD",
-    "intraday_from": "binance:BTCUSDT:5m",
-    "intraday_window": {
-      "bars": 288,
-      "kind": "rolling_24h"
-    },
-    "macd": {
-      "hist": 446.0706,
-      "macd": 2420.0571,
-      "signal": 1973.9865,
-      "state": "bullish"
-    },
-    "opening_range_15m": null,
-    "rsi14": 62.6,
-    "timeframe": "1d",
-    "vwap_24h": 84304.9707,
-    "vwap_state": "below"
+    "instrument": "BTCUSD"
   },
   "NAS100": {
-    "atr14": 413.8449,
-    "atr14_pct": 1.358,
+    "atr14": 403.2935,
+    "atr14_pct": 1.332,
     "derived_from": "yahoo:^NDX:1d",
     "ema": {
-      "ema20": 29521.6405,
-      "ema50": 29284.4883,
-      "ema9": 29731.3676,
+      "ema20": 29592.8974,
+      "ema50": 29323.1294,
+      "ema9": 29839.0616,
       "state": "bullish stack (9>20>50)"
     },
     "instrument": "NAS100",
     "intraday_from": "yahoo:^NDX:5m",
     "intraday_window": {
-      "bars": 78,
+      "bars": 30,
       "kind": "us_rth"
     },
     "macd": {
-      "hist": 118.2816,
-      "macd": 169.4374,
-      "signal": 51.1558,
+      "hist": 124.7028,
+      "macd": 207.0343,
+      "signal": 82.3315,
       "state": "bullish"
     },
     "opening_range_15m": {
       "bars": 3,
-      "high": 30696.2754,
-      "low": 30611.4121,
+      "high": 30319.0508,
+      "low": 30208.3008,
       "minutes": 15
     },
-    "rsi14": 65.47,
+    "rsi14": 61.66,
     "timeframe": "1d",
-    "vwap_session": 30466.8069,
-    "vwap_state": "above"
+    "vwap_session": 30278.2999,
+    "vwap_state": "below"
   },
   "XAUUSD": {
     "atr14": 100.5046,
-    "atr14_pct": 2.341,
+    "atr14_pct": 2.344,
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "derived_from": "yahoo:GC=F:1d",
     "ema": {
-      "ema20": 4399.6858,
-      "ema50": 4384.8676,
-      "ema9": 4365.8615,
+      "ema20": 4399.1335,
+      "ema50": 4384.6402,
+      "ema9": 4364.7016,
       "state": "mixed / no clean stack"
     },
     "instrument": "XAUUSD",
     "intraday_from": "yahoo:GC=F:5m",
     "intraday_window": {
-      "bars": 132,
+      "bars": 190,
       "kind": "utc_day"
     },
     "macd": {
-      "hist": -21.1707,
-      "macd": -20.9213,
-      "signal": 0.2494,
+      "hist": -21.5408,
+      "macd": -21.3839,
+      "signal": 0.1569,
       "state": "bearish"
     },
     "opening_range_15m": null,
-    "rsi14": 40.0,
+    "rsi14": 39.6,
     "timeframe": "1d",
     "vwap_state": "below",
-    "vwap_utc_day": 4310.6737
+    "vwap_utc_day": 4305.9194
   }
 }
