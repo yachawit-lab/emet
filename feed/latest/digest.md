@@ -1,44 +1,46 @@
-# Feed digest — 2026-09-28T18:41:29Z
+# Feed digest — 2026-09-28T20:03:05Z
 
-**Desk grade: MAP_ONLY** (schema v1, run `20260928T184129Z`)
+**Desk grade: RE_ANCHOR** (schema v1, run `20260928T200305Z`)
 
 > Feed is corroboration. The live broker print remains primary truth (playbook §2b).
 
 ## XAUUSD — MAP_ONLY
-- price: **4137.7998** (SINGLE) as-of 2026-09-28T18:41:07Z
+- price: **4122.6001** (SINGLE) as-of 2026-09-28T20:02:36Z
 - session: O 4315.0 H 4315.6001 L 4143.1001 · gap -6.2002
 - prior: H 4351.6001 L 4289.2002 C 4321.2002
-- basis: bars (`yahoo:GC=F:1d`) run +29.9004 (+72.3 bps) vs anchor
-- ATR14: 103.517 pts (2.484%) · RSI14: 32.93
+- basis: bars (`yahoo:GC=F:1d`) run +36.1001 (+87.6 bps) vs anchor
+- ATR14: 103.517 pts (2.489%) · RSI14: 32.49
 - EMA: bearish stack (9<20<50)
-- MACD: bearish (hist -27.0221)
-- VWAP (UTC day): 4191.6798 — price below
+- MACD: bearish (hist -27.5965)
+- VWAP (UTC day): 4190.8256 — price below
 - ⚠ FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not — do not read them as spot levels
 
-## NAS100 — MAP_ONLY
-- price: **30317.511** (SINGLE) as-of 2026-09-28T18:41:30Z
+## NAS100 — RE_ANCHOR
+- price: **30276.81** (STALE) as-of 2026-09-28T20:03:06Z
 - session: O 30426.6328 H 30480.4004 L 30081.0625 · gap -181.498
 - prior: H 30667.5605 L 30413.5898 C 30608.1309
-- basis: bars (`yahoo:^NDX:1d`) run +0.0007 (+0.0 bps) vs anchor
-- ATR14: 400.444 pts (1.321%) · RSI14: 59.2
+- basis: bars (`yahoo:^NDX:1d`) run +0.0005 (+0.0 bps) vs anchor
+- ATR14: 400.444 pts (1.323%) · RSI14: 58.5
 - EMA: bullish stack (9>20>50)
-- MACD: bullish (hist 117.4763)
-- VWAP (session): 30294.0618 — price above
+- MACD: bullish (hist 114.8789)
+- VWAP (session): 30294.8045 — price below
 - OR15: 30328.5879–30472.7617
+- ⚠ US equities closed — outside 13:30–20:00 UTC (now 20:03)
 
 ## BTCUSD — MAP_ONLY
-- price: **83781.85** (SINGLE) as-of 2026-09-28T18:41:30Z
+- price: **83346.45** (SINGLE) as-of 2026-09-28T20:03:06Z
 
 ## Data gaps
 
-- `XAUUSD` **quote** — mt5:XAUUSDm:tick is 84824 min old — excluded from anchor
+- `XAUUSD` **quote** — mt5:XAUUSDm:tick is 84905 min old — excluded from anchor
 - `XAUUSD` **quote[2]** — twelvedata: TWELVEDATA_API_KEY not set
 - `XAUUSD` **daily bars[0]** — twelvedata: TWELVEDATA_API_KEY not set
 - `XAUUSD` **proxy check** — https://api.binance.com/api/v3/ticker/price?symbol=XAUTUSDT -> HTTP 451
 - `XAUUSD` **opening_range_15m** — no session open to anchor to (utc_day)
-- `NAS100` **quote** — mt5:USTECm:tick is 84827 min old — excluded from anchor
+- `NAS100` **quote** — mt5:USTECm:tick is 84908 min old — excluded from anchor
+- `NAS100` **price_freshness** — US equities closed — outside 13:30–20:00 UTC (now 20:03)
 - `BTCUSD` **quote[0]** — https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT -> HTTP 451
-- `BTCUSD` **quote** — mt5:BTCUSDm:tick is 82715 min old — excluded from anchor
+- `BTCUSD` **quote** — mt5:BTCUSDm:tick is 82797 min old — excluded from anchor
 - `BTCUSD` **daily bars[0]** — https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=200 -> HTTP 451
 - `BTCUSD` **intraday bars** — https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=5m&limit=288 -> HTTP 451
 - `BTCUSD` **session** — no daily bars — levels and indicators unavailable

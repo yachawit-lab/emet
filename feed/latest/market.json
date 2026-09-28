@@ -1,30 +1,30 @@
 {
   "BTCUSD": {
-    "as_of": "2026-09-28T18:41:30Z",
+    "as_of": "2026-09-28T20:03:06Z",
     "instrument": "BTCUSD",
-    "price": 83781.85,
+    "price": 83346.45,
     "price_confidence": "SINGLE",
     "price_sources": [
       "deribit:btc_usd:index"
     ]
   },
   "NAS100": {
-    "as_of": "2026-09-28T18:41:30Z",
+    "as_of": "2026-09-28T20:03:06Z",
     "gap": -181.498,
     "instrument": "NAS100",
     "levels": {
       "nearest": {
         "resistance": {
-          "distance": 141.116,
-          "distance_pct": 0.465,
-          "level": "pivot_S1",
-          "price": 30458.627
-        },
-        "support": {
-          "distance": 8.388,
-          "distance_pct": 0.028,
+          "distance": 32.313,
+          "distance_pct": 0.107,
           "level": "pivot_S2",
           "price": 30309.123
+        },
+        "support": {
+          "distance": 72.1538,
+          "distance_pct": 0.238,
+          "level": "pivot_S3",
+          "price": 30204.6562
         }
       },
       "pivots": {
@@ -57,8 +57,8 @@
         28753.2891
       ]
     },
-    "price": 30317.511,
-    "price_confidence": "SINGLE",
+    "price": 30276.81,
+    "price_confidence": "STALE",
     "price_sources": [
       "cnbc:NDX:quote"
     ],
@@ -75,21 +75,21 @@
     }
   },
   "XAUUSD": {
-    "as_of": "2026-09-28T18:41:07Z",
+    "as_of": "2026-09-28T20:02:36Z",
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "gap": -6.2002,
     "instrument": "XAUUSD",
     "levels": {
       "nearest": {
         "resistance": {
-          "distance": 5.3003,
-          "distance_pct": 0.128,
+          "distance": 20.5,
+          "distance_pct": 0.497,
           "level": "low_5d",
           "price": 4143.1001
         },
         "support": {
-          "distance": 174.7998,
-          "distance_pct": 4.224,
+          "distance": 159.6001,
+          "distance_pct": 3.871,
           "level": "low_60d",
           "price": 3963.0
         }
@@ -124,7 +124,7 @@
         4273.2998
       ]
     },
-    "price": 4137.7998,
+    "price": 4122.6001,
     "price_confidence": "SINGLE",
     "price_sources": [
       "gold-api:XAU:spot"
