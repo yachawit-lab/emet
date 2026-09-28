@@ -3,13 +3,13 @@
     "instrument": "BTCUSD"
   },
   "NAS100": {
-    "atr14": 390.7061,
+    "atr14": 390.706,
     "atr14_pct": 1.276,
     "derived_from": "yahoo:^NDX:1d",
     "ema": {
-      "ema20": 29800.0419,
-      "ema50": 29435.0896,
-      "ema9": 30147.7419,
+      "ema20": 29800.0416,
+      "ema50": 29435.0895,
+      "ema9": 30147.7411,
       "state": "bullish stack (9>20>50)"
     },
     "instrument": "NAS100",
@@ -19,9 +19,9 @@
       "kind": "us_rth"
     },
     "macd": {
-      "hist": 145.7195,
-      "macd": 310.9408,
-      "signal": 165.2213,
+      "hist": 145.7192,
+      "macd": 310.9404,
+      "signal": 165.2212,
       "state": "bullish"
     },
     "opening_range_15m": {
@@ -32,36 +32,36 @@
     },
     "rsi14": 64.72,
     "timeframe": "1d",
-    "vwap_session": 30578.4603,
+    "vwap_session": 30579.4421,
     "vwap_state": "above"
   },
   "XAUUSD": {
-    "atr14": 97.7822,
-    "atr14_pct": 2.263,
+    "atr14": 101.4027,
+    "atr14_pct": 2.425,
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "derived_from": "yahoo:GC=F:1d",
     "ema": {
-      "ema20": 4392.4979,
-      "ema50": 4382.8255,
-      "ema9": 4357.4452,
-      "state": "mixed / no clean stack"
+      "ema20": 4372.5497,
+      "ema50": 4376.2613,
+      "ema9": 4322.5482,
+      "state": "bearish stack (9<20<50)"
     },
     "instrument": "XAUUSD",
     "intraday_from": "yahoo:GC=F:5m",
     "intraday_window": {
-      "bars": 253,
+      "bars": 153,
       "kind": "utc_day"
     },
     "macd": {
-      "hist": -19.3408,
-      "macd": -23.8695,
-      "signal": -4.5287,
+      "hist": -26.084,
+      "macd": -37.1496,
+      "signal": -11.0655,
       "state": "bearish"
     },
     "opening_range_15m": null,
-    "rsi14": 42.72,
+    "rsi14": 33.67,
     "timeframe": "1d",
-    "vwap_state": "above",
-    "vwap_utc_day": 4320.3632
+    "vwap_state": "below",
+    "vwap_utc_day": 4211.228
   }
 }
