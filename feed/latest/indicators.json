@@ -4,24 +4,24 @@
   },
   "NAS100": {
     "atr14": 385.7202,
-    "atr14_pct": 1.27,
+    "atr14_pct": 1.271,
     "derived_from": "yahoo:^NDX:1d",
     "ema": {
-      "ema20": 29895.7534,
-      "ema50": 29508.0742,
-      "ema9": 30213.5748,
+      "ema20": 29892.4846,
+      "ema50": 29506.7283,
+      "ema9": 30206.7104,
       "state": "bullish stack (9>20>50)"
     },
     "instrument": "NAS100",
     "intraday_from": "yahoo:^NDX:5m",
     "intraday_window": {
-      "bars": 66,
+      "bars": 78,
       "kind": "us_rth"
     },
     "macd": {
-      "hist": 93.935,
-      "macd": 311.3397,
-      "signal": 217.4047,
+      "hist": 91.7446,
+      "macd": 308.6017,
+      "signal": 216.8571,
       "state": "bullish"
     },
     "opening_range_15m": {
@@ -30,38 +30,38 @@
       "low": 30272.707,
       "minutes": 15
     },
-    "rsi14": 59.72,
+    "rsi14": 59.3,
     "timeframe": "1d",
-    "vwap_session": 30329.4863,
+    "vwap_session": 30333.0355,
     "vwap_state": "above"
   },
   "XAUUSD": {
-    "atr14": 100.68,
-    "atr14_pct": 2.395,
+    "atr14": 99.6157,
+    "atr14_pct": 2.365,
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "derived_from": "yahoo:GC=F:1d",
     "ema": {
-      "ema20": 4355.2339,
-      "ema50": 4368.9549,
-      "ema9": 4296.4785,
+      "ema20": 4356.0149,
+      "ema50": 4369.2765,
+      "ema9": 4298.1186,
       "state": "bearish stack (9<20<50)"
     },
     "instrument": "XAUUSD",
     "intraday_from": "yahoo:GC=F:5m",
     "intraday_window": {
-      "bars": 226,
+      "bars": 272,
       "kind": "utc_day"
     },
     "macd": {
-      "hist": -28.0467,
-      "macd": -46.3472,
-      "signal": -18.3006,
+      "hist": -27.5234,
+      "macd": -45.6931,
+      "signal": -18.1697,
       "state": "bearish"
     },
     "opening_range_15m": null,
-    "rsi14": 36.56,
+    "rsi14": 37.35,
     "timeframe": "1d",
     "vwap_state": "above",
-    "vwap_utc_day": 4181.8434
+    "vwap_utc_day": 4183.8738
   }
 }
