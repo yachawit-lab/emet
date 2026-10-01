@@ -1,27 +1,27 @@
 {
   "BTCUSD": {
-    "as_of": "2026-10-01T18:44:46Z",
+    "as_of": "2026-10-01T19:03:54Z",
     "instrument": "BTCUSD",
-    "price": 84900.68,
+    "price": 84730.22,
     "price_confidence": "SINGLE",
     "price_sources": [
       "deribit:btc_usd:index"
     ]
   },
   "NAS100": {
-    "as_of": "2026-10-01T18:44:45Z",
+    "as_of": "2026-10-01T19:03:53Z",
     "gap": 125.1016,
     "instrument": "NAS100",
     "levels": {
       "nearest": {
         "resistance": {
-          "distance": 18.4211,
+          "distance": 18.4401,
           "distance_pct": 0.06,
           "level": "pivot_R1",
           "price": 30556.4661
         },
         "support": {
-          "distance": 55.5619,
+          "distance": 55.5429,
           "distance_pct": 0.182,
           "level": "pivot_P",
           "price": 30482.4831
@@ -57,7 +57,7 @@
         30081.0605
       ]
     },
-    "price": 30538.045,
+    "price": 30538.026,
     "price_confidence": "SINGLE",
     "price_sources": [
       "cnbc:NDX:quote"
@@ -75,21 +75,21 @@
     }
   },
   "XAUUSD": {
-    "as_of": "2026-10-01T18:44:20Z",
+    "as_of": "2026-10-01T19:03:50Z",
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "gap": 3.3999,
     "instrument": "XAUUSD",
     "levels": {
       "nearest": {
         "resistance": {
-          "distance": 26.3335,
-          "distance_pct": 0.63,
+          "distance": 28.5337,
+          "distance_pct": 0.683,
           "level": "pivot_P",
           "price": 4205.3335
         },
         "support": {
-          "distance": 19.4331,
-          "distance_pct": 0.465,
+          "distance": 17.2329,
+          "distance_pct": 0.413,
           "level": "pivot_S1",
           "price": 4159.5669
         }
@@ -124,7 +124,7 @@
         4143.1001
       ]
     },
-    "price": 4179.0,
+    "price": 4176.7998,
     "price_confidence": "SINGLE",
     "price_sources": [
       "gold-api:XAU:spot"
