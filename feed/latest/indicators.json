@@ -7,21 +7,21 @@
     "atr14_pct": 1.192,
     "derived_from": "yahoo:^NDX:1d",
     "ema": {
-      "ema20": 30348.3706,
-      "ema50": 29808.4063,
-      "ema9": 30759.6693,
+      "ema20": 30348.6081,
+      "ema50": 29808.5041,
+      "ema9": 30760.1681,
       "state": "bullish stack (9>20>50)"
     },
     "instrument": "NAS100",
     "intraday_from": "yahoo:^NDX:5m",
     "intraday_window": {
-      "bars": 54,
+      "bars": 70,
       "kind": "us_rth"
     },
     "macd": {
-      "hist": 90.5674,
-      "macd": 429.0158,
-      "signal": 338.4485,
+      "hist": 90.7265,
+      "macd": 429.2148,
+      "signal": 338.4883,
       "state": "bullish"
     },
     "opening_range_15m": {
@@ -30,38 +30,38 @@
       "low": 30906.6426,
       "minutes": 15
     },
-    "rsi14": 67.03,
+    "rsi14": 67.08,
     "timeframe": "1d",
-    "vwap_session": 31034.0743,
+    "vwap_session": 31050.3981,
     "vwap_state": "above"
   },
   "XAUUSD": {
     "atr14": 93.415,
-    "atr14_pct": 2.257,
+    "atr14_pct": 2.259,
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "derived_from": "yahoo:GC=F:1d",
     "ema": {
-      "ema20": 4270.2591,
-      "ema50": 4327.2601,
-      "ema9": 4199.5314,
+      "ema20": 4269.9067,
+      "ema50": 4327.115,
+      "ema9": 4198.7914,
       "state": "bearish stack (9<20<50)"
     },
     "instrument": "XAUUSD",
     "intraday_from": "yahoo:GC=F:5m",
     "intraday_window": {
-      "bars": 215,
+      "bars": 231,
       "kind": "utc_day"
     },
     "macd": {
-      "hist": -16.8882,
-      "macd": -70.0091,
-      "signal": -53.1209,
+      "hist": -17.1244,
+      "macd": -70.3043,
+      "signal": -53.1799,
       "state": "bearish"
     },
     "opening_range_15m": null,
-    "rsi14": 34.17,
+    "rsi14": 33.94,
     "timeframe": "1d",
-    "vwap_state": "above",
-    "vwap_utc_day": 4135.8487
+    "vwap_state": "below",
+    "vwap_utc_day": 4135.9193
   }
 }
