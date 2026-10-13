@@ -7,21 +7,21 @@
     "atr14_pct": 1.185,
     "derived_from": "yahoo:^NDX:1d",
     "ema": {
-      "ema20": 30466.7057,
-      "ema50": 29949.5681,
-      "ema9": 30719.533,
+      "ema20": 30467.1533,
+      "ema50": 29949.7524,
+      "ema9": 30720.4729,
       "state": "bullish stack (9>20>50)"
     },
     "instrument": "NAS100",
     "intraday_from": "yahoo:^NDX:5m",
     "intraday_window": {
-      "bars": 61,
+      "bars": 77,
       "kind": "us_rth"
     },
     "macd": {
-      "hist": -27.4412,
-      "macd": 328.3577,
-      "signal": 355.799,
+      "hist": -27.1413,
+      "macd": 328.7326,
+      "signal": 355.8739,
       "state": "bearish"
     },
     "opening_range_15m": {
@@ -30,38 +30,38 @@
       "low": 30377.0723,
       "minutes": 15
     },
-    "rsi14": 54.35,
+    "rsi14": 54.44,
     "timeframe": "1d",
-    "vwap_session": 30516.2852,
+    "vwap_session": 30520.2291,
     "vwap_state": "above"
   },
   "XAUUSD": {
     "atr14": 84.8641,
-    "atr14_pct": 2.029,
+    "atr14_pct": 2.026,
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "derived_from": "yahoo:GC=F:1d",
     "ema": {
-      "ema20": 4242.9502,
-      "ema50": 4307.0091,
-      "ema9": 4192.5802,
+      "ema20": 4243.5692,
+      "ema50": 4307.264,
+      "ema9": 4193.8802,
       "state": "bearish stack (9<20<50)"
     },
     "instrument": "XAUUSD",
     "intraday_from": "yahoo:GC=F:5m",
     "intraday_window": {
-      "bars": 221,
+      "bars": 237,
       "kind": "utc_day"
     },
     "macd": {
-      "hist": -0.2989,
-      "macd": -59.0817,
-      "signal": -58.7828,
-      "state": "bearish"
+      "hist": 0.1159,
+      "macd": -58.5631,
+      "signal": -58.6791,
+      "state": "bullish"
     },
     "opening_range_15m": null,
-    "rsi14": 40.64,
+    "rsi14": 41.18,
     "timeframe": "1d",
     "vwap_state": "below",
-    "vwap_utc_day": 4196.882
+    "vwap_utc_day": 4196.4205
   }
 }
