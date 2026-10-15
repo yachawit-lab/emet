@@ -7,21 +7,21 @@
     "atr14_pct": 1.333,
     "derived_from": "yahoo:^NDX:1d",
     "ema": {
-      "ema20": 30364.6213,
-      "ema50": 29950.5685,
-      "ema9": 30424.2908,
+      "ema20": 30365.4557,
+      "ema50": 29950.9121,
+      "ema9": 30426.0431,
       "state": "bullish stack (9>20>50)"
     },
     "instrument": "NAS100",
     "intraday_from": "yahoo:^NDX:5m",
     "intraday_window": {
-      "bars": 51,
+      "bars": 54,
       "kind": "us_rth"
     },
     "macd": {
-      "hist": -128.7897,
-      "macd": 173.5405,
-      "signal": 302.3303,
+      "hist": -128.2306,
+      "macd": 174.2395,
+      "signal": 302.4701,
       "state": "bearish"
     },
     "opening_range_15m": {
@@ -30,38 +30,38 @@
       "low": 29471.3066,
       "minutes": 15
     },
-    "rsi14": 43.1,
+    "rsi14": 43.22,
     "timeframe": "1d",
-    "vwap_session": 29660.5668,
+    "vwap_session": 29666.4379,
     "vwap_state": "above"
   },
   "XAUUSD": {
     "atr14": 85.5643,
-    "atr14_pct": 2.052,
+    "atr14_pct": 2.05,
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "derived_from": "yahoo:GC=F:1d",
     "ema": {
-      "ema20": 4224.0163,
-      "ema50": 4294.3657,
-      "ema9": 4173.9465,
+      "ema20": 4224.3972,
+      "ema50": 4294.5226,
+      "ema9": 4174.7465,
       "state": "bearish stack (9<20<50)"
     },
     "instrument": "XAUUSD",
     "intraday_from": "yahoo:GC=F:5m",
     "intraday_window": {
-      "bars": 212,
+      "bars": 214,
       "kind": "utc_day"
     },
     "macd": {
-      "hist": -0.0374,
-      "macd": -59.6865,
-      "signal": -59.6491,
-      "state": "bearish"
+      "hist": 0.2179,
+      "macd": -59.3674,
+      "signal": -59.5853,
+      "state": "bullish"
     },
     "opening_range_15m": null,
-    "rsi14": 42.28,
+    "rsi14": 42.69,
     "timeframe": "1d",
     "vwap_state": "above",
-    "vwap_utc_day": 4169.9335
+    "vwap_utc_day": 4169.9472
   }
 }
