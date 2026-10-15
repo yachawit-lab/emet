@@ -1,16 +1,16 @@
 {
   "bytes": {
-    "digest.md": 2438,
-    "indicators.json": 1580,
-    "market.json": 3260,
-    "provenance.json": 2275
+    "digest.md": 2615,
+    "indicators.json": 1576,
+    "market.json": 3258,
+    "provenance.json": 2054
   },
-  "bytes_total": 9553,
+  "bytes_total": 9503,
   "coverage": [
     {
       "field": "quote",
       "instrument": "XAUUSD",
-      "reason": "mt5:XAUUSDm:tick is 109256 min old \u2014 excluded from anchor"
+      "reason": "mt5:XAUUSDm:tick is 109566 min old \u2014 excluded from anchor"
     },
     {
       "field": "quote[2]",
@@ -35,7 +35,17 @@
     {
       "field": "quote",
       "instrument": "NAS100",
-      "reason": "mt5:USTECm:tick is 109259 min old \u2014 excluded from anchor"
+      "reason": "mt5:USTECm:tick is 109569 min old \u2014 excluded from anchor"
+    },
+    {
+      "field": "quote",
+      "instrument": "NAS100",
+      "reason": "cnbc:NDX:quote is 108 min old \u2014 excluded from anchor"
+    },
+    {
+      "field": "price_freshness",
+      "instrument": "NAS100",
+      "reason": "US equities closed \u2014 outside 13:30\u201320:00 UTC (now 23:04)"
     },
     {
       "field": "quote[0]",
@@ -45,7 +55,7 @@
     {
       "field": "quote",
       "instrument": "BTCUSD",
-      "reason": "mt5:BTCUSDm:tick is 107148 min old \u2014 excluded from anchor"
+      "reason": "mt5:BTCUSDm:tick is 107458 min old \u2014 excluded from anchor"
     },
     {
       "field": "daily bars[0]",
@@ -69,20 +79,20 @@
     }
   ],
   "desk_grade": {
-    "bundle": "MAP_ONLY",
+    "bundle": "RE_ANCHOR",
     "per_instrument": {
       "BTCUSD": "MAP_ONLY",
-      "NAS100": "MAP_ONLY",
+      "NAS100": "RE_ANCHOR",
       "XAUUSD": "MAP_ONLY"
     }
   },
-  "generated_at": "2026-10-15T17:53:43Z",
+  "generated_at": "2026-10-15T23:04:16Z",
   "instruments": [
     "BTCUSD",
     "NAS100",
     "XAUUSD"
   ],
-  "run_id": "20261015T175343Z",
+  "run_id": "20261015T230416Z",
   "schema_version": 1,
   "warnings": [
     "XAUUSD: primary bar source failed, using fallback yahoo:GC=F:1d"
