@@ -3,65 +3,65 @@
     "instrument": "BTCUSD"
   },
   "NAS100": {
-    "atr14": 473.0059,
-    "atr14_pct": 1.616,
+    "atr14": 470.6388,
+    "atr14_pct": 1.588,
     "derived_from": "yahoo:^NDX:1d",
     "ema": {
-      "ema20": 29830.2944,
-      "ema50": 29808.6299,
-      "ema9": 29513.9425,
+      "ema20": 29811.1294,
+      "ema50": 29801.588,
+      "ema9": 29536.9665,
       "state": "mixed / no clean stack"
     },
     "instrument": "NAS100",
     "intraday_from": "yahoo:^NDX:5m",
     "intraday_window": {
-      "bars": 78,
+      "bars": 41,
       "kind": "us_rth"
     },
     "macd": {
-      "hist": -185.199,
-      "macd": -224.9244,
-      "signal": -39.7254,
+      "hist": -135.9414,
+      "macd": -209.6522,
+      "signal": -73.7107,
       "state": "bearish"
     },
     "opening_range_15m": {
       "bars": 3,
-      "high": 29170.7539,
-      "low": 29012.5996,
+      "high": 29529.0332,
+      "low": 29389.7441,
       "minutes": 15
     },
-    "rsi14": 41.77,
+    "rsi14": 46.94,
     "timeframe": "1d",
-    "vwap_session": 29275.6697,
-    "vwap_state": "below"
+    "vwap_session": 29527.4986,
+    "vwap_state": "above"
   },
   "XAUUSD": {
-    "atr14": 74.4898,
-    "atr14_pct": 1.851,
+    "atr14": 77.3683,
+    "atr14_pct": 1.899,
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "derived_from": "yahoo:GC=F:1d",
     "ema": {
-      "ema20": 4145.7338,
-      "ema50": 4238.6075,
-      "ema9": 4084.8267,
+      "ema20": 4150.5148,
+      "ema50": 4240.5762,
+      "ema9": 4094.8667,
       "state": "bearish stack (9<20<50)"
     },
     "instrument": "XAUUSD",
     "intraday_from": "yahoo:GC=F:5m",
     "intraday_window": {
-      "bars": 138,
+      "bars": 201,
       "kind": "utc_day"
     },
     "macd": {
-      "hist": -7.9033,
-      "macd": -69.0054,
-      "signal": -61.1021,
+      "hist": -4.6996,
+      "macd": -65.0008,
+      "signal": -60.3012,
       "state": "bearish"
     },
     "opening_range_15m": null,
-    "rsi14": 33.69,
+    "rsi14": 39.11,
     "timeframe": "1d",
     "vwap_state": "above",
-    "vwap_utc_day": 4018.911
+    "vwap_utc_day": 4036.193
   }
 }
