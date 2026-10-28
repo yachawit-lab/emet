@@ -1,8 +1,8 @@
 {
   "BTCUSD": {
-    "as_of": "2026-10-27T23:47:01Z",
+    "as_of": "2026-10-28T12:01:15Z",
     "instrument": "BTCUSD",
-    "price": 80886.28,
+    "price": 81202.25,
     "price_confidence": "SINGLE",
     "price_sources": [
       "deribit:btc_usd:index"
@@ -69,39 +69,39 @@
     },
     "session": {
       "high": 29719.6309,
-      "low": 29340.5449,
+      "low": 29340.5391,
       "open": 29407.1895,
       "source": "yahoo:^NDX:1d"
     }
   },
   "XAUUSD": {
-    "as_of": "2026-10-27T23:46:55Z",
+    "as_of": "2026-10-28T12:00:56Z",
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
-    "gap": 35.2002,
+    "gap": -1.0,
     "instrument": "XAUUSD",
     "levels": {
       "nearest": {
         "resistance": {
-          "distance": 16.3334,
-          "distance_pct": 0.402,
-          "level": "pivot_R2",
-          "price": 4077.5334
+          "distance": 5.4668,
+          "distance_pct": 0.135,
+          "level": "pivot_P",
+          "price": 4051.8667
         },
         "support": {
-          "distance": 3.2334,
-          "distance_pct": 0.08,
-          "level": "pivot_R1",
-          "price": 4057.9666
+          "distance": 22.0664,
+          "distance_pct": 0.545,
+          "level": "pivot_S1",
+          "price": 4024.3335
         }
       },
       "pivots": {
-        "P": 4024.4333,
-        "R1": 4057.9666,
-        "R2": 4077.5334,
-        "R3": 4111.0667,
-        "S1": 4004.8665,
-        "S2": 3971.3332,
-        "S3": 3951.7664
+        "P": 4051.8667,
+        "R1": 4102.1333,
+        "R2": 4129.6665,
+        "R3": 4179.9331,
+        "S1": 4024.3335,
+        "S2": 3974.0669,
+        "S3": 3946.5337
       },
       "rolling": {
         "high_20d": 4259.0,
@@ -124,19 +124,19 @@
         3989.1001
       ]
     },
-    "price": 4061.2,
+    "price": 4046.3999,
     "price_confidence": "SINGLE",
     "price_sources": [
       "gold-api:XAU:spot"
     ],
     "prior_session": {
-      "close": 4038.3999,
-      "high": 4044.0,
-      "low": 3990.8999
+      "close": 4074.6001,
+      "high": 4079.3999,
+      "low": 4001.6001
     },
     "session": {
-      "high": 4077.8999,
-      "low": 4070.7,
+      "high": 4084.1001,
+      "low": 4040.5,
       "open": 4073.6001,
       "source": "yahoo:GC=F:1d"
     }
