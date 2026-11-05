@@ -4,12 +4,12 @@
   },
   "NAS100": {
     "atr14": 625.4891,
-    "atr14_pct": 2.343,
+    "atr14_pct": 2.338,
     "derived_from": "yahoo:^NDX:1d",
     "ema": {
-      "ema20": 29026.6642,
-      "ema50": 29456.3834,
-      "ema9": 28372.2536,
+      "ema20": 29032.1555,
+      "ema50": 29458.6445,
+      "ema9": 28383.7852,
       "state": "bearish stack (9<20<50)"
     },
     "instrument": "NAS100",
@@ -19,9 +19,9 @@
       "kind": "us_rth"
     },
     "macd": {
-      "hist": -249.9535,
-      "macd": -590.2725,
-      "signal": -340.3191,
+      "hist": -246.2738,
+      "macd": -585.673,
+      "signal": -339.3992,
       "state": "bearish"
     },
     "opening_range_15m": {
@@ -30,38 +30,38 @@
       "low": 27585.1543,
       "minutes": 15
     },
-    "rsi14": 27.29,
+    "rsi14": 27.55,
     "timeframe": "1d",
     "vwap_session": 27109.2147,
     "vwap_state": "below"
   },
   "XAUUSD": {
     "atr14": 87.02,
-    "atr14_pct": 2.114,
+    "atr14_pct": 2.115,
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "derived_from": "yahoo:GC=F:1d",
     "ema": {
-      "ema20": 4083.3987,
-      "ema50": 4185.5459,
-      "ema9": 4040.6562,
+      "ema20": 4083.1511,
+      "ema50": 4185.4439,
+      "ema9": 4040.1362,
       "state": "bearish stack (9<20<50)"
     },
     "instrument": "XAUUSD",
     "intraday_from": "yahoo:GC=F:5m",
     "intraday_window": {
-      "bars": 246,
+      "bars": 249,
       "kind": "utc_day"
     },
     "macd": {
-      "hist": 8.5338,
-      "macd": -59.7008,
-      "signal": -68.2346,
+      "hist": 8.3679,
+      "macd": -59.9082,
+      "signal": -68.2761,
       "state": "bullish"
     },
     "opening_range_15m": null,
-    "rsi14": 50.25,
+    "rsi14": 50.06,
     "timeframe": "1d",
     "vwap_state": "below",
-    "vwap_utc_day": 4122.8607
+    "vwap_utc_day": 4122.8067
   }
 }
