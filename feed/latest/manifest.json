@@ -1,16 +1,21 @@
 {
   "bytes": {
-    "digest.md": 2434,
-    "indicators.json": 1580,
-    "market.json": 3239,
-    "provenance.json": 2276
+    "digest.md": 2662,
+    "indicators.json": 1582,
+    "market.json": 2859,
+    "provenance.json": 1885
   },
-  "bytes_total": 9529,
+  "bytes_total": 8988,
   "coverage": [
     {
       "field": "quote",
       "instrument": "XAUUSD",
-      "reason": "mt5:XAUUSDm:tick is 140959 min old \u2014 excluded from anchor"
+      "reason": "mt5:XAUUSDm:tick is 141056 min old \u2014 excluded from anchor"
+    },
+    {
+      "field": "quote[1]",
+      "instrument": "XAUUSD",
+      "reason": "https://api.gold-api.com/price/XAU -> URLError: <urlopen error [Errno -2] Name or service not known>"
     },
     {
       "field": "quote[2]",
@@ -23,9 +28,9 @@
       "reason": "twelvedata: TWELVEDATA_API_KEY not set"
     },
     {
-      "field": "proxy check",
+      "field": "price",
       "instrument": "XAUUSD",
-      "reason": "https://api.binance.com/api/v3/ticker/price?symbol=XAUTUSDT -> HTTP 451"
+      "reason": "anchor source unavailable and bars (yahoo:GC=F:5m) are a PROXY instrument, not this one \u2014 refusing to anchor on them"
     },
     {
       "field": "opening_range_15m",
@@ -35,7 +40,7 @@
     {
       "field": "quote",
       "instrument": "NAS100",
-      "reason": "mt5:USTECm:tick is 140962 min old \u2014 excluded from anchor"
+      "reason": "mt5:USTECm:tick is 141059 min old \u2014 excluded from anchor"
     },
     {
       "field": "quote[0]",
@@ -45,7 +50,7 @@
     {
       "field": "quote",
       "instrument": "BTCUSD",
-      "reason": "mt5:BTCUSDm:tick is 138851 min old \u2014 excluded from anchor"
+      "reason": "mt5:BTCUSDm:tick is 138948 min old \u2014 excluded from anchor"
     },
     {
       "field": "daily bars[0]",
@@ -69,22 +74,23 @@
     }
   ],
   "desk_grade": {
-    "bundle": "MAP_ONLY",
+    "bundle": "RE_ANCHOR",
     "per_instrument": {
       "BTCUSD": "MAP_ONLY",
       "NAS100": "MAP_ONLY",
-      "XAUUSD": "MAP_ONLY"
+      "XAUUSD": "RE_ANCHOR"
     }
   },
-  "generated_at": "2026-11-06T18:16:58Z",
+  "generated_at": "2026-11-06T19:53:53Z",
   "instruments": [
     "BTCUSD",
     "NAS100",
     "XAUUSD"
   ],
-  "run_id": "20261106T181658Z",
+  "run_id": "20261106T195353Z",
   "schema_version": 1,
   "warnings": [
-    "XAUUSD: primary bar source failed, using fallback yahoo:GC=F:1d"
+    "XAUUSD: primary bar source failed, using fallback yahoo:GC=F:1d",
+    "XAUUSD: anchor source unavailable and bars (yahoo:GC=F:5m) are a PROXY instrument, not this one \u2014 refusing to anchor on them"
   ]
 }
