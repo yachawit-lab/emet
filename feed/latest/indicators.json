@@ -3,13 +3,13 @@
     "instrument": "BTCUSD"
   },
   "NAS100": {
-    "atr14": 625.4891,
-    "atr14_pct": 2.338,
+    "atr14": 626.3034,
+    "atr14_pct": 2.352,
     "derived_from": "yahoo:^NDX:1d",
     "ema": {
-      "ema20": 29032.1555,
-      "ema50": 29458.6445,
-      "ema9": 28383.7852,
+      "ema20": 29020.6901,
+      "ema50": 29456.0681,
+      "ema9": 28359.7071,
       "state": "bearish stack (9<20<50)"
     },
     "instrument": "NAS100",
@@ -19,9 +19,9 @@
       "kind": "us_rth"
     },
     "macd": {
-      "hist": -246.2738,
-      "macd": -585.673,
-      "signal": -339.3992,
+      "hist": -253.9469,
+      "macd": -595.2981,
+      "signal": -341.3513,
       "state": "bearish"
     },
     "opening_range_15m": {
@@ -30,38 +30,38 @@
       "low": 27585.1543,
       "minutes": 15
     },
-    "rsi14": 27.55,
+    "rsi14": 27.0,
     "timeframe": "1d",
     "vwap_session": 27109.2147,
     "vwap_state": "below"
   },
   "XAUUSD": {
-    "atr14": 87.02,
-    "atr14_pct": 2.115,
+    "atr14": 83.7557,
+    "atr14_pct": 2.04,
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "derived_from": "yahoo:GC=F:1d",
     "ema": {
-      "ema20": 4083.1511,
-      "ema50": 4185.4439,
-      "ema9": 4040.1362,
+      "ema20": 4082.3511,
+      "ema50": 4185.1145,
+      "ema9": 4038.4562,
       "state": "bearish stack (9<20<50)"
     },
     "instrument": "XAUUSD",
     "intraday_from": "yahoo:GC=F:5m",
     "intraday_window": {
-      "bars": 249,
+      "bars": 11,
       "kind": "utc_day"
     },
     "macd": {
-      "hist": 8.3679,
-      "macd": -59.9082,
-      "signal": -68.2761,
+      "hist": 7.8318,
+      "macd": -60.5783,
+      "signal": -68.4101,
       "state": "bullish"
     },
     "opening_range_15m": null,
-    "rsi14": 50.06,
+    "rsi14": 49.44,
     "timeframe": "1d",
     "vwap_state": "below",
-    "vwap_utc_day": 4122.8067
+    "vwap_utc_day": 4109.2035
   }
 }
