@@ -3,13 +3,13 @@
     "instrument": "BTCUSD"
   },
   "NAS100": {
-    "atr14": 630.5875,
-    "atr14_pct": 2.329,
+    "atr14": 630.5888,
+    "atr14_pct": 2.336,
     "derived_from": "yahoo:^NDX:1d",
     "ema": {
-      "ema20": 28835.3806,
-      "ema50": 29362.6905,
-      "ema9": 28102.7539,
+      "ema20": 28827.2906,
+      "ema50": 29360.9986,
+      "ema9": 28085.7644,
       "state": "bearish stack (9<20<50)"
     },
     "instrument": "NAS100",
@@ -19,9 +19,9 @@
       "kind": "us_rth"
     },
     "macd": {
-      "hist": -265.3918,
-      "macd": -673.0911,
-      "signal": -407.6992,
+      "hist": -270.8076,
+      "macd": -679.879,
+      "signal": -409.0714,
       "state": "bearish"
     },
     "opening_range_15m": {
@@ -30,38 +30,38 @@
       "low": 26953.0957,
       "minutes": 15
     },
-    "rsi14": 32.35,
+    "rsi14": 31.39,
     "timeframe": "1d",
     "vwap_session": 27093.2715,
     "vwap_state": "above"
   },
   "XAUUSD": {
-    "atr14": 86.4603,
-    "atr14_pct": 2.123,
+    "atr14": 86.5603,
+    "atr14_pct": 2.122,
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "derived_from": "yahoo:GC=F:1d",
     "ema": {
-      "ema20": 4082.0262,
-      "ema50": 4181.0426,
-      "ema9": 4046.385,
+      "ema20": 4082.769,
+      "ema50": 4181.3485,
+      "ema9": 4047.945,
       "state": "bearish stack (9<20<50)"
     },
     "instrument": "XAUUSD",
     "intraday_from": "yahoo:GC=F:5m",
     "intraday_window": {
-      "bars": 241,
+      "bars": 265,
       "kind": "utc_day"
     },
     "macd": {
-      "hist": 11.6704,
-      "macd": -53.7024,
-      "signal": -65.3728,
+      "hist": 12.1682,
+      "macd": -53.0802,
+      "signal": -65.2483,
       "state": "bullish"
     },
     "opening_range_15m": null,
-    "rsi14": 46.95,
+    "rsi14": 47.49,
     "timeframe": "1d",
     "vwap_state": "above",
-    "vwap_utc_day": 4067.836
+    "vwap_utc_day": 4068.0446
   }
 }
