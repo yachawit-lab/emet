@@ -1,8 +1,8 @@
 {
   "BTCUSD": {
-    "as_of": "2026-11-10T02:44:19Z",
+    "as_of": "2026-11-10T14:14:00Z",
     "instrument": "BTCUSD",
-    "price": 74732.53,
+    "price": 73852.77,
     "price_confidence": "SINGLE",
     "price_sources": [
       "deribit:btc_usd:index"
@@ -10,7 +10,7 @@
   },
   "NAS100": {
     "as_of": "2026-11-09T21:00:00Z",
-    "gap": 273.4375,
+    "gap": 273.4395,
     "instrument": "NAS100",
     "levels": {
       "nearest": {
@@ -68,30 +68,30 @@
       "low": 26887.6895
     },
     "session": {
-      "high": 28025.7734,
-      "low": 27227.5332,
-      "open": 27263.4277,
+      "high": 28025.7695,
+      "low": 27227.5293,
+      "open": 27263.4297,
       "source": "yahoo:^NDX:1d"
     }
   },
   "XAUUSD": {
-    "as_of": "2026-11-10T02:43:59Z",
+    "as_of": "2026-11-10T14:13:32Z",
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "gap": 34.5,
     "instrument": "XAUUSD",
     "levels": {
       "nearest": {
         "resistance": {
-          "distance": 42.7002,
-          "distance_pct": 1.038,
-          "level": "high_5d",
-          "price": 4157.7002
+          "distance": 10.3332,
+          "distance_pct": 0.255,
+          "level": "pivot_S1",
+          "price": 4065.4333
         },
         "support": {
-          "distance": 3.4333,
-          "distance_pct": 0.083,
-          "level": "pivot_P",
-          "price": 4111.5667
+          "distance": 38.7336,
+          "distance_pct": 0.955,
+          "level": "pivot_S2",
+          "price": 4016.3665
         }
       },
       "pivots": {
@@ -124,7 +124,7 @@
         3879.3
       ]
     },
-    "price": 4115.0,
+    "price": 4055.1001,
     "price_confidence": "SINGLE",
     "price_sources": [
       "gold-api:XAU:spot"
@@ -136,7 +136,7 @@
     },
     "session": {
       "high": 4156.2002,
-      "low": 4125.2002,
+      "low": 4046.5,
       "open": 4149.0,
       "source": "yahoo:GC=F:1d"
     }
