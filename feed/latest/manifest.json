@@ -1,16 +1,16 @@
 {
   "bytes": {
-    "digest.md": 2652,
-    "indicators.json": 1581,
-    "market.json": 3240,
-    "provenance.json": 2031
+    "digest.md": 2424,
+    "indicators.json": 1577,
+    "market.json": 3236,
+    "provenance.json": 2273
   },
-  "bytes_total": 9504,
+  "bytes_total": 9510,
   "coverage": [
     {
       "field": "quote",
       "instrument": "XAUUSD",
-      "reason": "mt5:XAUUSDm:tick is 151435 min old \u2014 excluded from anchor"
+      "reason": "mt5:XAUUSDm:tick is 155139 min old \u2014 excluded from anchor"
     },
     {
       "field": "quote[2]",
@@ -21,11 +21,6 @@
       "field": "daily bars[0]",
       "instrument": "XAUUSD",
       "reason": "twelvedata: TWELVEDATA_API_KEY not set"
-    },
-    {
-      "field": "price_freshness",
-      "instrument": "XAUUSD",
-      "reason": "spot metals/FX closed \u2014 weekend"
     },
     {
       "field": "proxy check",
@@ -40,17 +35,7 @@
     {
       "field": "quote",
       "instrument": "NAS100",
-      "reason": "mt5:USTECm:tick is 151438 min old \u2014 excluded from anchor"
-    },
-    {
-      "field": "quote",
-      "instrument": "NAS100",
-      "reason": "cnbc:NDX:quote is 157 min old \u2014 excluded from anchor"
-    },
-    {
-      "field": "price_freshness",
-      "instrument": "NAS100",
-      "reason": "US equities closed \u2014 weekend"
+      "reason": "mt5:USTECm:tick is 155142 min old \u2014 excluded from anchor"
     },
     {
       "field": "quote[0]",
@@ -60,7 +45,7 @@
     {
       "field": "quote",
       "instrument": "BTCUSD",
-      "reason": "mt5:BTCUSDm:tick is 149327 min old \u2014 excluded from anchor"
+      "reason": "mt5:BTCUSDm:tick is 153031 min old \u2014 excluded from anchor"
     },
     {
       "field": "daily bars[0]",
@@ -84,20 +69,20 @@
     }
   ],
   "desk_grade": {
-    "bundle": "RE_ANCHOR",
+    "bundle": "MAP_ONLY",
     "per_instrument": {
       "BTCUSD": "MAP_ONLY",
-      "NAS100": "RE_ANCHOR",
-      "XAUUSD": "RE_ANCHOR"
+      "NAS100": "MAP_ONLY",
+      "XAUUSD": "MAP_ONLY"
     }
   },
-  "generated_at": "2026-11-14T00:53:17Z",
+  "generated_at": "2026-11-16T14:36:51Z",
   "instruments": [
     "BTCUSD",
     "NAS100",
     "XAUUSD"
   ],
-  "run_id": "20261114T005317Z",
+  "run_id": "20261116T143651Z",
   "schema_version": 1,
   "warnings": [
     "XAUUSD: primary bar source failed, using fallback yahoo:GC=F:1d"
