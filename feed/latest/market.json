@@ -1,15 +1,15 @@
 {
   "BTCUSD": {
-    "as_of": "2026-11-19T21:15:14Z",
+    "as_of": "2026-11-19T21:51:29Z",
     "instrument": "BTCUSD",
-    "price": 61928.58,
+    "price": 61455.04,
     "price_confidence": "SINGLE",
     "price_sources": [
       "deribit:btc_usd:index"
     ]
   },
   "NAS100": {
-    "as_of": "2026-11-19T21:15:01Z",
+    "as_of": "2026-11-19T21:51:29Z",
     "gap": 457.9766,
     "instrument": "NAS100",
     "levels": {
@@ -75,23 +75,23 @@
     }
   },
   "XAUUSD": {
-    "as_of": "2026-11-19T21:15:04Z",
+    "as_of": "2026-11-19T21:51:04Z",
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
-    "gap": -11.5999,
+    "gap": 113.3,
     "instrument": "XAUUSD",
     "levels": {
       "nearest": {
         "resistance": {
-          "distance": 27.5165,
-          "distance_pct": 0.751,
-          "level": "pivot_S1",
-          "price": 3689.3666
+          "distance": 7.2833,
+          "distance_pct": 0.201,
+          "level": "pivot_S2",
+          "price": 3636.8333
         },
         "support": {
-          "distance": 2.6501,
-          "distance_pct": 0.072,
+          "distance": 8.9499,
+          "distance_pct": 0.247,
           "level": "low_5d",
-          "price": 3659.2
+          "price": 3620.6001
         }
       },
       "pivots": {
@@ -107,9 +107,9 @@
         "high_20d": 4157.7002,
         "high_5d": 3927.2,
         "high_60d": 4697.7002,
-        "low_20d": 3659.2,
-        "low_5d": 3659.2,
-        "low_60d": 3659.2
+        "low_20d": 3620.6001,
+        "low_5d": 3620.6001,
+        "low_60d": 3620.6001
       },
       "swing_highs": [
         4242.2998,
@@ -124,7 +124,7 @@
         3879.3
       ]
     },
-    "price": 3661.8501,
+    "price": 3629.55,
     "price_confidence": "SINGLE",
     "price_sources": [
       "gold-api:XAU:spot"
@@ -136,8 +136,8 @@
     },
     "session": {
       "high": 3759.5,
-      "low": 3659.2,
-      "open": 3730.3,
+      "low": 3620.6001,
+      "open": 3855.2,
       "source": "yahoo:GC=F:1d"
     }
   }
