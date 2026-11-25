@@ -1,15 +1,15 @@
 {
   "BTCUSD": {
-    "as_of": "2026-11-25T22:14:34Z",
+    "as_of": "2026-11-25T22:49:11Z",
     "instrument": "BTCUSD",
-    "price": 60019.63,
+    "price": 60115.56,
     "price_confidence": "SINGLE",
     "price_sources": [
       "deribit:btc_usd:index"
     ]
   },
   "NAS100": {
-    "as_of": "2026-11-25T22:14:34Z",
+    "as_of": "2026-11-25T22:15:59Z",
     "gap": -904.5586,
     "instrument": "NAS100",
     "levels": {
@@ -75,21 +75,21 @@
     }
   },
   "XAUUSD": {
-    "as_of": "2026-11-25T22:14:16Z",
+    "as_of": "2026-11-25T22:48:46Z",
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "gap": -2.5999,
     "instrument": "XAUUSD",
     "levels": {
       "nearest": {
         "resistance": {
-          "distance": 6.1666,
-          "distance_pct": 0.172,
+          "distance": 6.2667,
+          "distance_pct": 0.175,
           "level": "pivot_P",
           "price": 3594.6666
         },
         "support": {
-          "distance": 75.8668,
-          "distance_pct": 2.114,
+          "distance": 75.7667,
+          "distance_pct": 2.111,
           "level": "pivot_S1",
           "price": 3512.6332
         }
@@ -124,7 +124,7 @@
         3502.8999
       ]
     },
-    "price": 3588.5,
+    "price": 3588.3999,
     "price_confidence": "SINGLE",
     "price_sources": [
       "gold-api:XAU:spot"
