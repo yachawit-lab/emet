@@ -1,8 +1,8 @@
 {
   "BTCUSD": {
-    "as_of": "2026-11-26T20:26:51Z",
+    "as_of": "2026-11-26T22:11:07Z",
     "instrument": "BTCUSD",
-    "price": 60600.98,
+    "price": 60507.89,
     "price_confidence": "SINGLE",
     "price_sources": [
       "deribit:btc_usd:index"
@@ -75,7 +75,7 @@
     }
   },
   "XAUUSD": {
-    "as_of": "2026-11-26T20:26:48Z",
+    "as_of": "2026-11-26T22:10:49Z",
     "caveat": "FALLBACK: bars are GC=F futures ~156 bps above spot. ATR/RSI/MACD transfer across the basis; bar-derived LEVELS do not \u2014 do not read them as spot levels",
     "gap": 84.0,
     "instrument": "XAUUSD",
