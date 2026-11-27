@@ -7,7 +7,7 @@
     },
     "price": {
       "age_s": -1,
-      "as_of": "2026-11-27T21:51:12Z",
+      "as_of": "2026-11-27T22:21:54Z",
       "confidence": "SINGLE",
       "note": "single source \u2014 not corroborated",
       "sources": [
@@ -17,20 +17,20 @@
       "unit": "price"
     },
     "raw_hashes": {
-      "deribit:btc_usd:index": "12979bd7e5d024e4a4edcff814147d08452160d4696f44167c45855849f495ce"
+      "deribit:btc_usd:index": "2732efea86ff9ecca675ff6d1317bf77413653a99ec3ccf509dba788ebe55dc9"
     }
   },
   "NAS100": {
     "market_hours": {
-      "detail": "US equities closed \u2014 outside 13:30\u201320:00 UTC (now 21:51)",
+      "detail": "US equities closed \u2014 outside 13:30\u201320:00 UTC (now 22:21)",
       "market": "us_equity",
       "open": false
     },
     "price": {
-      "age_s": 13870,
+      "age_s": 15713,
       "as_of": "2026-11-27T18:00:00Z",
       "confidence": "STALE",
-      "note": "age 13870s exceeds intraday TTL",
+      "note": "age 15713s exceeds intraday TTL",
       "sources": [
         "yahoo:^NDX:5m"
       ],
@@ -38,8 +38,8 @@
       "unit": "price"
     },
     "raw_hashes": {
-      "yahoo:^NDX:1d": "104dadb96919fd3a21d897e28c2a655d5ba61e7e0d0ea0c2e39b546b6b86d913",
-      "yahoo:^NDX:5m": "26e27306ccf2b0790a53b2290f0dc5cd3c5c7e9280803839d0e0af27ad434908"
+      "yahoo:^NDX:1d": "0acd5ff9d9b39343069c71e81c333e44b398def8643842ae21353b7debf80598",
+      "yahoo:^NDX:5m": "f075c5a404deeaba98f5a10681c4292fabdeb98c62db6e580ab07843a8ddd4d9"
     }
   },
   "XAUUSD": {
@@ -56,8 +56,8 @@
       "open": false
     },
     "price": {
-      "age_s": 20,
-      "as_of": "2026-11-27T21:50:50Z",
+      "age_s": 3,
+      "as_of": "2026-11-27T22:21:50Z",
       "confidence": "SINGLE",
       "note": "single source \u2014 not corroborated",
       "sources": [
@@ -67,9 +67,9 @@
       "unit": "price"
     },
     "raw_hashes": {
-      "gold-api:XAU:spot": "a5b36b86f4e5d963dc95c31266f76a2c683e000b365a94cc8fb5074bb9897d7e",
-      "yahoo:GC=F:1d": "87ece0c1dd0cc13f78ddbff03bd6cbcf01e32faea7e1fa31ada07f0befe50dde",
-      "yahoo:GC=F:5m": "3428d6a02a296876ce8bd2b877299d6f300d85cb44598e16dca31362541477e7"
+      "gold-api:XAU:spot": "2d4077f391c33bb5b7877efc180bf540835292a1d64be0189f4f195abe30472b",
+      "yahoo:GC=F:1d": "d6f55d0eb5fb629d94bf96cae92b067985af8dcd06ada7787e7ef89c7e71077c",
+      "yahoo:GC=F:5m": "835a5748efbc2b4b16ba7b8ecc4626470bbd03bf9b9f7594cc19caa58909b3dc"
     }
   }
 }
